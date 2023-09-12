@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/home": {
+      "name": "/home",
+      "lambdaFunction": "apifunc",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
