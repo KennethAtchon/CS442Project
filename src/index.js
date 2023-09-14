@@ -4,6 +4,8 @@ import App from './App';
 import { Amplify } from 'aws-amplify';
 import { BrowserRouter } from 'react-router-dom';
 import awsExports from './aws-exports';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 Amplify.configure(awsExports);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

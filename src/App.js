@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginIn from './routes/login'
+import Home from './routes/user/Home'
 import { Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -7,7 +7,7 @@ function App() {
 
     <Routes>
       
-      <Route path="/" element={ < LoginIn /> } />
+      <Route path="/" element={ < Home /> } />
       
     </Routes>
 

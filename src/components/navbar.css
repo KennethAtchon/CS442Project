@@ -1,0 +1,19 @@
+/* Center the Navbar.Brand */
+.navbar-brand {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  /* Move the rest of the navbar elements to the right side */
+  .navbar-collapse {
+    justify-content: flex-end;
+    padding-right: 100px;
+  }
+  
+  /* Add padding to both left and right sides of .mr-auto */
+.mr-auto {
+    padding-left: 50px; /* Adjust the left padding value as needed */
+    padding-right: 50px; /* Adjust the right padding value as needed */
+  }
+  
