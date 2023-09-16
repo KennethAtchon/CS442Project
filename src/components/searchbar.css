@@ -1,0 +1,10 @@
+/* Increase the size of the search bar in the navbar */
+.navbar-search-bar .search-bar-input {
+    width: 400px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    .navbar-search-bar .search-bar-input {
+      width: 250px; /* Adjust the width for smaller screens */
+    }
+  }
