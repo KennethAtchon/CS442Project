@@ -8,7 +8,6 @@ h2 {
   padding-bottom: 15px;
 }
   
-
 .product-card-container {
   display: flex;
   justify-content: flex-start; /* Align cards to the left */
@@ -16,5 +15,3 @@ h2 {
   gap: 20px; /* Adjust the gap between cards as needed */
   padding-right: 20px; /* Add space on the right side */
 }
-
-

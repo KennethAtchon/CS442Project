@@ -14,15 +14,14 @@ function SearchBar(props) {
     console.log(`Searching for: ${searchTerm}`);
   };
 
-  return (
+  return (    
     <div className={`search-bar-container ${props.className || ''}`}>
       <Form inline onSubmit={handleSearch}>
         <InputGroup>
         
           <FormControl
             type="text"
-            placeholder="Search"
-            className="search-bar-input" // Apply the input style
+            placeholder={`Search ${props.text || 'for products'}`}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
