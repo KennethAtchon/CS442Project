@@ -2,13 +2,17 @@
 import React, {useState} from 'react';
 import { useParams } from 'react-router-dom';
 import AppNavbar from '../../components/navbar'; // Import the AppNavbar component
+import ReviewSection from '../../components/reviews/reviewSection'
+import Rating from 'react-rating-stars-component';
 import { Container, Row, Col, Card, Button, Image, Form, ListGroup } from 'react-bootstrap';
 import './productPage.css'; // Import the CSS file
 
 
 const ProductPage = () => {
   const { id } = useParams(); // Get the product ID from the URL parameter
+  const globalRating = 4.5;
   const [quantity, setQuantity] = useState(1);
+
 
   // Fetch the product information based on the ID or use the provided data
   // You can fetch the product information from an API or use a state management system like Redux.
@@ -55,16 +59,14 @@ const ProductPage = () => {
           <p className="sold-by">Sold by: Seller Name</p>
 
           {/* Product Rating */}
-          <div className="d-flex align-items-center">
-            {/* You can display rating stars here */}
-            <div className="rating-stars">          
-            4.0 <span className="star"> &#9733;</span>
-          <span className="star">&#9733;</span>
-          <span className="star">&#9733;</span>
-          <span className="star">&#9733;</span>
-          <span className="star">&#9734;</span>
-          <span className="rating-count"></span></div>
-          </div>
+          <div className="rating-container">  
+                <Rating
+                  value={globalRating}
+                  edit={false}
+                  isHalf={true}
+                  activeColor="#FFD700"
+                /> &nbsp; {globalRating}
+              </div>
 
           <hr />
           {/* Product Description */}
@@ -125,6 +127,7 @@ const ProductPage = () => {
         </Col>
       </Row>
     </Container>
+      <ReviewSection />
     </>
   );
 };

@@ -1,0 +1,11 @@
+/* checkout.css */
+.text-right {
+    text-align: right;
+  }
+  
+  .order-summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px; /* Add margin between each item */
+  }
+  

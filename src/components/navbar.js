@@ -5,8 +5,8 @@ import { BsFillPersonFill, BsCart2 } from 'react-icons/bs'; // Import the icon y
 import SignInModal from './auth/signinModal';
 import SignUpModal from './auth/signupModal';
 import ForgotPasswordModal from './auth/forgotpassModal'; // Import the ForgotPasswordModal component
-import ShoppingCartModal from './cartModal'
-import SettingsModal from './settingsModal'; 
+import ShoppingCartModal from './modals/cartModal'
+import SettingsModal from './modals/settingsModal'; 
 import SearchBar from './searchbar'
 import './navbar.css'
 

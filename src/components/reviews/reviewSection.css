@@ -1,0 +1,5 @@
+.rating-container {
+    display: flex; /* Use flexbox to make the elements inline */
+    align-items: center; /* Vertically center the elements */
+  }
+  

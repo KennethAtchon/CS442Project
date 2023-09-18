@@ -3,8 +3,10 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
+import Rating from 'react-rating-stars-component';
 
 function ProductCard() {
+  const globalRating = 4.0;
   return (
     <Card style={{ width: '15rem'}}>
       <Link  to={`/product/2324`} >
@@ -13,13 +15,15 @@ function ProductCard() {
       
       <Card.Body style={{ fontSize: '13px' }}>
         <Card.Title style={{ fontSize: '16px' }}>Product Name</Card.Title>
-        Star rating:  
-          <span className="star"> &#9733;</span>
-          <span className="star">&#9733;</span>
-          <span className="star">&#9733;</span>
-          <span className="star">&#9733;</span>
-          <span className="star">&#9734;</span>
-          <span className="rating-count">(25)</span>
+
+        <div className="rating-container">  
+                <Rating
+                  value={globalRating}
+                  edit={false}
+                  isHalf={true}
+                  activeColor="#FFD700"
+                /> &nbsp; {globalRating}
+              </div>
         <Card.Text>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed vehicula justo id.
         </Card.Text>
