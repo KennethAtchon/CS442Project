@@ -1,5 +1,6 @@
 // ProductDetail.js
 import React, {useState} from 'react';
+import { Link } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import AppNavbar from '../../components/navbar'; // Import the AppNavbar component
 import ReviewSection from '../../components/reviews/reviewSection'
@@ -117,6 +118,8 @@ const ProductPage = () => {
       </ListGroup.Item>
 
       <ListGroup.Item className="text-center">
+        <Link to="/checkout">
+        </Link>
       <Button variant="success" >
           Checkout
         </Button>        

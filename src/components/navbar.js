@@ -99,7 +99,10 @@ function AppNavbar() {
     return (
       <div>
       <Navbar bg='light' expand="lg">
-        <Navbar.Brand href='home'>Courtside Carts</Navbar.Brand> 
+      <Link to="/home">
+              <Navbar.Brand>Courtside Carts</Navbar.Brand> 
+      </Link>
+        
         <SearchBar className="navbarsearchbar" /> 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />  
         <Navbar.Collapse id="basic-navbar-nav">
@@ -114,8 +117,12 @@ function AppNavbar() {
           {loggedIn ? (
             <Nav>
               <NavDropdown title={<BsFillPersonFill style={{ marginLeft: '10px', fontSize: '20px'}} />} id="basic-nav-dropdown">
-                <NavDropdown.Item href="myproducts">My Products</NavDropdown.Item>
-                <NavDropdown.Item href="myreviews">My Reviews</NavDropdown.Item>
+                <Link to="/myproducts">
+                 <NavDropdown.Item >My Products</NavDropdown.Item> 
+                </Link>
+                <Link to="/myreviews">
+                  <NavDropdown.Item >My Reviews</NavDropdown.Item>
+                </Link>
                 <NavDropdown.Item onClick={handleSettings}>Change Settings</NavDropdown.Item>
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
 

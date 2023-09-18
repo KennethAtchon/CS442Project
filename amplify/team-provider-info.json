@@ -15,11 +15,17 @@
       "function": {
         "apifunc": {
           "deploymentBucketName": "amplify-442project-dev-165353-deployment",
-          "s3Key": "amplify-builds/apifunc-716c4d4a4d4378337257-build.zip"
+          "s3Key": "amplify-builds/apifunc-69775377597a5a2f5742-build.zip"
         }
       },
       "api": {
         "api": {}
+      },
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "dcdome1e80r0l",
+          "type": "cicd"
+        }
       }
     }
   }
