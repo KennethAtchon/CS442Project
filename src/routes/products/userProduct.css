@@ -1,0 +1,17 @@
+/* Add padding to the left of all sections */
+section {
+    padding-left: 45px; /* Adjust the value as needed */
+  }
+
+h2 {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+  
+.product-card-container {
+  display: flex;
+  justify-content: flex-start; /* Align cards to the left */
+  flex-wrap: wrap;
+  gap: 20px; /* Adjust the gap between cards as needed */
+  padding-right: 20px; /* Add space on the right side */
+}

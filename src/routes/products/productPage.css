@@ -1,0 +1,8 @@
+/* ProductPage.css */
+
+.product-name,
+.sold-by,
+.rating-stars {
+  margin: 0;
+  padding: 0;
+}

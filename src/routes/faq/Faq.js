@@ -4,7 +4,7 @@ import SearchBar from '../../components/searchbar';
 import Accordion from '../../components/accordion'
 import './Faq.css'
 
-function Home() {
+function Faq() {
   return (
     <div>
       <AppNavbar /> 
@@ -18,4 +18,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Faq;

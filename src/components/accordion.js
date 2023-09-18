@@ -1,6 +1,6 @@
 import Accordion from 'react-bootstrap/Accordion';
 
-function AllCollapseExample(props) {
+function AllCollapseExample({key}) {
 
     const data = ["Item 1", "Item 2"]
   return (

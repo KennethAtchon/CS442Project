@@ -15,4 +15,10 @@
   justify-content: center;
 }
 
+.reviewsearchbar{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 

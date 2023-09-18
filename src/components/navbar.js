@@ -1,20 +1,56 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router
-import { BsFillPersonFill } from 'react-icons/bs'; // Import the icon you want to use for the profile icon
+import { BsFillPersonFill, BsCart2 } from 'react-icons/bs'; // Import the icon you want to use for the profile icon
 import SignInModal from './auth/signinModal';
 import SignUpModal from './auth/signupModal';
 import ForgotPasswordModal from './auth/forgotpassModal'; // Import the ForgotPasswordModal component
+import ShoppingCartModal from './cartModal'
+import SettingsModal from './settingsModal'; 
 import SearchBar from './searchbar'
 import './navbar.css'
 
 
 function AppNavbar() {
-    const [loggedIn, setLoggedIn] = useState(false); // Assuming you have a way to track login status
+    const [loggedIn, setLoggedIn] = useState(true); // Assuming you have a way to track login status
 
     const [showSignInModal, setShowSignInModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
     const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false); // Add state for the forgot password modal
+    const [showShoppingCartModal, setShowShoppingCartModal] = useState(false); // Add state for the shopping cart modal
+    const [showSettingsModal, setShowSettingsModal] = useState(false);
+    const [cartItems, setCartItems] = useState([
+      {
+        image: 'football.jpg',
+        name: 'Product 1',
+        price: 10.99,
+        quantity: 2,
+      },
+      {
+        image: 'football.jpg',
+        name: 'Product 2',
+        price: 19.99,
+        quantity: 1,
+      },
+      {
+        image: 'football.jpg',
+        name: 'Product 2',
+        price: 19.99,
+        quantity: 1,
+      },
+      {
+        image: 'football.jpg',
+        name: 'Product 2',
+        price: 19.99,
+        quantity: 1,
+      },
+      {
+        image: 'football.jpg',
+        name: 'Product 2',
+        price: 19.99,
+        quantity: 1,
+      },
+    ]);
 
     const handleSignIn = () =>{
     setShowSignInModal(true);
@@ -38,6 +74,27 @@ function AppNavbar() {
     const handleForgotPasswordModalClose = () => {
       setShowForgotPasswordModal(false); // Function to close the forgot password modal
     };
+
+    const handleShoppingCart = () => {
+      setShowShoppingCartModal(true);
+    };
+  
+    // Function to close the shopping cart modal
+    const handleShoppingCartModalClose = () => {
+      setShowShoppingCartModal(false);
+    };
+
+    const handleSettings = () => {
+      setShowSettingsModal(true); // Open the settings modal when "Change Settings" is clicked
+    };
+  
+    const handleSettingsModalClose = () => {
+      setShowSettingsModal(false); // Close the settings modal
+    };
+
+    const handleLogout = () => {
+
+    }
   
     return (
       <div>
@@ -56,19 +113,22 @@ function AppNavbar() {
           </Nav>
           {loggedIn ? (
             <Nav>
-              <NavDropdown title={<BsFillPersonFill style={{ marginLeft: '10px'}} />} id="basic-nav-dropdown">
-                <NavDropdown.Item href="my-products">My Products</NavDropdown.Item>
-                <NavDropdown.Item href="my-reviews">My Reviews</NavDropdown.Item>
-                <NavDropdown.Item href="change-settings">Change Settings</NavDropdown.Item>
-                <NavDropdown.Item href="change-settings">Logout</NavDropdown.Item>
+              <NavDropdown title={<BsFillPersonFill style={{ marginLeft: '10px', fontSize: '20px'}} />} id="basic-nav-dropdown">
+                <NavDropdown.Item href="myproducts">My Products</NavDropdown.Item>
+                <NavDropdown.Item href="myreviews">My Reviews</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleSettings}>Change Settings</NavDropdown.Item>
+                <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
+
               </NavDropdown>
             </Nav>
           ) : (
-              <BsFillPersonFill color='black' style={{ marginLeft: '10px'}} onClick={handleSignIn} />
-
-              
+            <Nav>
+              <BsFillPersonFill color='black' style={{ marginLeft: '10px', fontSize: '20px', marginRight:'20px'}} onClick={handleSignIn} />
+            </Nav>
 
           )}
+          <BsCart2 style={{ marginLeft: '10px' , fontSize: '20px' }} onClick={handleShoppingCart} />
+
         </Navbar.Collapse>
       </Navbar>
 
@@ -77,6 +137,14 @@ function AppNavbar() {
       <SignUpModal  show={showSignUpModal} onHide={handleSignUpModalClose} signinfunction={handleSignIn} forgotpassfunction={handleForgotPassword} />
 
       <ForgotPasswordModal show={showForgotPasswordModal} onHide={handleForgotPasswordModalClose} signinfunction={handleSignIn} signupfunction={handleSignUp} />
+
+      <ShoppingCartModal
+        show={showShoppingCartModal}
+        onHide={handleShoppingCartModalClose}
+        cartItems={cartItems}
+      />
+
+      <SettingsModal show={showSettingsModal} onHide={handleSettingsModalClose} />
 
       <div className="navbar-separator-bar"></div>
 
