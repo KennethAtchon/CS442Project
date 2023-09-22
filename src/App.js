@@ -25,7 +25,6 @@ function App() {
       <Route path="/checkout" element={ < Checkout /> } />
       <Route path="/checkout/:orderid" element={ < OrderConfirm /> } />
       <Route path="/error" element={ < Error /> } />
-
     </Routes>
   );
 }
