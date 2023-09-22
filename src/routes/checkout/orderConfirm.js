@@ -44,7 +44,7 @@ function OrderConfirm() {
         </Row>
       </Container>
 
-      <Container className="next-steps">
+      <Container className="next-steps mb-3">
         <Row>
           <Col md={6}>
             <h3>What's Next?</h3>

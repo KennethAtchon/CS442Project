@@ -32,6 +32,12 @@ function ProductReviewSection() {
       starRating: 3,
       reviewDate: '2023-09-20',
     },
+    {
+      userName: 'User4',
+      reviewText: 'This is the last review.',
+      starRating: 4.5,
+      reviewDate: '2023-09-20',
+    },
   ];
 
 
@@ -137,9 +143,9 @@ function ProductReviewSection() {
         </Col>
         
         {/* Row 1: Column 2 - Collection of Reviews */}
-        <Col xs={12} md={8} xl={7} className='mt-3' >
+        <Col xs={12} md={8} xl={7} className='mt-3 mb-3' >
           <Card>
-            <Card.Body>
+            <Card.Body className='reviews-size'>
               <h5>Product Reviews</h5>
               < UsersReviews reviews={reviewsWithThree} />
             </Card.Body>

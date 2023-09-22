@@ -99,9 +99,9 @@ function AppNavbar() {
     return (
       <div>
       <Navbar bg='light' expand="lg">
-      <Link to="/home">
-              <Navbar.Brand>Courtside Carts</Navbar.Brand> 
-      </Link>
+        <Navbar.Brand>
+        <Link to="/home" className='linkunderline'>Courtside Carts</Link>
+        </Navbar.Brand> 
         
         <SearchBar className="navbarsearchbar" /> 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />  
@@ -117,12 +117,18 @@ function AppNavbar() {
           {loggedIn ? (
             <Nav>
               <NavDropdown title={<BsFillPersonFill style={{ marginLeft: '10px', fontSize: '20px'}} />} id="basic-nav-dropdown">
-                <Link to="/myproducts">
-                 <NavDropdown.Item >My Products</NavDropdown.Item> 
-                </Link>
-                <Link to="/myreviews">
-                  <NavDropdown.Item >My Reviews</NavDropdown.Item>
-                </Link>
+
+              <NavDropdown.Item>
+              <Link to="/myproducts" className='linkunderline'>
+                My Products
+              </Link>
+            </NavDropdown.Item>
+            <NavDropdown.Item>
+              <Link to="/myreviews" className='linkunderline'>
+                My Reviews
+              </Link>
+            </NavDropdown.Item>
+
                 <NavDropdown.Item onClick={handleSettings}>Change Settings</NavDropdown.Item>
                 <NavDropdown.Item onClick={handleLogout}>Logout</NavDropdown.Item>
 

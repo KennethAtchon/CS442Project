@@ -63,7 +63,7 @@ function PaymentInformationForm() {
                   </FloatingLabel>
                 </Col>
                 <Col>
-                  <FloatingLabel controlId="expirationDate" label="Expiration Date">
+                  <FloatingLabel controlId="expirationDate" label="Exp Date">
                     <Form.Control
                       type="text"
                       name="expirationDate"

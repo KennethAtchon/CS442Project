@@ -119,10 +119,10 @@ const ProductPage = () => {
 
       <ListGroup.Item className="text-center">
         <Link to="/checkout">
-        </Link>
       <Button variant="success" >
           Checkout
-        </Button>        
+        </Button> 
+        </Link>
       </ListGroup.Item>
 
     </ListGroup>

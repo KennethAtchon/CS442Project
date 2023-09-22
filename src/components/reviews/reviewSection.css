@@ -3,3 +3,15 @@
     align-items: center; /* Vertically center the elements */
   }
   
+.reviews-size {
+  max-height: 575px; /* Adjust the height as needed */
+  overflow-y: auto; 
+}
+
+@media screen and (max-width: 990px) {
+  /* Reduce padding for smaller screens */
+  .reviews-size {
+    max-height:595px; /* Adjust the height as needed */
+    overflow-y: auto; 
+  }
+}

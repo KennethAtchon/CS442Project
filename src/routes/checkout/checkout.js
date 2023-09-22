@@ -4,12 +4,12 @@ import AppNavbar from '../../components/navbar';
 import ShippingInfo from '../../components/forms/shippingform'
 import PaymentInfo from '../../components/forms/paymentform'
 import './checkout.css';
+import { useNavigate } from 'react-router-dom';
+
 
 function Checkout() {
-  const [shippingAddress, setShippingAddress] = useState({});
-  const [billingAddress, setBillingAddress] = useState({});
-  const [paymentMethod, setPaymentMethod] = useState('credit_card');
 
+  const navigate = useNavigate();
   // Function to handle form submission
   const handleCheckout = (e) => {
     e.preventDefault();
@@ -18,7 +18,7 @@ function Checkout() {
     // Calculate the order total, validate addresses, process payment, etc.
 
     // Once the order is successfully placed, you can navigate to the order confirmation page
-    // Example: history.push('/order-confirmation');
+    navigate('/checkout/1234');
   };
 
   return (
@@ -35,7 +35,8 @@ function Checkout() {
               <Card.Header className="d-flex justify-content-center align-items-center">
                 <Button variant="primary" onClick={handleCheckout} >
                   Confirm Order
-                </Button>
+                </Button>              
+
               </Card.Header>
               <Card.Body>
               <Card.Title>Order Summary</Card.Title>

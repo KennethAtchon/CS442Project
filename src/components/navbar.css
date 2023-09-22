@@ -36,7 +36,10 @@
   margin: 10px 0; /* Margin spacing above and below the bar (adjust as needed) */
 }
 
-
+.linkunderline {
+  text-decoration: none;
+  color: black;
+}
 
 /* Style for nav-category links */
 /* Default styles for nav-category links */
