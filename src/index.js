@@ -1,19 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import { Amplify } from 'aws-amplify';
 import { BrowserRouter } from 'react-router-dom';
-import awsExports from './aws-exports';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-Amplify.configure(awsExports);
+import { Provider } from 'react-redux'; // Import Provider
+import store from './store'; // Import the Redux store
+
+import { signInWithToken } from './actions/authActions';
+
+store.dispatch(signInWithToken());
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-    <App />
-  </React.StrictMode>
+      <Provider store={store}> {/* Wrap your App with Provider */}
+        <App />
+      </Provider>
+    </React.StrictMode>
   </BrowserRouter>
-
 );
+

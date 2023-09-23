@@ -1,19 +1,38 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { useDispatch } from 'react-redux';
+import { signIn } from '../../actions/authActions';
 
-const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
+
+const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction, loggedfunc}) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
 
   const handleSignIn = (event) => {
+    event.preventDefault();
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
+      setValidated(true);
+    }else{
+
+      
+      loggedfunc();
+
+      dispatch(signIn(email, password).then(()=>{
+        setEmail('');
+        setPassword('');
+        
+      }))
+      
+      onHide();
     }
 
-    setValidated(true);
+
+
   };
 
 

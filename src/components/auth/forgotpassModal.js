@@ -8,13 +8,18 @@ const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) =
   const [validated, setValidated] = useState(false);
 
   const handleForgotPassword = (event) => {
+    event.preventDefault();
     const form = event.currentTarget;
+    
     if (form.checkValidity() === false) {
-      event.preventDefault();
+      
       event.stopPropagation();
+      setValidated(true);
+    }else{
+      onHide();
     }
 
-    setValidated(true);
+    
   };
 
   return (

@@ -12,7 +12,7 @@ import './navbar.css'
 
 
 function AppNavbar() {
-    const [loggedIn, setLoggedIn] = useState(true); // Assuming you have a way to track login status
+    const [loggedIn, setLoggedIn] = useState(false); // Assuming you have a way to track login status
 
     const [showSignInModal, setShowSignInModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -51,6 +51,10 @@ function AppNavbar() {
         quantity: 1,
       },
     ]);
+
+    const handleLogged = () => {
+      setLoggedIn(true);
+    }
 
     const handleSignIn = () =>{
     setShowSignInModal(true);
@@ -93,7 +97,7 @@ function AppNavbar() {
     };
 
     const handleLogout = () => {
-
+      setLoggedIn(false);
     }
   
     return (
@@ -145,11 +149,17 @@ function AppNavbar() {
         </Navbar.Collapse>
       </Navbar>
 
-      <SignInModal show={showSignInModal} onHide={handleSignInModalClose} signupfunction={handleSignUp}forgotpassfunction={handleForgotPassword} />
+      <SignInModal show={showSignInModal} onHide={handleSignInModalClose} 
+      signupfunction={handleSignUp}forgotpassfunction={handleForgotPassword} 
+      loggedfunc={handleLogged} />
 
-      <SignUpModal  show={showSignUpModal} onHide={handleSignUpModalClose} signinfunction={handleSignIn} forgotpassfunction={handleForgotPassword} />
+      <SignUpModal  show={showSignUpModal} onHide={handleSignUpModalClose} 
+      signinfunction={handleSignIn} forgotpassfunction={handleForgotPassword} 
+      loggedfunc={handleLogged} />
 
-      <ForgotPasswordModal show={showForgotPasswordModal} onHide={handleForgotPasswordModalClose} signinfunction={handleSignIn} signupfunction={handleSignUp} />
+      <ForgotPasswordModal show={showForgotPasswordModal} 
+      onHide={handleForgotPasswordModalClose} signinfunction={handleSignIn} 
+      signupfunction={handleSignUp} />
 
       <ShoppingCartModal
         show={showShoppingCartModal}

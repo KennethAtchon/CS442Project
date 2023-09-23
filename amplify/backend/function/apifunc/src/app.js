@@ -12,6 +12,11 @@ See the License for the specific language governing permissions and limitations 
 const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
+
+const secretKey = process.env.SECRET_KEY;
+
 
 // declare a new express app
 const app = express()
@@ -35,6 +40,7 @@ app.get('/', function(req, res) {
   res.json({success: 'get call succeed!', url: req.url});
 });
 
+
 app.get('/server', function(req, res) {
   // Add your code here
   res.json({success: 'get call succeed!', url: req.url});
@@ -53,6 +59,74 @@ app.post('/', function(req, res) {
   // Add your code here
   res.json({success: 'post call succeed!', url: req.url, body: req.body})
 });
+
+app.post('/signup', function (req, res) {
+  // Extract user registration data from the request body
+  const { username, email, password } = req.body;
+  const user = {
+    id: 1,
+    username: username,
+    email: email,
+  };
+
+  jwt.sign({ user }, secretKey, { expiresIn: '1h' }, (err, token) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error generating token' });
+    }
+
+    // Send the token as part of the response
+    res.json({ token, user });
+  });
+});
+
+
+app.post('/signin', function(req, res) {
+  const { email, password } = req.body; // Extract email and password from the request body
+
+  if (email === 'example@example.com' && password === 'password123') {
+    // Authentication successful
+    const user = {
+      id: 1,
+      username: 'exampleUser',
+      email: email
+    };
+
+    jwt.sign({ user }, secretKey, { expiresIn: '1h' }, (err, token) => {
+      if (err) {
+        return res.status(500).json({ error: 'Error generating token' });
+      }
+
+      // Send the token as part of the response
+      res.json({ token, user });
+    });
+  } else {
+    // Authentication failed
+    res.status(401).json({ error: 'Authentication failed' });
+  }
+});
+
+app.post('/signintoken', (req, res) => {
+  const { token } = req.body;
+
+  if (!token) {
+    return res.status(400).json({ message: 'Token is required' });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(403).json({ message: 'Invalid token' });
+    }
+
+    // If verification is successful, you can use the decoded data
+    const user = decoded.user; // Assuming the token contains user data
+
+    // Perform user authentication or session setup as needed
+
+    // Send a response indicating successful sign-in
+    res.json({ message: 'Sign-in with token successful', user });
+  });
+});
+
 
 app.post('/server/*', function(req, res) {
   // Add your code here
