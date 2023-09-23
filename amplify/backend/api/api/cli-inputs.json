@@ -1,8 +1,15 @@
 {
   "version": 1,
   "paths": {
-    "/home": {
-      "name": "/home",
+    "/server": {
+      "name": "/server",
+      "lambdaFunction": "apifunc",
+      "permissions": {
+        "setting": "open"
+      }
+    },
+    "/": {
+      "name": "/",
       "lambdaFunction": "apifunc",
       "permissions": {
         "setting": "open"

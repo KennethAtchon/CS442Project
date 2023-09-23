@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Home from './routes/user/Home';
 import Products from './routes/products/productList';
 import UserProduct from './routes/products/userProduct';
@@ -9,10 +9,26 @@ import OrderConfirm from './routes/checkout/orderConfirm';
 import Checkout from './routes/checkout/checkout';
 import Error from './routes/error/error'
 import { Routes, Route } from 'react-router-dom';
-
+import { API } from 'aws-amplify';
 
 function App() {
+
+  useEffect(() => {
+    fetchClient();
+  })
+
+  async function fetchClient(){
+    API
+    .get("api", "/", {}).then(response => {
+      console.log(`Respone: ${response.success}`)
+    })
+    .catch(error => {
+      console.log("Testing : " + error);
+    })
+}
+
   return (
+
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />

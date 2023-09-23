@@ -35,7 +35,12 @@ app.get('/', function(req, res) {
   res.json({success: 'get call succeed!', url: req.url});
 });
 
-app.get('/home/*', function(req, res) {
+app.get('/server', function(req, res) {
+  // Add your code here
+  res.json({success: 'get call succeed!', url: req.url});
+});
+
+app.get('/server/*', function(req, res) {
   // Add your code here
   res.json({success: 'get call succeed!', url: req.url});
 });
@@ -49,7 +54,7 @@ app.post('/', function(req, res) {
   res.json({success: 'post call succeed!', url: req.url, body: req.body})
 });
 
-app.post('/home/*', function(req, res) {
+app.post('/server/*', function(req, res) {
   // Add your code here
   res.json({success: 'post call succeed!', url: req.url, body: req.body})
 });
@@ -63,7 +68,7 @@ app.put('/', function(req, res) {
   res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
 
-app.put('/home/*', function(req, res) {
+app.put('/server/*', function(req, res) {
   // Add your code here
   res.json({success: 'put call succeed!', url: req.url, body: req.body})
 });
@@ -77,7 +82,7 @@ app.delete('/', function(req, res) {
   res.json({success: 'delete call succeed!', url: req.url});
 });
 
-app.delete('/home/*', function(req, res) {
+app.delete('/server/*', function(req, res) {
   // Add your code here
   res.json({success: 'delete call succeed!', url: req.url});
 });
