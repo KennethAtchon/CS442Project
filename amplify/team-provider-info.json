@@ -15,7 +15,7 @@
       "function": {
         "apifunc": {
           "deploymentBucketName": "amplify-442project-dev-165353-deployment",
-          "s3Key": "amplify-builds/apifunc-653476517565426c736d-build.zip"
+          "s3Key": "amplify-builds/apifunc-4e59386c4345326e596a-build.zip"
         }
       },
       "api": {
