@@ -20,7 +20,7 @@ function App() {
   async function fetchClient(){
     API
     .get("api", "/", {}).then(response => {
-      console.log(`Respone: ${response.success}`)
+      console.log(`Respone: ${response}`)
     })
     .catch(error => {
       console.log("Testing : " + error);

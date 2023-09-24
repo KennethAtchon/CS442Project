@@ -13,7 +13,24 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
+const mysql = require('mysql2');
+
+
+const connection = mysql.createConnection({
+  host: process.env.SECRET_HOST,
+  user: process.env.SECRET_USER,
+  password: process.env.SECRET_SQLPASS,
+  database: process.env.SECRET_USER,
+});
+
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+  } else {
+    console.log('Connected to MySQL database');
+  }
+});
+
 
 const secretKey = process.env.SECRET_KEY;
 
@@ -57,10 +74,13 @@ app.get('/server/*', function(req, res) {
 
 app.post('/', function(req, res) {
   // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
+  //res.json({success: 'post call succeed!', url: req.url, body: req.body})
+
+
 });
 
 app.post('/signup', function (req, res) {
+  
   // Extract user registration data from the request body
   const { username, email, password } = req.body;
   const user = {
