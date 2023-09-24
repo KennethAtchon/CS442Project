@@ -16,6 +16,19 @@ const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
 
 
+
+// declare a new express app
+const app = express()
+app.use(bodyParser.json())
+app.use(awsServerlessExpressMiddleware.eventContext())
+
+// Enable CORS for all methods
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*")
+  res.header("Access-Control-Allow-Headers", "*")
+  next()
+});
+
 const connection = mysql.createConnection({
   host: process.env.SECRET_HOST,
   user: process.env.SECRET_USER,
@@ -33,20 +46,6 @@ connection.connect((err) => {
 
 
 const secretKey = process.env.SECRET_KEY;
-
-
-// declare a new express app
-const app = express()
-app.use(bodyParser.json())
-app.use(awsServerlessExpressMiddleware.eventContext())
-
-// Enable CORS for all methods
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*")
-  res.header("Access-Control-Allow-Headers", "*")
-  next()
-});
-
 
 /**********************
  * Example get method *
