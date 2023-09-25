@@ -19,7 +19,7 @@ function App() {
   useEffect(() => {
     fetchClient();
     dispatch(signInWithToken());
-  },[])
+  })
 
   async function fetchClient(){
     API

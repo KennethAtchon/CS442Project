@@ -14,7 +14,7 @@ const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 
 
