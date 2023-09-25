@@ -10,54 +10,68 @@ import { API } from 'aws-amplify';
 
 // Example async action for signing up
 export function signUp(username, email, password) {
-    return async (dispatch) => {
-        try {
-            // Make an API request to sign up using AWS Amplify
-            const response = await API.post("api", "/signup", {
-                body: {
-                    username,
-                    email,
-                    password,
-                },
-            });
-
+    return new Promise((resolve, reject) => {
+        // Make an API request to sign up using AWS Amplify
+        API.post("api", "/signup", {
+            body: {
+                username,
+                email,
+                password,
+            },
+        })
+        .then((response) => {
             const { token } = response;
 
             localStorage.setItem('authToken', token);
 
             // Dispatch a success action with the user data
             dispatch({ type: SIGN_UP_SUCCESS, user: response.user }); // Assuming the API response contains user data
-        } catch (error) {
+
+            // Resolve the promise to indicate success
+            resolve();
+        })
+        .catch((error) => {
             // Dispatch a failure action with the error message
             dispatch({ type: SIGN_UP_FAILURE, error: error.message });
-        }
-    };
+
+            // Reject the promise to indicate an error
+            reject(error);
+        });
+    });
 }
+
 
 // Example async action for signing in
 export function signIn(email, password) {
-    return async (dispatch) => {
-        try {
-            // Make an API request to sign in using AWS Amplify
-            const response = await API.post("api", "/signin", {
-                body: {
-                    email,
-                    password,
-                },
-            });
-
+    return new Promise((resolve, reject) => {
+        // Make an API request to sign in using AWS Amplify
+        API.post("api", "/signin", {
+            body: {
+                email,
+                password,
+            },
+        })
+        .then((response) => {
             const { token } = response;
 
             localStorage.setItem('authToken', token);
 
             // Dispatch a success action with the user data
             dispatch({ type: SIGN_IN_SUCCESS, user: response.user }); // Assuming the API response contains user data
-        } catch (error) {
+
+            // Resolve the promise to indicate success
+            resolve();
+        })
+        .catch((error) => {
             // Dispatch a failure action with the error message
             dispatch({ type: SIGN_IN_FAILURE, error: error.message });
-        }
-    };
+
+            // Reject the promise to indicate an error
+            reject(error);
+        });
+    });
 }
+
 
 export function signOut() {
     return (dispatch) => {

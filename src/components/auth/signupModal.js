@@ -21,14 +21,21 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
       setValidated(true);
     } else {
 
-      dispatch(signUp(userName, email, password)).then(() => {
+      dispatch(signUp(userName, email, password))
+      .then(() => {
+        // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setName('');
         setEmail('');
         setPassword('');
         loggedfunc();
+        onHide();
+
+      })
+      .catch((error) => {
+        // Handle the error here (e.g., show an error message to the user)
+        console.error('Sign-up failed:', error);
       });
 
-      onHide();
 
     }
   };

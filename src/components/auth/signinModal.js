@@ -20,15 +20,20 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction, logged
     }else{
 
       
-      loggedfunc();
 
-      dispatch(signIn(email, password).then(()=>{
+      dispatch(signIn(email, password))
+      .then(() => {
+        loggedfunc();
+        // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setEmail('');
         setPassword('');
-        
-      }))
-      
-      onHide();
+        onHide();
+      })
+      .catch((error) => {
+        // Handle the error here (e.g., show an error message to the user)
+        console.error('Sign-in failed:', error);
+      });
+
     }
 
 

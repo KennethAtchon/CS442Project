@@ -9,13 +9,17 @@ import OrderConfirm from './routes/checkout/orderConfirm';
 import Checkout from './routes/checkout/checkout';
 import Error from './routes/error/error'
 import { Routes, Route } from 'react-router-dom';
+import { useDispatch } from 'react-redux'; // You may need to install react-redux
+import { signInWithToken } from './actions/authActions';
 import { API } from 'aws-amplify';
 
 function App() {
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetchClient();
-  })
+    dispatch(signInWithToken());
+  },[])
 
   async function fetchClient(){
     API

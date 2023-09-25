@@ -9,9 +9,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Provider } from 'react-redux'; // Import Provider
 import store from './store'; // Import the Redux store
 
-import { signInWithToken } from './actions/authActions';
-
-store.dispatch(signInWithToken());
 
 Amplify.configure(awsExports);
 

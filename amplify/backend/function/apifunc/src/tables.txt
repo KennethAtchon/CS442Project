@@ -1,0 +1,75 @@
+/*
+CREATE TABLE IF NOT EXISTS User (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    -- Add other user-related attributes
+);
+
+-- Add new columns to the User table
+ALTER TABLE User
+ADD email VARCHAR(255) NOT NULL,
+ADD password VARCHAR(255) NOT NULL,
+ADD cart TEXT,
+ADD payment_info TEXT,
+ADD phone_number VARCHAR(20),
+ADD shipping_info TEXT;
+
+
+-- Create the orders table
+CREATE TABLE IF NOT EXISTS orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_date DATETIME NOT NULL,
+    user_id INT,
+    FOREIGN KEY (user_id) REFERENCES User(user_id)
+);
+
+CREATE TABLE IF NOT EXISTS Product (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    rating DECIMAL(3, 2),
+    image_url VARCHAR(255),
+    category VARCHAR(255),
+    features TEXT,
+    supplier_id INT, -- Foreign key to link products to suppliers
+    FOREIGN KEY (supplier_id) REFERENCES Supplier(supplier_id)
+);
+
+CREATE TABLE IF NOT EXISTS Order_Product (
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    FOREIGN KEY (order_id) REFERENCES `Order`(order_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
+
+CREATE TABLE IF NOT EXISTS FAQ (
+    faq_id INT AUTO_INCREMENT PRIMARY KEY,
+    question VARCHAR(255) NOT NULL,
+    answer TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS Review (
+    review_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL, -- Foreign key to link reviews to users
+    product_id INT NOT NULL, -- Foreign key to link reviews to products
+    comment TEXT NOT NULL,
+    rating DECIMAL(3, 2) NOT NULL, -- Assuming a rating out of 5 with 2 decimal places
+    review_datetime DATETIME NOT NULL,
+    -- Other review-related attributes
+    FOREIGN KEY (user_id) REFERENCES User(user_id),
+    FOREIGN KEY (product_id) REFERENCES Product(product_id)
+);
+
+-- Supplier table with additional attributes
+CREATE TABLE IF NOT EXISTS Supplier (
+    supplier_id INT AUTO_INCREMENT PRIMARY KEY,
+    supplier_name VARCHAR(255) NOT NULL,
+    address TEXT, -- Address attribute
+    delivery_speed VARCHAR(50), -- Delivery speed attribute
+    -- Other supplier-related attributes
+);
+
+*/

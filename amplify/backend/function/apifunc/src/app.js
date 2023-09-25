@@ -14,6 +14,7 @@ const bodyParser = require('body-parser')
 const awsServerlessExpressMiddleware = require('aws-serverless-express/middleware')
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
+const bcrypt = require('bcrypt');
 
 
 
@@ -82,35 +83,64 @@ app.post('/signup', function (req, res) {
   
   // Extract user registration data from the request body
   const { username, email, password } = req.body;
-  const user = {
-    id: 1,
-    username: username,
-    email: email,
-  };
 
-  jwt.sign({ user }, secretKey, { expiresIn: '1h' }, (err, token) => {
-    if (err) {
-      return res.status(500).json({ error: 'Error generating token' });
+  // Validate request data
+  if (!email || !password || !username) {
+    return res.status(400).json({
+      error: 'Email, username, and password are required'
+    });
+  }
+
+  // Check if a user with the given email already exists
+  connection.query(
+    'SELECT * FROM User WHERE email = ?',
+    [email],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error while checking for existing user'
+        });
+      }
+
+      if (results.length > 0) {
+        return res.status(400).json({
+          error: 'Email is already in use'
+        });
+      }
+    })
+
+  // Hash the user's password
+  bcrypt.hash(password, 10, (hashError, hashedPassword) => {
+    if (hashError) {
+      return res.status(500).json({
+        error: 'Error hashing password'
+      });
     }
 
-    // Send the token as part of the response
-    res.json({ token, user });
-  });
-});
-
-
-app.post('/signin', function(req, res) {
-  const { email, password } = req.body; // Extract email and password from the request body
-
-  if (email === 'example@example.com' && password === 'password123') {
-    // Authentication successful
-    const user = {
-      id: 1,
-      username: 'exampleUser',
-      email: email
+    // Create a new user
+    const newUser = {
+      username,
+      email,
+      password: hashedPassword, // Store the hashed password
+      cart: JSON.stringify([]), // Initialize the cart as an empty array
+      payment_info: JSON.stringify({}), // Initialize payment_info as an empty object
+      phone_number: '', // Initialize phone_number as an empty string
+      shipping_info: JSON.stringify({}) // Initialize shipping_info as an empty object
     };
 
-    jwt.sign({ user }, secretKey, { expiresIn: '1h' }, (err, token) => {
+    connection.query(
+      'INSERT INTO User SET ?',
+      newUser,
+      (insertError) => {
+        if (insertError) {
+          return res.status(500).json({
+            error: 'Error creating a new user'
+          });
+        }
+      })
+
+
+    jwt.sign({ user: newUser }, secretKey, { expiresIn: '1h' }, (err, token) => {
       if (err) {
         return res.status(500).json({ error: 'Error generating token' });
       }
@@ -118,10 +148,47 @@ app.post('/signin', function(req, res) {
       // Send the token as part of the response
       res.json({ token, user });
     });
-  } else {
-    // Authentication failed
-    res.status(401).json({ error: 'Authentication failed' });
-  }
+  });
+});
+
+
+app.post('/signin', function (req, res) {
+  const { email, password } = req.body; // Extract email and password from the request body
+
+  // Find the user with the matching email in the database
+  const query = 'SELECT * FROM User WHERE email = ?';
+  connection.query(query, [email], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    if (results.length === 0) {
+      // User not found
+      return res.status(401).json({ error: 'Authentication failed' });
+    }
+
+    const user = results[0];
+
+    // Compare the provided password with the stored hashed password
+    bcrypt.compare(password, user.password, (compareErr, passwordMatch) => {
+      if (compareErr || !passwordMatch) {
+        // Password doesn't match or error occurred
+        return res.status(401).json({ error: 'Authentication failed' });
+      }
+
+
+      // Generate a JWT (JSON Web Token) for the user
+      jwt.sign({ user: user }, secretKey, { expiresIn: '1h' }, (jwtErr, token) => {
+        if (jwtErr) {
+          return res.status(500).json({ error: 'Error generating token' });
+        }
+
+        // Send the token as part of the response
+        res.json({ token, user: userWithoutPassword });
+      });
+    });
+  });
 });
 
 app.post('/signintoken', (req, res) => {
@@ -136,13 +203,8 @@ app.post('/signintoken', (req, res) => {
       return res.status(403).json({ message: 'Invalid token' });
     }
 
-    // If verification is successful, you can use the decoded data
-    const user = decoded.user; // Assuming the token contains user data
-
-    // Perform user authentication or session setup as needed
-
     // Send a response indicating successful sign-in
-    res.json({ message: 'Sign-in with token successful', user });
+    res.json({ message: 'Sign-in with token successful', decoded });
   });
 });
 
