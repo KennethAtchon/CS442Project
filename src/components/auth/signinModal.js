@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { signIn } from '../../actions/authActions';
 
 
-const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction, loggedfunc}) => {
+const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,7 +23,6 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction, logged
 
       dispatch(signIn(email, password))
       .then(() => {
-        loggedfunc();
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setEmail('');
         setPassword('');

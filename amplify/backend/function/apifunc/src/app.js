@@ -35,6 +35,7 @@ const connection = mysql.createConnection({
   user: process.env.SECRET_USER,
   password: process.env.SECRET_SQLPASS,
   database: process.env.SECRET_USER,
+  connectTimeout: 20000,
 });
 
 connection.connect((err) => {
@@ -146,7 +147,7 @@ app.post('/signup', function (req, res) {
       }
 
       // Send the token as part of the response
-      res.json({ token, user });
+      res.json({ token, user: newUser });
     });
   });
 });
@@ -185,7 +186,7 @@ app.post('/signin', function (req, res) {
         }
 
         // Send the token as part of the response
-        res.json({ token, user: userWithoutPassword });
+        res.json({ token, user: user });
       });
     });
   });

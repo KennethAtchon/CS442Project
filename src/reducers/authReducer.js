@@ -9,6 +9,7 @@ import {
   
   const initialState = {
     user: null,
+    logged: false,
     error: null,
   };
   
@@ -19,18 +20,21 @@ import {
         return {
           ...state,
           user: action.user,
+          logged: true,
           error: null,
         };
       case SIGN_UP_FAILURE:
       case SIGN_IN_FAILURE:
         return {
           ...state,
+          logged: false,
           user: null,
           error: action.error,
         };
       case SIGN_OUT:
         return {
           ...state,
+          logged: false,
           user: null,
           error: null,
         };

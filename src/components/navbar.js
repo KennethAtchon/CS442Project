@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom'; // Assuming you are using React Router
 import { BsFillPersonFill, BsCart2 } from 'react-icons/bs'; // Import the icon you want to use for the profile icon
@@ -9,10 +9,16 @@ import ShoppingCartModal from './modals/cartModal'
 import SettingsModal from './modals/settingsModal'; 
 import SearchBar from './searchbar'
 import './navbar.css'
+import { useSelector, useDispatch } from 'react-redux';
+import { signOut } from '../actions/authActions';
 
 
 function AppNavbar() {
-    const [loggedIn, setLoggedIn] = useState(false); // Assuming you have a way to track login status
+    const userState = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
+
+
+    const [loggedIn, setLoggedIn] = useState(userState.logged); // Assuming you have a way to track login status
 
     const [showSignInModal, setShowSignInModal] = useState(false);
     const [showSignUpModal, setShowSignUpModal] = useState(false);
@@ -52,9 +58,10 @@ function AppNavbar() {
       },
     ]);
 
-    const handleLogged = () => {
-      setLoggedIn(true);
-    }
+    useEffect(() => {
+      setLoggedIn(userState.logged)
+      
+    },[userState]);
 
     const handleSignIn = () =>{
     setShowSignInModal(true);
@@ -97,7 +104,7 @@ function AppNavbar() {
     };
 
     const handleLogout = () => {
-      setLoggedIn(false);
+      dispatch(signOut()); 
     }
   
     return (
@@ -122,11 +129,12 @@ function AppNavbar() {
             <Nav>
               <NavDropdown title={<BsFillPersonFill style={{ marginLeft: '10px', fontSize: '20px'}} />} id="basic-nav-dropdown">
 
-              <NavDropdown.Item>
+              <NavDropdown.Item> 
               <Link to="/myproducts" className='linkunderline'>
                 My Products
               </Link>
             </NavDropdown.Item>
+
             <NavDropdown.Item>
               <Link to="/myreviews" className='linkunderline'>
                 My Reviews
@@ -151,11 +159,11 @@ function AppNavbar() {
 
       <SignInModal show={showSignInModal} onHide={handleSignInModalClose} 
       signupfunction={handleSignUp}forgotpassfunction={handleForgotPassword} 
-      loggedfunc={handleLogged} />
+       />
 
       <SignUpModal  show={showSignUpModal} onHide={handleSignUpModalClose} 
       signinfunction={handleSignIn} forgotpassfunction={handleForgotPassword} 
-      loggedfunc={handleLogged} />
+      />
 
       <ForgotPasswordModal show={showForgotPasswordModal} 
       onHide={handleForgotPasswordModalClose} signinfunction={handleSignIn} 

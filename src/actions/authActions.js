@@ -32,7 +32,7 @@ export const  signUp = (username, email, password) => dispatch => {
         })
         .catch((error) => {
             // Dispatch a failure action with the error message
-            dispatch({ type: SIGN_UP_FAILURE, error: error.message });
+            dispatch({ type: SIGN_UP_FAILURE, error: error });
 
             // Reject the promise to indicate an error
             reject(error);
@@ -64,7 +64,7 @@ export const signIn = (email, password) => dispatch => {
         })
         .catch((error) => {
             // Dispatch a failure action with the error message
-            dispatch({ type: SIGN_IN_FAILURE, error: error.message });
+            dispatch({ type: SIGN_IN_FAILURE, error: error });
 
             // Reject the promise to indicate an error
             reject(error);
@@ -92,18 +92,20 @@ export const signInWithToken = () => async (dispatch) => {
             // You can redirect to the sign-in page or show a welcome message, etc.
             return;
         }
+        
 
         // Make an API request to sign in using the stored token
         const response = await API.post('api', '/signintoken', {
             body: {
-                authToken, // Include the authToken in the request body
+                token: authToken // Include the authToken in the request body
             },
         });
 
         // Dispatch a success action with the user data
-        dispatch({ type: SIGN_IN_SUCCESS, user: response.user });
+        dispatch({ type: SIGN_IN_SUCCESS, user: response.decoded.user });
     } catch (error) {
         // Dispatch a failure action with the error message
-        dispatch({ type: SIGN_IN_FAILURE, error: error.message });
+        
+        dispatch({ type: SIGN_IN_FAILURE, error: error});
     }
 };

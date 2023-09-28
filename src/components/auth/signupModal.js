@@ -27,7 +27,6 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
         setName('');
         setEmail('');
         setPassword('');
-        loggedfunc();
         onHide();
 
       })
