@@ -14,3 +14,7 @@ export const GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS';
 export const GET_PRODUCT_FAILURE = 'GET_PRODUCT_FAILURE';
 
 // Add more action types for other parts of your application as needed
+export const UPDATE_CART_REQUEST = 'UPDATE_CART_REQUEST';
+export const UPDATE_CART_SUCCESS = 'UPDATE_CART_SUCCESS';
+export const UPDATE_CART_FAILURE = 'UPDATE_CART_FAILURE';
+export const REMOVE_CART_ITEMS = 'REMOVE_CART_ITEMS';

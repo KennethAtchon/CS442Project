@@ -6,17 +6,19 @@ import ProductCard from '../../components/productcard';
 import './productList.css';
 import { getProduct } from '../../actions/productActions'; 
 
-function ProductList() {
-  const { search } = useParams();
+function ProductCategory() {
+  const { category } = useParams();
   const dispatch = useDispatch(); // Get the dispatch function
   const products = useSelector((state) => state.products); // Use useSelector to get products from the Redux store
 
+
+
   // Dispatch the getProduct action when the component mounts
   useEffect(() => {
-
-    dispatch(getProduct({name: search}));
-    console.log(search);
+    console.log("This should not run alot")
     
+    dispatch(getProduct({category: category}));
+
    
   }, [dispatch]);
 
@@ -26,16 +28,14 @@ function ProductList() {
 
       <section className="featured-products">
 
-      {
-          <h2>Showing search results for "Your Search Query"</h2>
-        }
+      <h2 style={{ textAlign: 'center' }} > {category.charAt(0).toUpperCase() + category.slice(1)} </h2>
         
         <div className="product-card-container">
         {products.products && products.products.map((product) => (
             <ProductCard product={product} />
           ))} 
         {
-          !products.products &&  <h1>No Products Available for that search</h1>
+          products.products.length === 0 &&  <h5>No Products Available for that search</h5>
         }
         </div>
       </section>
@@ -45,4 +45,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default ProductCategory;

@@ -22,9 +22,7 @@ function Home() {
   // Dispatch the getProduct action when the component mounts
   useEffect(() => {
     // You can pass the "soccer" category as an argument
-    if(products.products.length === 0){
-      dispatch(getProduct({rating: 4.5}));
-    }
+    dispatch(getProduct({rating: 4.5}));
     
    
   }, [dispatch]);

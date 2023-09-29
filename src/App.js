@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react';
 import Home from './routes/user/Home';
 import Products from './routes/products/productList';
+import ProductsCategory from './routes/products/productCategory';
 import UserProduct from './routes/products/userProduct';
 import Faq from './routes/faq/Faq';
 import Reviews from  './routes/reviews/reviewList';
@@ -10,7 +11,7 @@ import Checkout from './routes/checkout/checkout';
 import Error from './routes/error/error'
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux'; // You may need to install react-redux
-import { signInWithToken } from './actions/authActions';
+import { signInWithToken, updateCart} from './actions/authActions';
 import { API } from 'aws-amplify';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
     if(!localStorage.getItem('authToken')){
       dispatch(signInWithToken());
     }
+    dispatch(updateCart({}))
     
   })
 
@@ -39,11 +41,11 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/products" element={<Products />} />
+      <Route path="/products/category/:category" element={<ProductsCategory />} />
+      <Route path="/products/:search" element={<Products />} />
       <Route path="/myproducts" element={<UserProduct />} />
       <Route path="/faq" element={<Faq />} />
       <Route path="/myreviews" element={< Reviews />} />
-
       <Route path="/product/:id" element={ < ProductPage /> } />
       <Route path="/checkout" element={ < Checkout /> } />
       <Route path="/checkout/:orderid" element={ < OrderConfirm /> } />

@@ -80,6 +80,25 @@ app.post('/', function(req, res) {
 
 });
 
+app.post('/updatecart', function(req, res) {
+  const { userId, cart } = req.body; // Extract userId and cart from the request body
+
+  // Construct the SQL UPDATE query
+  let query = 'UPDATE users SET cart = ? WHERE user_id = ?';
+
+  // Execute the query with cart and userId as parameters
+  connection.query(query, [JSON.stringify(cart), userId], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    // Send a success response if the update is successful
+    res.json({ message: 'Cart updated successfully' });
+  });
+});
+
+
 app.post('/getProducts', function(req,res){
   const { category, features, rating, price, description, name } = req.body; // Extract criteria from the request body
 

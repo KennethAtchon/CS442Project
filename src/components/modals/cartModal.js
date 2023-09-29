@@ -1,8 +1,14 @@
 // ShoppingCartModal.js
 import React from 'react';
 import { Modal, Button, Row, Col } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { updateCart } from '../../actions/authActions';
 
-const ShoppingCartModal = ({ show, onHide, cartItems }) => {
+const ShoppingCartModal = ({ show, onHide}) => {
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.cart);
+  console.log(cartItems)
 
   const calculateTotal = () => {
     // Calculate the total price based on cart items
@@ -18,12 +24,19 @@ const ShoppingCartModal = ({ show, onHide, cartItems }) => {
     // For example, you can navigate to a checkout page or perform further actions
   };
 
+  const handleRemoveItem = (index) => {
+    // Dispatch the removeFromCart action with the index of the item to be removed
+    dispatch(updateCart({removeIndex: index}));
+
+  };
+
   return (
     <Modal show={show} onHide={onHide}>
       <Modal.Header closeButton>
         <Modal.Title>Shopping Cart</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+      {/* cartItems.length === 0  */}
       {cartItems.length === 0 ? (
           <p>Your cart is empty</p>
         ) : (
@@ -32,17 +45,19 @@ const ShoppingCartModal = ({ show, onHide, cartItems }) => {
         {cartItems.map((item, index) => (
           <Row key={index} className="mb-3">
             <Col xs={3}>
-              <img src={item.image} alt={item.name} className="img-fluid" />
+              <img src={item.imageUrl} alt={item.product_name} className="img-fluid" />
             </Col>
             <Col xs={3}>
-              <h6>{item.name}</h6>
-              <p>Price: ${item.price.toFixed(2)}</p>
+              <h6>{item.product_name}</h6>
+              <p>Price: ${parseFloat(item.price) * item.quantity}</p>
             </Col>  
             <Col xs={3}>
               <p>Quantity: {item.quantity}</p>
             </Col>
             <Col>
-              <Button variant="danger">Remove</Button>
+              <Button variant="danger" 
+              onClick={() => handleRemoveItem(index)}
+                >Remove</Button>
             </Col>
           </Row>
         ))}

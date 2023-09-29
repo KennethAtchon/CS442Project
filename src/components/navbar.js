@@ -25,38 +25,6 @@ function AppNavbar() {
     const [showForgotPasswordModal, setShowForgotPasswordModal] = useState(false); // Add state for the forgot password modal
     const [showShoppingCartModal, setShowShoppingCartModal] = useState(false); // Add state for the shopping cart modal
     const [showSettingsModal, setShowSettingsModal] = useState(false);
-    const [cartItems, setCartItems] = useState([
-      {
-        image: 'football.jpg',
-        name: 'Product 1',
-        price: 10.99,
-        quantity: 2,
-      },
-      {
-        image: 'football.jpg',
-        name: 'Product 2',
-        price: 19.99,
-        quantity: 1,
-      },
-      {
-        image: 'football.jpg',
-        name: 'Product 2',
-        price: 19.99,
-        quantity: 1,
-      },
-      {
-        image: 'football.jpg',
-        name: 'Product 2',
-        price: 19.99,
-        quantity: 1,
-      },
-      {
-        image: 'football.jpg',
-        name: 'Product 2',
-        price: 19.99,
-        quantity: 1,
-      },
-    ]);
 
     useEffect(() => {
       setLoggedIn(userState.logged)
@@ -172,7 +140,6 @@ function AppNavbar() {
       <ShoppingCartModal
         show={showShoppingCartModal}
         onHide={handleShoppingCartModalClose}
-        cartItems={cartItems}
       />
 
       <SettingsModal show={showSettingsModal} onHide={handleSettingsModalClose} />
@@ -181,22 +148,22 @@ function AppNavbar() {
 
       <Navbar bg="light"  className="mini-navbar">
         <Nav className="mx-auto">
-          <Link to="/products" className="nav-category">
+          <Link to="/products/category/basketball" className="nav-category">
             Basketball
           </Link>
-          <Link to="/products" className="nav-category">
+          <Link to="/products/category/soccer" className="nav-category">
             Soccer
           </Link>
-          <Link to="/products" className="nav-category">
+          <Link to="/products/category/tennis" className="nav-category">
             Tennis
           </Link>
-          <Link to="/products" className="nav-category">
+          <Link to="/products/category/swimming" className="nav-category">
             Swimming
           </Link>
-          <Link to="/products" className="nav-category">
+          <Link to="/products/category/football" className="nav-category">
             Football
           </Link>
-          <Link to="/products" className="nav-category">
+          <Link to="/products/category/fishing" className="nav-category">
             Fishing
           </Link>
           
