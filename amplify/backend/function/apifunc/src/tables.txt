@@ -14,11 +14,26 @@ ADD payment_info TEXT,
 ADD phone_number VARCHAR(20),
 ADD shipping_info TEXT;
 
+// USER THE ONE I WANT IT TO BE:
+CREATE TABLE User (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    cart TEXT,
+    payment_info TEXT,
+    phone_number VARCHAR(20),
+    shipping_info TEXT,
+    billing_info TEXT, -- Add the billing_info column
+    -- Add other user-related attributes as needed
+);
+
 
 -- Create the orders table
 CREATE TABLE IF NOT EXISTS orders (
     order_id INT AUTO_INCREMENT PRIMARY KEY,
     order_date DATETIME NOT NULL,
+    total_price DEMICAL(10,2) NOT NULL,
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES User(user_id)
 );
@@ -71,5 +86,38 @@ CREATE TABLE IF NOT EXISTS Supplier (
     delivery_speed VARCHAR(50), -- Delivery speed attribute
     -- Other supplier-related attributes
 );
+
+
+/*
+INSERT INTO Supplier (supplier_name, address, delivery_speed)
+VALUES
+    ('Supplier 1', '123 Main Street, City, Country', 'Fast'),
+    ('Supplier 2', '456 Elm Street, Town, Country', 'Medium'),
+    ('Supplier 3', '789 Oak Street, Village, Country', 'Slow');
+    
+-- Insert sample products
+INSERT INTO Product (product_name, description, price, rating, image_url, category, features, supplier_id)
+VALUES
+    ('Product 1', 'Description for Product 1', 19.99, 4.5, 'image1.jpg', 'Category A', 'Feature A', 1),
+    ('Product 2', 'Description for Product 2', 29.99, 3.8, 'image2.jpg', 'Category B', 'Feature B', 2),
+    ('Product 3', 'Description for Product 3', 14.99, 4.2, 'image3.jpg', 'Category A', 'Feature C', 1);
+
+-- Insert orders for user_id 9, referencing the products and quantities
+-- Replace the values with appropriate data
+INSERT INTO orders (order_date, total_price, user_id)
+VALUES
+    ('2023-09-28 10:00:00', 49.98, 9); -- Order 1 for User 9
+
+-- Insert records into Order_Product to associate products with orders and specify quantities
+-- Replace the values with appropriate product, order, and quantity values
+INSERT INTO Order_Product (order_id, product_id, quantity)
+VALUES
+    (1, 1, 2), -- Order 1 includes 2 units of Product 1
+    (1, 2, 3); -- Order 1 includes 3 units of Product 2
+-- Add more records to associate products with orders and specify quantities as needed
+
+`;
+*/
+
 
 */

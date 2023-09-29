@@ -1,9 +1,34 @@
-import React from 'react';
-import AppNavbar from '../../components/navbar'; // Import the AppNavbar component
-import ProductCard from '../../components/productcard'
-import './Home.css'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
+import AppNavbar from '../../components/navbar';
+import ProductCard from '../../components/productcard';
+import './Home.css';
+import { getProduct } from '../../actions/productActions'; 
 
 function Home() {
+  const dispatch = useDispatch(); // Get the dispatch function
+  const products = useSelector((state) => state.products); // Use useSelector to get products from the Redux store
+  const defaultProducts = [
+    {
+      category: 'DefaultCategory',
+      features: 'DefaultFeatures',
+      price: 10,
+      description: 'DefaultDescription',
+      name: 'DefaultName',
+    },
+  ];
+
+
+  // Dispatch the getProduct action when the component mounts
+  useEffect(() => {
+    // You can pass the "soccer" category as an argument
+    if(products.products.length === 0){
+      dispatch(getProduct({rating: 4.5}));
+    }
+    
+   
+  }, [dispatch]);
+
   return (
     <div>
       <AppNavbar /> 
@@ -11,11 +36,15 @@ function Home() {
       <section className="featured-products">
         <h2>Featured Products</h2>
         <div className="product-card-container">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+
+        {products.products && products.products.map((product) => (
+            <ProductCard product={product} />
+          ))} 
+        {
+          !products.products && <ProductCard product={defaultProducts} />
+        }
+
+
         </div>
       </section>
 
@@ -23,23 +52,25 @@ function Home() {
     <section className="promotions-deals">
       <h2>Promotions and Deals</h2>
       <div className="product-card-container">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+      {products && products.products.map((product) => (
+            <ProductCard product={product} />
+          ))} 
+        {
+          !products && <ProductCard product={defaultProducts} />
+        }
         </div>
     </section>
 
     {/* New Arrivals Section */}
-    <section className="new-arrivals">
+     <section className="new-arrivals">
       <h2>New Arrivals</h2>
       <div className="product-card-container">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+      {products && products.products.map((product) => (
+            <ProductCard product={product} />
+          ))} 
+        {
+          !products && <ProductCard product={defaultProducts} />
+        }
         </div>
     </section>
 

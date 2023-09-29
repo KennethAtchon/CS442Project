@@ -19,7 +19,7 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
       setValidated(true);
     }else{
 
-      
+      setValidated(true);
 
       dispatch(signIn(email, password))
       .then(() => {
@@ -27,6 +27,7 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
         setEmail('');
         setPassword('');
         onHide();
+
       })
       .catch((error) => {
         // Handle the error here (e.g., show an error message to the user)

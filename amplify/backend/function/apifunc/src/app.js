@@ -80,6 +80,51 @@ app.post('/', function(req, res) {
 
 });
 
+app.post('/getProducts', function(req,res){
+  const { category, features, rating, price, description, name } = req.body; // Extract criteria from the request body
+
+  // Construct the SQL query with conditional WHERE clauses for non-undefined criteria
+  let query = 'SELECT * FROM Product WHERE 1';
+
+  if (typeof category !== 'undefined') {
+    query += ' AND category = ?';
+  }
+
+  if (typeof features !== 'undefined') {
+    query += ' AND features = ?';
+  }
+
+  if (typeof rating !== 'undefined') {
+    query += ' AND rating = ?';
+  }
+
+  if (typeof price !== 'undefined') {
+    query += ' AND price = ?';
+  }
+
+  if (typeof description !== 'undefined') {
+    query += ' AND description = ?';
+  }
+
+  if (typeof name !== 'undefined') {
+    query += ' AND product_name = ?';
+  }
+
+  const queryParams = [category, features, rating, price, description, name].filter(value => typeof value !== 'undefined');
+
+  // Execute the query with parameters
+  connection.query(query, queryParams, (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    // Send the list of products as part of the response
+    res.json({ products: results });
+  });
+
+});
+
 app.post('/signup', function (req, res) {
   
   // Extract user registration data from the request body

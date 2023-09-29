@@ -17,8 +17,11 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    fetchClient();
-    dispatch(signInWithToken());
+    //fetchClient();
+    if(!localStorage.getItem('authToken')){
+      dispatch(signInWithToken());
+    }
+    
   })
 
   async function fetchClient(){

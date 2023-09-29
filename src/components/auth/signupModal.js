@@ -21,6 +21,8 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
       setValidated(true);
     } else {
 
+      setValidated(true);
+
       dispatch(signUp(userName, email, password))
       .then(() => {
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
