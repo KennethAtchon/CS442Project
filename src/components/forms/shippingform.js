@@ -1,8 +1,13 @@
 import React, {useState} from 'react';
 import { Card, Row, Col, FloatingLabel, Form, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateShippingInfo } from '../../actions/orderActions'; // Import your shipping info action
+
 
 
 function ShippingInformationForm() {
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.auth.user);
 
     const [formData, setFormData] = useState({
         countryRegion: '',
@@ -26,13 +31,37 @@ function ShippingInformationForm() {
     const [validated, setValidated] = useState(false);
 
     const handleShippingInfo = (event) => {
+      event.preventDefault();
       const form = event.currentTarget;
-      if (form.checkValidity() === false) {
-        event.preventDefault();
-        event.stopPropagation();
-      }
   
-      setValidated(true);
+      if (form.checkValidity() === false) {
+        event.stopPropagation();
+        setValidated(true);
+      } else {
+        setValidated(true);
+        const { countryRegion,firstName,lastName,streetAddress,
+          city,state,zip,email,phoneNumber,} = formData;
+  
+        const shippingInfo = {
+          countryRegion,firstName,lastName,
+          streetAddress,city,state,zip,email,phoneNumber,
+        };
+  
+        dispatch(
+          updateShippingInfo({
+            userId: user ? user.user_id : undefined,
+            shippingInfo,
+          })
+        )
+          .then(() => {
+            // Shipping info update was successful, perform actions like clearing input fields or showing a success message
+            // Clear input fields or perform other actions as needed
+          })
+          .catch((error) => {
+            // Handle the error here (e.g., show an error message to the user)
+            console.error('Shipping info update failed:', error);
+          });
+      }
     };
 
   return (
@@ -48,9 +77,11 @@ function ShippingInformationForm() {
               <Row className="mb-3">
                 <Col xs={6}>
                 <FloatingLabel controlId="countryRegion" label="Country/Region">
-                    <Form.Select required
+                    <Form.Select 
+                      name="countryRegion"
                       value={formData.countryRegion}
                       onChange={handleInputChange}
+                      required
                     >
                       <option value="">Select a country...</option>
                       <option value="USA">United States</option>
@@ -168,21 +199,6 @@ function ShippingInformationForm() {
               {/* Row 5: Email and Phone Number */}
               <Row className="mb-3">
                 <Col>
-                  <FloatingLabel controlId="email" label="Email">
-                    <Form.Control
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="Enter email"
-                      required
-                    />
-                    <Form.Control.Feedback type="invalid">
-                      Please enter a valid email address.
-                    </Form.Control.Feedback>
-                  </FloatingLabel>
-                </Col>
-                <Col>
                   <FloatingLabel controlId="phoneNumber" label="Phone Number">
                     <Form.Control
                       type="tel"
@@ -197,7 +213,23 @@ function ShippingInformationForm() {
                     </Form.Control.Feedback>
                   </FloatingLabel>
                 </Col>
-
+                <Col>
+                {!user && (
+                  <FloatingLabel controlId="email" label="Email">
+                    <Form.Control
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      placeholder="Enter email"
+                      required
+                    />
+                    <Form.Control.Feedback type="invalid">
+                      Please enter a valid email address.
+                    </Form.Control.Feedback>
+                  </FloatingLabel>
+                )}
+                </Col>
                 <Row>
                 <Col className="d-flex justify-content-center py-3">
                     <Button type="submit" variant="primary">

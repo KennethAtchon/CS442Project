@@ -31,8 +31,8 @@ export const  signUp = (username, email, password) => dispatch => {
             // Dispatch a success action with the user data
             dispatch({ type: SIGN_UP_SUCCESS, user: response.user }); // Assuming the API response contains user data
             
-            localStorage.setItem('cartItems', JSON.stringify(response.user.cart));
-            dispatch({ type: UPDATE_CART_SUCCESS, Cart:  response.user.cart});
+            localStorage.setItem('cartItems', response.user.cart);
+            dispatch({ type: UPDATE_CART_SUCCESS, Cart: JSON.parse( response.user.cart)});
             // Resolve the promise to indicate success
             resolve();
         })
@@ -65,8 +65,8 @@ export const signIn = (email, password) => dispatch => {
             // Dispatch a success action with the user data
             dispatch({ type: SIGN_IN_SUCCESS, user: response.user }); // Assuming the API response contains user data
             
-            localStorage.setItem('cartItems', JSON.stringify(response.user.cart));
-            dispatch({ type: UPDATE_CART_SUCCESS, Cart:  response.user.cart});
+            localStorage.setItem('cartItems', response.user.cart);
+            dispatch({ type: UPDATE_CART_SUCCESS, Cart:  JSON.parse(response.user.cart)});
 
 
             // Resolve the promise to indicate success
@@ -117,8 +117,8 @@ export const signInWithToken = () => async (dispatch) => {
         // Dispatch a success action with the user data
         dispatch({ type: SIGN_IN_SUCCESS, user: response.decoded.user });
 
-        localStorage.setItem('cartItems', JSON.stringify(response.user.cart));
-        dispatch({ type: UPDATE_CART_SUCCESS, Cart:  response.decoded.user.cart});
+        localStorage.setItem('cartItems', response.user.cart);
+        dispatch({ type: UPDATE_CART_SUCCESS, Cart:  JSON.parse(response.decoded.user.cart)});
 
     } catch (error) {
         // Dispatch a failure action with the error message
@@ -128,15 +128,15 @@ export const signInWithToken = () => async (dispatch) => {
 };
 
 export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
-    dispatch({ type: UPDATE_CART_REQUEST });
-    console.log(removeIndex)
 
+    dispatch({ type: UPDATE_CART_REQUEST });
     const cart = JSON.parse(localStorage.getItem("cartItems")) || [];
+
 
     if(cartData){
         const existingItemIndex = cart.findIndex(item => item.product_id === cartData.product_id);
 
-        if (existingItemIndex !== -1) {
+        if (existingItemIndex == 0) {
             // If the item already exists in the cart, update its quantity or perform other actions as needed
             // For example, you can update the quantity:
             cart[existingItemIndex].quantity += cartData.quantity;
@@ -146,7 +146,7 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
         }
     }
 
-    if(removeIndex != undefined){
+    if(removeIndex !== undefined){
         if(removeIndex === 0){
             cart.splice(1);
         }
@@ -161,31 +161,27 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
         return Promise.resolve(); // Resolve the promise to indicate success
       }
   
-    return new Promise((resolve, reject) => {
       // Make an API request to update the user's cart using AWS Amplify
-      API.post('api', '/updatecart', {
+    API.post('api', '/updatecart', {
         body: {
-          userId,
-          cart,
+        userId,
+        cart,
         },
-      })
+        })
         .then(response => {
-          console.log(response)
+        console.log(response)
 
-          localStorage.setItem('cartItems', JSON.stringify(cart));
-          // Dispatch a success action indicating that the cart was updated
-          dispatch({ type: UPDATE_CART_SUCCESS, Cart: cart });
-  
-          // Resolve the promise to indicate success
-          resolve(response);
+        localStorage.setItem('cartItems', JSON.stringify(cart));
+        // Dispatch a success action indicating that the cart was updated
+        dispatch({ type: UPDATE_CART_SUCCESS, Cart: cart });
+
+
         })
         .catch(error => {
-          // Dispatch a failure action with the error message
-          dispatch({ type: UPDATE_CART_FAILURE, error });
-  
-          // Reject the promise to indicate an error
-          reject(error);
-        });
+        // Dispatch a failure action with the error message
+        dispatch({ type: UPDATE_CART_FAILURE, error });
+
+
     });
   };
 

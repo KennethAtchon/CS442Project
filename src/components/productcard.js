@@ -4,13 +4,15 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
 import Rating from 'react-rating-stars-component';
-import { useDispatch } from 'react-redux'; // Import useDispatch
+import { useDispatch, useSelector  } from 'react-redux'; // Import useDispatch
 import { updateCart } from '../actions/authActions';
 
 function ProductCard({ product }) {
   // Access product data directly from props with the correct property names
   const { category, features, rating, price, description, product_name, image_url, product_id } = product;
+  const user = useSelector((state) => state.auth.user);
   const quantity = 1;
+
   
   const [imageError, setImageError] = useState(false);
   const dispatch = useDispatch();
@@ -33,7 +35,8 @@ function ProductCard({ product }) {
     };
 
     // Dispatch the updateCart action with the product data
-    dispatch(updateCart({cartData: cartItem}));
+    dispatch(updateCart({ userId: user ? user.user_id : undefined, cartData: cartItem }));
+
   };
 
 

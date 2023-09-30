@@ -22,7 +22,7 @@ function Home() {
   // Dispatch the getProduct action when the component mounts
   useEffect(() => {
     // You can pass the "soccer" category as an argument
-    dispatch(getProduct({rating: 4.5}));
+    dispatch(getProduct({supplier_name: "Supplier 1"}));
     
    
   }, [dispatch]);

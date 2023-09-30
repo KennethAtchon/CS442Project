@@ -8,7 +8,6 @@ import { updateCart } from '../../actions/authActions';
 const ShoppingCartModal = ({ show, onHide}) => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.cart);
-  console.log(cartItems)
 
   const calculateTotal = () => {
     // Calculate the total price based on cart items
@@ -37,7 +36,7 @@ const ShoppingCartModal = ({ show, onHide}) => {
       </Modal.Header>
       <Modal.Body>
       {/* cartItems.length === 0  */}
-      {cartItems.length === 0 ? (
+      {cartItems.length === 0  ? (
           <p>Your cart is empty</p>
         ) : (
       <div style={{ maxHeight: '300px', overflowY: 'auto'}}>
@@ -45,11 +44,11 @@ const ShoppingCartModal = ({ show, onHide}) => {
         {cartItems.map((item, index) => (
           <Row key={index} className="mb-3">
             <Col xs={3}>
-              <img src={item.imageUrl} alt={item.product_name} className="img-fluid" />
+              <img src={`../../${item.imageUrl}`} alt={item.product_name} className="img-fluid" />
             </Col>
             <Col xs={3}>
               <h6>{item.product_name}</h6>
-              <p>Price: ${parseFloat(item.price) * item.quantity}</p>
+              <p>Price: ${(parseFloat(item.price) * item.quantity).toFixed(2)}</p>
             </Col>  
             <Col xs={3}>
               <p>Quantity: {item.quantity}</p>

@@ -84,7 +84,7 @@ app.post('/updatecart', function(req, res) {
   const { userId, cart } = req.body; // Extract userId and cart from the request body
 
   // Construct the SQL UPDATE query
-  let query = 'UPDATE users SET cart = ? WHERE user_id = ?';
+  let query = 'UPDATE User SET cart = ? WHERE user_id = ?';
 
   // Execute the query with cart and userId as parameters
   connection.query(query, [JSON.stringify(cart), userId], (err, results) => {
@@ -98,38 +98,99 @@ app.post('/updatecart', function(req, res) {
   });
 });
 
+app.post('/updateshipping', function(req, res) {
+  const { userId, shippingInfo } = req.body; // Extract userId and shippingInfo from the request body
+
+  // Construct the SQL UPDATE query for shipping info
+  let query = 'UPDATE User SET shipping_info = ? WHERE user_id = ?';
+
+  // Execute the query with shippingInfo and userId as parameters
+  connection.query(query, [JSON.stringify(shippingInfo), userId], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    // Send a success response if the update is successful
+    res.json({ message: 'Shipping info updated successfully' });
+  });
+});
+
+app.post('/updatepayment', function(req, res) {
+  const { userId, billingInfo, paymentInfo } = req.body; // Extract userId, billingInfo, and paymentInfo from the request body
+
+  // Construct the SQL UPDATE query for payment info
+  let query = 'UPDATE User SET billing_info = ?, payment_info = ? WHERE user_id = ?';
+
+  // Execute the query with billingInfo, paymentInfo, and userId as parameters
+  connection.query(query, [JSON.stringify(billingInfo), JSON.stringify(paymentInfo), userId], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
+
+    // Send a success response if the update is successful
+    res.json({ message: 'Payment info updated successfully' });
+  });
+});
+
+
+
 
 app.post('/getProducts', function(req,res){
-  const { category, features, rating, price, description, name } = req.body; // Extract criteria from the request body
-
+  const { category, features, rating, price, description, name, 
+    product_id, supplier_name, supplier_address, delivery_speed } = req.body;// Extract criteria from the request body
+  
   // Construct the SQL query with conditional WHERE clauses for non-undefined criteria
-  let query = 'SELECT * FROM Product WHERE 1';
-
+  let query = 'SELECT Product.*, Supplier.*FROM Product';
+  
+  // Join with the Supplier table using the supplier_id foreign key
+  query += ' INNER JOIN Supplier ON Product.supplier_id = Supplier.supplier_id WHERE 1';
+  
   if (typeof category !== 'undefined') {
-    query += ' AND category = ?';
+    query += ' AND Product.category = ?';
   }
-
+  
   if (typeof features !== 'undefined') {
-    query += ' AND features = ?';
+    query += ' AND Product.features = ?';
   }
-
+  
   if (typeof rating !== 'undefined') {
-    query += ' AND rating = ?';
+    query += ' AND Product.rating = ?';
   }
-
+  
   if (typeof price !== 'undefined') {
-    query += ' AND price = ?';
+    query += ' AND Product.price = ?';
   }
-
+  
   if (typeof description !== 'undefined') {
-    query += ' AND description = ?';
+    query += ' AND Product.description = ?';
   }
-
+  
   if (typeof name !== 'undefined') {
-    query += ' AND product_name = ?';
+    query += ' AND Product.product_name = ?';
   }
+  
+  if (typeof product_id !== 'undefined') {
+    query += ' AND Product.product_id = ?';
+  }
+  
+  if (typeof supplier_name !== 'undefined') {
+    query += ' AND Supplier.supplier_name = ?';
+  }
+  
+  if (typeof supplier_address !== 'undefined') {
+    query += ' AND Supplier.address = ?';
+  }
+  
+  if (typeof delivery_speed !== 'undefined') {
+    query += ' AND Supplier.delivery_speed = ?';
+  }
+  
+    const queryParams = [category, features, rating, price, description, name,
+       product_id, supplier_name, supplier_address, 
+       delivery_speed].filter(value => typeof value !== 'undefined');
 
-  const queryParams = [category, features, rating, price, description, name].filter(value => typeof value !== 'undefined');
 
   // Execute the query with parameters
   connection.query(query, queryParams, (err, results) => {

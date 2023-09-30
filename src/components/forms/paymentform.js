@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { Card, Row, Col, FloatingLabel, Form, Button } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { updatePaymentInfo } from '../../actions/orderActions';
+
 
 function PaymentInformationForm() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
   const [formData, setFormData] = useState({
     cardNumber: '',
     expirationDate: '',
@@ -23,17 +29,45 @@ function PaymentInformationForm() {
 
   const [validated, setValidated] = useState(false);
 
+
   const handlePaymentInfo = (event) => {
     event.preventDefault();
-
     const form = event.currentTarget;
-
+  
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    }
+      setValidated(true);
+    } else {
+      setValidated(true);
+      const { cardNumber, expirationDate, cvv, cardholderName, 
+        billingAddress, billingCity, billingState, billingZip } = formData;
 
-    setValidated(true);
+      const paymentInfo = {
+        cardNumber,
+        expirationDate,
+        cvv,
+        cardholderName,
+      };
+
+      const billingInfo = {
+        billingAddress,
+        billingCity,
+        billingState,
+        billingZip,
+      };
+
+      dispatch(updatePaymentInfo({ userId: user ? user.user_id : undefined, billingInfo, paymentInfo}))
+        .then(() => {
+          // Payment info update was successful, perform actions like clearing input fields or showing a success message
+          // Clear input fields or perform other actions as needed
+        })
+        .catch((error) => {
+          // Handle the error here (e.g., show an error message to the user)
+          console.error('Payment info update failed:', error);
+        });
+    }
   };
+  
 
   return (
     <>

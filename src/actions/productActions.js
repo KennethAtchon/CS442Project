@@ -7,7 +7,8 @@ import {
   import { API } from 'aws-amplify';
   
   // Action to fetch products based on criteria
-  export const getProduct = ({category, features, rating, price, description, name}) => (dispatch) => {
+  export const getProduct = ({category, features, rating, price, description,
+     name, product_id, supplier_name, supplier_address, delivery_speed}) => (dispatch) => {
     dispatch({ type: GET_PRODUCT_REQUEST });
   
     // Define your API request with the specified criteria
@@ -18,6 +19,10 @@ import {
       price,
       description,
       name,
+      product_id,
+      supplier_name,
+      supplier_address,
+      delivery_speed,
     };
 
 
