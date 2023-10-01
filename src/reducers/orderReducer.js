@@ -15,7 +15,7 @@ const initialState = {
   paymentInfo: {},
   loading: false,
   error: null,
-  orderData: null,
+  orderData: {},
 };
 
 const orderReducer = (state = initialState, action) => {

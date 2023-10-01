@@ -19,7 +19,8 @@ function App() {
 
   useEffect(() => {
     //fetchClient();
-    if(!localStorage.getItem('authToken')){
+    if(localStorage.getItem('authToken') != null){
+      console.log("signing with token")
       dispatch(signInWithToken());
     }
     dispatch(updateCart({}))

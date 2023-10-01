@@ -34,14 +34,27 @@ export const OrderProductLink = ({ orderid, cartItems }) => (dispatch) => {
     }
   )};
 
+export const getOrder = ({ orderId}) => (dispatch) =>{
 
+  API.get('api', '/getorder',{
+    body: {
+      orderId
+    }
+  }).then((response) => {
+    console.log(response)
+    
+    //dispatch({ type: CREATE_ORDER_SUCCESS, date, userId, total, orderid});
+
+  })
+  .catch((error) => {
+    // Dispatch a failure action with the error message
+    dispatch({ type: CREATE_ORDER_FAILURE, error });
+
+  });
+}
 // Define the action creator for creating an order
 export const createOrder = ({ date, userId, total }) => (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
-
-  console.log(date);
-  console.log(userId);
-  console.log(total);
 
   return new Promise((resolve, reject) => {
     API.post('api', '/createorder', {

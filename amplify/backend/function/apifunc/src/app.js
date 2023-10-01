@@ -69,6 +69,24 @@ app.get('/server/*', function(req, res) {
   res.json({success: 'get call succeed!', url: req.url});
 });
 
+app.get('/getorder', function(req, res) {
+  const orderId = req.body.orderId;
+
+  connection.query(
+    'SELECT * FROM orders WHERE order_id = ?',
+    [orderId],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error '
+        });
+      }
+      res.json({ order: results})
+    })
+  
+
+});
+
 /****************************
 * Example post method *
 ****************************/

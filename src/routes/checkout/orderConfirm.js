@@ -4,18 +4,25 @@ import { Container, Row, Col, Alert, Button, Card, ListGroup } from 'react-boots
 import './orderConfirm.css'; // Import your custom CSS for additional styling
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { getOrder } from '../../actions/orderActions';
 
 function OrderConfirm() {
   const { orderid } = useParams();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const orders = useSelector((state) => state.orders);
+  console.log(orders)
 
   const shippinginfo = user ? JSON.parse(user.shipping_info) : orders.shippingInfo;
 
   useEffect(() => {
-    if(orders.shippingInfo === 0 && !user){
+    if(Object.keys(orders.shippingInfo).length === 0 && !user){
       navigate('/error')
+    }
+
+    if(Object.keys(orders.orderData).length === 0){
+      dispatch(getOrder({orderid}))
     }
 
   })
@@ -46,7 +53,7 @@ function OrderConfirm() {
                   <li>Item 2</li>
                   {/* Include a list of purchased items */}
                 </ul>
-                <p>Total: <span className="total">$49.98</span></p>
+                <p>Total: <span className="total">${orders.orderData.total}</span></p>
                 </Card.Body>
                 <ListGroup variant="flush">
                   <ListGroup.Item>
