@@ -38,10 +38,11 @@ const Reviews = ({ reviews }) => {
       {reviews.map((review, index) => (
         <Review
           key={index}
-          userName={review.userName}
-          reviewText={review.reviewText}
-          starRating={review.starRating}
-          reviewDate={review.reviewDate}
+          // include review.username
+          userName={review.review_id}
+          reviewText={review.comment}
+          starRating={review.rating}
+          reviewDate={review.review_datetime}
         />
       ))}
     </div>

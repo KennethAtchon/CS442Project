@@ -98,6 +98,89 @@ app.post('/', function(req, res) {
 
 });
 
+
+app.post('/createreview', function (req, res) {
+  const { productId, userId, reviewText, rating, date } = req.body;
+
+  // Construct the SQL query to insert a new review into the Reviews table
+  connection.query(
+    'INSERT INTO Review (product_id, user_id, comment, rating, review_datetime) VALUES (?, ?, ?, ?, ?)',
+    [productId, userId, reviewText, rating, date],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error'
+        });
+      }
+      res.json({ message: 'Review created successfully', reviewId: results.insertId });
+    }
+  );
+});
+
+// include review name in db
+app.post('/getreviews', function (req, res) {
+  const { productId } = req.body;
+
+  // Construct the SQL query to select reviews for a product
+  connection.query(
+    'SELECT * FROM Review WHERE product_id = ?',
+    [productId],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error'
+        });
+      }
+      res.json({ reviews: results });
+    }
+  );
+});
+
+app.post('/checkreview', async function (req, res) {
+  const { productId, userId } = req.body;
+
+  try {
+    // Query to check if the user has already reviewed the product
+    const [reviewResults] = await connection.promise().query(
+      'SELECT COUNT(*) AS reviewCount FROM Review WHERE product_id = ? AND user_id = ?',
+      [productId, userId]
+    );
+
+    const hasReviewed = reviewResults[0].reviewCount > 0;
+
+    if (hasReviewed) {
+      res.json({ canReview: true }); 
+      return;
+    }
+
+    // Query to check if the user has ordered the product
+    const [orderResults] = await connection.promise().query(
+      'SELECT EXISTS (' +
+      '  SELECT 1 FROM orders ' +
+      '  WHERE user_id = ? AND order_id IN (' +
+      '    SELECT order_id FROM Order_Product WHERE product_id = ?' +
+      '  )' +
+      ') AS hasOrdered',
+      [userId, productId]
+    );
+
+    const hasOrdered = orderResults[0].hasOrdered === 1;
+    res.json({ canReview: hasOrdered });
+
+  } catch (error) {
+    console.error('Database error:', error);
+    res.status(500).json({
+      error: 'Database error'
+    });
+  }
+});
+
+
+
+
+
+
+
 app.post('/getorderproduct', function (req, res) {
   const { orderId } = req.body; 
 

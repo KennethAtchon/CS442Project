@@ -1,46 +1,67 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Container, Row, Col, Card, ProgressBar, Button, Form, FloatingLabel } from 'react-bootstrap';
 import UsersReviews from './usersReviews';
 import Rating from 'react-rating-stars-component';
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import {createReview, getReview, checkReview} from '../../actions/reviewActions';
 import './reviewSection.css'
 
-function ProductReviewSection() {
-  const totalRating = 1000; // Total global ratings
-  const globalRating = 4.5; // Global rating out of 5
-  const starRatings = [300, 250, 200, 150, 100];
-  const [validated, setValidated] = useState(false);
+  function calculateRatings(reviews) {
+    let globalRating = 0;
+    let starRatings = [ 0, 0, 0, 0, 0 ]
+  
+    for (const review of reviews) {
+      const rating = parseFloat(review.rating);
+      globalRating += rating;
+      console.log(rating)
+  
+      // Count the star ratings
+      if (rating >= 1 && rating < 2) {
+        starRatings[0]++;
+      } else if (rating >= 2 && rating < 3) {
+        starRatings[1]++;
+      } else if (rating >= 3 && rating < 4) {
+        starRatings[2]++;
+      } else if (rating >= 4 && rating < 5) {
+        starRatings[3]++;
+      } else if (rating >= 5) {
+        starRatings[4]++;
+      }
+    }
+    // Calculate the average global rating
+    if (reviews.length > 0) {
+      globalRating /= reviews.length;
+    }
+  
+    return { globalRating, starRatings };
+  }
 
+function ProductReviewSection() {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const [validated, setValidated] = useState(false);
+  const reviews = useSelector((state) => state.reviews.reviews);
+
+  const totalRating = reviews.length !== 0 ? reviews.length: 0; // Total global ratings
+  const { globalRating, starRatings } = calculateRatings(reviews);
+
+  
   const noReviews = [];
 
-  // Reviews with 3 reviews
-  const reviewsWithThree = [
-    {
-      userName: 'User1',
-      reviewText: 'This is the first review.',
-      starRating: 4,
-      reviewDate: '2023-09-18',
-    },
-    {
-      userName: 'User2',
-      reviewText: 'This is the second review.',
-      starRating: 5,
-      reviewDate: '2023-09-19',
-    },
-    {
-      userName: 'User3',
-      reviewText: 'This is the third review.',
-      starRating: 3,
-      reviewDate: '2023-09-20',
-    },
-    {
-      userName: 'User4',
-      reviewText: 'This is the last review.',
-      starRating: 4.5,
-      reviewDate: '2023-09-20',
-    },
-  ];
-
-
+  useEffect(() => {
+    console.log(reviews)
+    if(reviews.length === 0){
+      dispatch( getReview({productId: id}))
+      
+      if(user){
+        dispatch(checkReview({productId: id, userId: user.user_id}))
+      }
+      
+    }
+    
+  }, [dispatch, id]);
 
   const [formData, setFormData] = useState({
     reviewRating: 0, // Initialize with an empty string
@@ -89,18 +110,19 @@ function ProductReviewSection() {
               <p>{totalRating} global ratings</p>
 
               <div className="star-progress-bars">
-                {starRatings.map((rating, index) => (
-                  <div key={rating} className="star-progress-bar">
-                    <span>{5 - index} star</span>
-                    <ProgressBar now={(rating / totalRating) * 100} label={`${(rating / totalRating) * 100}%`} variant='warning' />
-                  </div>
-                ))}
+              {starRatings.slice().reverse().map((rating, index) => (
+              <div key={rating} className="star-progress-bar">
+                <span>{5- index} star</span>
+                <ProgressBar now={(rating / totalRating) * 100} label={`${(rating / totalRating) * 100}%`} variant='warning' />
+              </div>
+            ))}
               </div>
 
             </Card.Body>
           </Card>
 
-        <Card className='mt-3'>
+        {user ? (
+          <Card className='mt-3'>
           <Card.Body>
             <h5>Write Your Own Review</h5>
             <Form noValidate validated={validated} onSubmit={handleSubmitReview}>
@@ -139,6 +161,7 @@ function ProductReviewSection() {
             </Form>
           </Card.Body>
         </Card>
+        ): null}
 
         </Col>
         
@@ -147,7 +170,7 @@ function ProductReviewSection() {
           <Card>
             <Card.Body className='reviews-size'>
               <h5>Product Reviews</h5>
-              < UsersReviews reviews={reviewsWithThree} />
+              < UsersReviews reviews={reviews} />
             </Card.Body>
           </Card>
         </Col>

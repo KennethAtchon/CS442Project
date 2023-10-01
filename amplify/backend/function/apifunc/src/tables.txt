@@ -68,12 +68,11 @@ CREATE TABLE IF NOT EXISTS FAQ (
 
 CREATE TABLE IF NOT EXISTS Review (
     review_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL, -- Foreign key to link reviews to users
-    product_id INT NOT NULL, -- Foreign key to link reviews to products
+    user_id INT NOT NULL, 
+    product_id INT NOT NULL, 
     comment TEXT NOT NULL,
-    rating DECIMAL(3, 2) NOT NULL, -- Assuming a rating out of 5 with 2 decimal places
+    rating DECIMAL(3, 2) NOT NULL, 
     review_datetime DATETIME NOT NULL,
-    -- Other review-related attributes
     FOREIGN KEY (user_id) REFERENCES User(user_id),
     FOREIGN KEY (product_id) REFERENCES Product(product_id)
 );

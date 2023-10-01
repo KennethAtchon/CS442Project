@@ -13,8 +13,7 @@ const rootReducer = combineReducers({
   // faq: faqReducer, // Include faqReducer
   orders: orderReducer, // Include orderReducer
   products: productReducer, // Include productReducer
-  // reviews: reviewReducer, // Include reviewReducer
-  // // Add other reducers here if needed
+  reviews: reviewReducer, // Include reviewReducer
 });
 
 export default rootReducer;
