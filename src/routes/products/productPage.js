@@ -1,7 +1,6 @@
 // ProductDetail.js
 import React, {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import AppNavbar from '../../components/navbar'; // Import the AppNavbar component
 import ReviewSection from '../../components/reviews/reviewSection'
@@ -14,15 +13,16 @@ import './productPage.css'; // Import the CSS file
 const ProductPage = () => {
   const { id } = useParams(); // Get the product ID from the URL parameter
   const dispatch = useDispatch();
-  const globalRating = 4.5;
   const [quantity, setQuantity] = useState(1);
   const [imageError, setImageError] = useState(false);
   const user = useSelector((state) => state.auth.user);
   const products = useSelector((state) => state.products.products);
   const product = products.find((product) => product.product_id === parseInt(id));
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Dispatch the getProduct action with the product_id from the URL parameter
+    
 
     if(!product){
       dispatch(getProduct({ product_id: id }))
@@ -65,6 +65,14 @@ const ProductPage = () => {
     // Dispatch the updateCart action with the product data
     dispatch(updateCart({ userId: user ? user.user_id : undefined, cartData: cartItem }));
   };
+
+  const handleCheckout = () => {
+    // First, add the product to the cart
+    handleAddToCart();
+
+    // Then, navigate to /checkout
+    navigate('/checkout');
+  };
   
 
   return (
@@ -92,7 +100,7 @@ const ProductPage = () => {
           {/* Product Rating */}
           <div className="rating-container">  
                 <Rating
-                  value={globalRating}
+                  value={product.rating}
                   edit={false}
                   isHalf={true}
                   activeColor="#FFD700"
@@ -147,11 +155,11 @@ const ProductPage = () => {
       </ListGroup.Item>
 
       <ListGroup.Item className="text-center">
-        <Link to="/checkout">
-      <Button variant="success" >
+      <Button variant="success" 
+          onClick={handleCheckout}
+      >
           Checkout
         </Button> 
-        </Link>
       </ListGroup.Item>
 
     </ListGroup>

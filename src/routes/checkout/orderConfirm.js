@@ -1,9 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import AppNavbar from '../../components/navbar'; // Import the AppNavbar component
 import { Container, Row, Col, Alert, Button, Card, ListGroup } from 'react-bootstrap'; // Import React Bootstrap components
 import './orderConfirm.css'; // Import your custom CSS for additional styling
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 function OrderConfirm() {
+  const { orderid } = useParams();
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
+  const orders = useSelector((state) => state.orders);
+
+  const shippinginfo = user ? JSON.parse(user.shipping_info) : orders.shippingInfo;
+
+  useEffect(() => {
+    if(orders.shippingInfo === 0 && !user){
+      navigate('/error')
+    }
+
+  })
+
+  const handleContinue = () => {
+    navigate('/')
+  }
+
   return (
     <div>
       <AppNavbar />
@@ -13,7 +33,7 @@ function OrderConfirm() {
           <Col md={6} className="confirmation-message">
             <h2>Thank You for Your Order</h2>
             <p>Your order has been successfully placed.</p>
-            <p>Order Confirmation Number: <span className="order-number">123456</span></p>
+            <p>Order Confirmation Number: <span className="order-number">{orderid}</span></p>
           </Col>
           <Col md={6}>
             <Card className="order-details-card">
@@ -22,8 +42,8 @@ function OrderConfirm() {
               </Card.Header>
               <Card.Body>
                 <ul>
-                  <li>Item 1 - $19.99</li>
-                  <li>Item 2 - $29.99</li>
+                  <li>Item 1</li>
+                  <li>Item 2</li>
                   {/* Include a list of purchased items */}
                 </ul>
                 <p>Total: <span className="total">$49.98</span></p>
@@ -31,7 +51,10 @@ function OrderConfirm() {
                 <ListGroup variant="flush">
                   <ListGroup.Item>
                     <h4>Shipping Address</h4>
-                    <p>John Doe<br />123 Main St<br />City, State, ZIP<br />Country</p>
+                    <p>{shippinginfo.firstName} {shippinginfo.lastName}
+                     <br />{shippinginfo.streetAddress}<br />
+                     {shippinginfo.city}, {shippinginfo.state}, {shippinginfo.zip}
+                     <br />{shippinginfo.country}</p>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <h4>Expected Delivery Date</h4>
@@ -55,7 +78,7 @@ function OrderConfirm() {
               <p>Your order is on its way!</p>
               <p>Track your order using the provided tracking number.</p>
             </Alert>
-            <Button href="/">Continue Shopping</Button>
+            <Button onClick={handleContinue}>Continue Shopping</Button>
           </Col>
         </Row>
       </Container>

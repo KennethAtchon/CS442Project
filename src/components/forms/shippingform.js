@@ -53,14 +53,6 @@ function ShippingInformationForm() {
             shippingInfo,
           })
         )
-          .then(() => {
-            // Shipping info update was successful, perform actions like clearing input fields or showing a success message
-            // Clear input fields or perform other actions as needed
-          })
-          .catch((error) => {
-            // Handle the error here (e.g., show an error message to the user)
-            console.error('Shipping info update failed:', error);
-          });
       }
     };
 

@@ -6,11 +6,13 @@ import PaymentInfo from '../../components/forms/paymentform'
 import './checkout.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { createOrder, OrderProductLink } from '../../actions/orderActions';
 
 
 function Checkout() {
   const cartItems = useSelector((state) => state.cart.cart);
-  const orders = useSelector((state) => state.orders)
+  const orders = useSelector((state) => state.orders);
+  const user = useSelector((state) => state.auth.user);
 
   const calculateOrderTotal = () => {
     let total = 0;
@@ -19,13 +21,47 @@ function Checkout() {
     }
     return total;
   };
+  const total = calculateOrderTotal();
 
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
   // Function to handle form submission
   const handleCheckout = (e) => {
     e.preventDefault();
 
-    console.log('Orders:', orders);
+  console.log('user:', user);
+
+  if(!user && (Object.keys(orders.paymentInfo).length === 0 || Object.keys(orders.shippingInfo).length === 0)){
+    console.log("Please fill all the forms.")
+    return;
+  }
+
+  if(cartItems.length === 0){
+    console.log("Nothing in cart")
+    return;
+  }
+  const currentDate = new Date();
+  const currentDate2 = currentDate.toString()
+
+
+  dispatch(createOrder({ date: currentDate2, userId: user ? user.user_id : undefined, total }))
+  .then((orderid) => {
+
+    // use order id to call a function create order and product link, 
+    dispatch(OrderProductLink({orderid, cartItems}))
+
+    navigate(`/checkout/${orderid}`)
+    
+  })
+  .catch((error) => {
+    console.error(error); // Handle the error
+    // Show an error message or perform error handling as needed.
+  });
+
+
+
+    
 
     
   };
@@ -74,7 +110,7 @@ function Checkout() {
                     <>
                       <div className="order-summary-item">
                         <div>Items:</div>
-                        <div className="text-right">${calculateOrderTotal().toFixed(2)}</div>
+                        <div className="text-right">${total.toFixed(2)}</div>
                       </div>
                       <div className="order-summary-item">
                         <div>Shipping & handling:</div>
@@ -82,12 +118,12 @@ function Checkout() {
                       </div>
                       <div className="order-summary-item">
                         <div>Total before tax:</div>
-                        <div className="text-right">{(calculateOrderTotal() + 10).toFixed(2)}</div>
+                        <div className="text-right">{(total + 10).toFixed(2)}</div>
                       </div>
                       <hr />
                       <div className="order-summary-item">
                         <div>Order total:</div>
-                        <div className="text-right">${(calculateOrderTotal() * 1.07 + 10).toFixed(2)}</div>
+                        <div className="text-right">${(total * 1.07 + 10).toFixed(2)}</div>
                       </div>
                     </>
                   )}

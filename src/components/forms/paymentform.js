@@ -57,14 +57,7 @@ function PaymentInformationForm() {
       };
 
       dispatch(updatePaymentInfo({ userId: user ? user.user_id : undefined, billingInfo, paymentInfo}))
-        .then(() => {
-          // Payment info update was successful, perform actions like clearing input fields or showing a success message
-          // Clear input fields or perform other actions as needed
-        })
-        .catch((error) => {
-          // Handle the error here (e.g., show an error message to the user)
-          console.error('Payment info update failed:', error);
-        });
+        
     }
   };
   
@@ -127,7 +120,7 @@ function PaymentInformationForm() {
                   </FloatingLabel>
                 </Col>
                 <Col>
-                  <FloatingLabel controlId="cardholderName" label="Card Name">
+                  <FloatingLabel controlId="cardholderName" label="CardHolder">
                     <Form.Control
                       type="text"
                       name="cardholderName"

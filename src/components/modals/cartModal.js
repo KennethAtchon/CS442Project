@@ -4,9 +4,11 @@ import { Modal, Button, Row, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import { updateCart } from '../../actions/authActions';
+import { useNavigate } from 'react-router-dom';
 
 const ShoppingCartModal = ({ show, onHide}) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.cart);
 
   const calculateTotal = () => {
@@ -19,8 +21,9 @@ const ShoppingCartModal = ({ show, onHide}) => {
   };
 
   const handleCheckout = () => {
-    // Add your checkout logic here
-    // For example, you can navigate to a checkout page or perform further actions
+    // Then, navigate to /checkout
+    navigate('/checkout');
+
   };
 
   const handleRemoveItem = (index) => {

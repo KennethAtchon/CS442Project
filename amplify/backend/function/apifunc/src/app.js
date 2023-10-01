@@ -80,6 +80,71 @@ app.post('/', function(req, res) {
 
 });
 
+app.post('/orderproduct', function (req, res) {
+  const {  orderid, cartItems } = req.body; // Extract userId, date, and total from the request body
+
+  // Construct the SQL INSERT query for creating an order
+  
+
+  for (const item of cartItems) {
+    let query = 'INSERT INTO Order_Product SET ? ';
+
+    const neworder = {
+    order_id: orderid,
+    product_id: item.product_id,
+    quantity: item.quantity
+    }
+
+    connection.query(query, neworder, (err, results) => {
+      if (err) {
+        console.error('Database error:', err);
+        res.status(500).json({ error: err });
+        } 
+      })
+
+  }
+
+  res.json({ message: 'Order Product link created successfully' });
+  
+
+  
+});
+
+
+app.post('/createorder', function (req, res) {
+  const {  date, userId, total } = req.body; // Extract userId, date, and total from the request body
+
+  // Construct the SQL INSERT query for creating an order
+  let query = 'INSERT INTO orders SET ? ';
+  var neworder;
+
+  if(!userId){
+    neworder = {
+    order_date: date,
+    total_price: total
+    
+  }
+  }else{
+    neworder = {
+      order_date: date,
+      user_id: userId,
+      total_price: total
+    }
+
+  }
+  
+  // Execute the query with userId, date, and total as parameters
+  connection.query(query, neworder, (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      res.status(500).json({ error: err });
+    } else {
+      // Send a success response if the order creation is successful
+      res.json({ message: 'Order created successfully', results });
+    }
+  });
+});
+
 app.post('/updatecart', function(req, res) {
   const { userId, cart } = req.body; // Extract userId and cart from the request body
 
@@ -90,7 +155,7 @@ app.post('/updatecart', function(req, res) {
   connection.query(query, [JSON.stringify(cart), userId], (err, results) => {
     if (err) {
       console.error('Database error:', err);
-      return res.status(500).json({ error: 'Database error' });
+      res.status(500).json({ error: err});
     }
 
     // Send a success response if the update is successful
@@ -108,7 +173,7 @@ app.post('/updateshipping', function(req, res) {
   connection.query(query, [JSON.stringify(shippingInfo), userId], (err, results) => {
     if (err) {
       console.error('Database error:', err);
-      return res.status(500).json({ error: 'Database error' });
+      return res.status(500).json({ error: err});
     }
 
     // Send a success response if the update is successful
@@ -120,13 +185,13 @@ app.post('/updatepayment', function(req, res) {
   const { userId, billingInfo, paymentInfo } = req.body; // Extract userId, billingInfo, and paymentInfo from the request body
 
   // Construct the SQL UPDATE query for payment info
-  let query = 'UPDATE User SET billing_info = ?, payment_info = ? WHERE user_id = ?';
+  let query = 'UPDATE User SET billing_info = ? AND payment_info = ? WHERE user_id = ?';
 
   // Execute the query with billingInfo, paymentInfo, and userId as parameters
   connection.query(query, [JSON.stringify(billingInfo), JSON.stringify(paymentInfo), userId], (err, results) => {
     if (err) {
       console.error('Database error:', err);
-      return res.status(500).json({ error: 'Database error' });
+      return res.status(500).json({ error: err});
     }
 
     // Send a success response if the update is successful
@@ -196,7 +261,7 @@ app.post('/getProducts', function(req,res){
   connection.query(query, queryParams, (err, results) => {
     if (err) {
       console.error('Database error:', err);
-      return res.status(500).json({ error: 'Database error' });
+      return res.status(500).json({ error: err});
     }
 
     // Send the list of products as part of the response

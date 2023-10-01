@@ -136,7 +136,7 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
     if(cartData){
         const existingItemIndex = cart.findIndex(item => item.product_id === cartData.product_id);
 
-        if (existingItemIndex == 0) {
+        if (existingItemIndex >= 0) {
             // If the item already exists in the cart, update its quantity or perform other actions as needed
             // For example, you can update the quantity:
             cart[existingItemIndex].quantity += cartData.quantity;
@@ -148,9 +148,11 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
 
     if(removeIndex !== undefined){
         if(removeIndex === 0){
-            cart.splice(1);
+            cart.shift();
+        }else{
+            cart.splice(removeIndex, 1);
         }
-        cart.splice(removeIndex, 1);
+        
     }
 
 
