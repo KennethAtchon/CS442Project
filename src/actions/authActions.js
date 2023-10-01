@@ -115,9 +115,9 @@ export const signInWithToken = () => async (dispatch) => {
         });
 
         // Dispatch a success action with the user data
+        
         dispatch({ type: SIGN_IN_SUCCESS, user: response.decoded.user });
-
-        localStorage.setItem('cartItems', response.user.cart);
+        localStorage.setItem('cartItems', response.decoded.user.cart);
         dispatch({ type: UPDATE_CART_SUCCESS, Cart:  JSON.parse(response.decoded.user.cart)});
 
     } catch (error) {

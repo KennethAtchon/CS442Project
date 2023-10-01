@@ -69,12 +69,12 @@ app.get('/server/*', function(req, res) {
   res.json({success: 'get call succeed!', url: req.url});
 });
 
-app.get('/getorder', function(req, res) {
-  const orderId = req.body.orderId;
+app.post('/getorder', function(req, res) {
+  const {orderId} = req.body;
 
   connection.query(
     'SELECT * FROM orders WHERE order_id = ?',
-    [orderId],
+    orderId,
     (error, results) => {
       if (error) {
         return res.status(500).json({
@@ -97,6 +97,30 @@ app.post('/', function(req, res) {
 
 
 });
+
+app.post('/getorderproduct', function (req, res) {
+  const { orderId } = req.body; 
+
+  // Construct the SQL query to select product_id and product_name using a JOIN
+  connection.query(
+    'SELECT OP.product_id, P.product_name ' +
+    'FROM Order_Product AS OP ' +
+    'INNER JOIN Product AS P ON OP.product_id = P.product_id ' +
+    'WHERE OP.order_id = ?',
+    orderId,
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error'
+        });
+      }
+      res.json({ message: 'Order Product link sent', order: results });
+    }
+  );
+});
+
+
+
 
 app.post('/orderproduct', function (req, res) {
   const {  orderid, cartItems } = req.body; // Extract userId, date, and total from the request body

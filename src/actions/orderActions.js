@@ -8,7 +8,8 @@ import {
     UPDATE_PAYMENT_INFO_FAILURE,
     CREATE_ORDER_REQUEST,
     CREATE_ORDER_SUCCESS, 
-    CREATE_ORDER_FAILURE
+    CREATE_ORDER_FAILURE,
+    GET_ORDER_PRODUCT_SUCCESS
   } from './actionTypes';
 import { API } from 'aws-amplify';
 
@@ -34,24 +35,47 @@ export const OrderProductLink = ({ orderid, cartItems }) => (dispatch) => {
     }
   )};
 
-export const getOrder = ({ orderId}) => (dispatch) =>{
-
-  API.get('api', '/getorder',{
+export const getOrderProduct = ({ orderId }) => (dispatch) =>{
+  API.post('api', '/getorderproduct',{
     body: {
       orderId
     }
   }).then((response) => {
-    console.log(response)
     
-    //dispatch({ type: CREATE_ORDER_SUCCESS, date, userId, total, orderid});
+    dispatch({ type: GET_ORDER_PRODUCT_SUCCESS, orderproduct: response.order});
 
   })
   .catch((error) => {
     // Dispatch a failure action with the error message
+
     dispatch({ type: CREATE_ORDER_FAILURE, error });
 
   });
 }
+
+export const getOrder = ({ orderId}) => (dispatch) =>{
+
+  API.post('api', '/getorder',{
+    body: {
+       orderId
+    }
+  }).then((response) => {
+    const order = response.order
+    const { order_date, order_id, total_price, user_id} = order[0]
+
+    dispatch({ type: CREATE_ORDER_SUCCESS, date: order_date, userId: user_id, total: total_price, orderId: order_id});
+
+  })
+  .catch((error) => {
+    // Dispatch a failure action with the error message
+
+    dispatch({ type: CREATE_ORDER_FAILURE, error });
+
+  });
+}
+
+
+
 // Define the action creator for creating an order
 export const createOrder = ({ date, userId, total }) => (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });

@@ -4,7 +4,7 @@ import { Container, Row, Col, Alert, Button, Card, ListGroup } from 'react-boots
 import './orderConfirm.css'; // Import your custom CSS for additional styling
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrder } from '../../actions/orderActions';
+import { getOrder, getOrderProduct } from '../../actions/orderActions';
 
 function OrderConfirm() {
   const { orderid } = useParams();
@@ -12,17 +12,17 @@ function OrderConfirm() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const orders = useSelector((state) => state.orders);
-  console.log(orders)
-
   const shippinginfo = user ? JSON.parse(user.shipping_info) : orders.shippingInfo;
 
   useEffect(() => {
-    if(Object.keys(orders.shippingInfo).length === 0 && !user){
-      navigate('/error')
+    
+    if(Object.keys(orders.orderData).length === 0){
+      dispatch(getOrder({orderId: orderid}))
+      dispatch(getOrderProduct({orderId: orderid}))
     }
 
-    if(Object.keys(orders.orderData).length === 0){
-      dispatch(getOrder({orderid}))
+    if(Object.keys(shippinginfo).length === 0 && !user){
+      //navigate('/error')
     }
 
   })
@@ -49,8 +49,9 @@ function OrderConfirm() {
               </Card.Header>
               <Card.Body>
                 <ul>
-                  <li>Item 1</li>
-                  <li>Item 2</li>
+                {orders.orderProduct && orders.orderProduct.map((item) => (
+                  <li>{item.product_name}</li>
+                ))}
                   {/* Include a list of purchased items */}
                 </ul>
                 <p>Total: <span className="total">${orders.orderData.total}</span></p>
@@ -61,7 +62,7 @@ function OrderConfirm() {
                     <p>{shippinginfo.firstName} {shippinginfo.lastName}
                      <br />{shippinginfo.streetAddress}<br />
                      {shippinginfo.city}, {shippinginfo.state}, {shippinginfo.zip}
-                     <br />{shippinginfo.country}</p>
+                     <br />{shippinginfo.countryRegion}</p>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <h4>Expected Delivery Date</h4>

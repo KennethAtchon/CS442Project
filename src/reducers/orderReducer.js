@@ -8,6 +8,7 @@ import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_FAILURE,
+  GET_ORDER_PRODUCT_SUCCESS
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -57,6 +58,13 @@ const orderReducer = (state = initialState, action) => {
         },
         loading: false,
       };
+
+      case GET_ORDER_PRODUCT_SUCCESS:
+        return {
+          ...state,
+          orderProduct: action.orderproduct,
+          loading: false,
+        };
 
     case UPDATE_SHIPPING_INFO_FAILURE:
     case UPDATE_PAYMENT_INFO_FAILURE:
