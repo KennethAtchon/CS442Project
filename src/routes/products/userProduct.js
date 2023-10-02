@@ -7,7 +7,7 @@ import { getUserProduct } from '../../actions/productActions';
 import './productList.css';
 
 
-const userProduct = () => {
+const UserProduct = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch(); // Get the dispatch function
   const products = useSelector((state) => state.products);
@@ -48,4 +48,4 @@ const userProduct = () => {
   );
 }
 
-export default userProduct;
+export default UserProduct;

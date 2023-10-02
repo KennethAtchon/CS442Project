@@ -8,6 +8,9 @@ export const SIGN_IN_SUCCESS = 'SIGN_IN_SUCCESS';
 export const SIGN_IN_FAILURE = 'SIGN_IN_FAILURE';
 export const SIGN_OUT = 'SIGN_OUT';
 
+export const CHANGE_SETTING_SUCCESS = 'CHANGE_SETTING_SUCCESS';
+export const CHANGE_SETTING_FAILURE = 'CHANGE_SETTING_FAILURE';
+
 // Product related action types
 export const GET_PRODUCT_REQUEST = 'GET_PRODUCT_REQUEST';
 export const GET_PRODUCT_SUCCESS = 'GET_PRODUCT_SUCCESS';

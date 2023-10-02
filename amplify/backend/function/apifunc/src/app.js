@@ -233,15 +233,15 @@ app.post('/checkreview', async function (req, res) {
 });
 
 
-app.post('/getuserorders', function(req, res) {
+app.post('/getuserproducts', function(req, res) {
   const { userId } = req.body;
 
   // Construct the SQL query to select reviews for a product
   connection.query(
-    'SELECT Product.* FROM Orders '+
-    ' INNER JOIN Order_Product ON Orders.order_id = Order_Product.order_id ' +
+    'SELECT Product.* FROM orders '+
+    ' INNER JOIN Order_Product ON orders.order_id = Order_Product.order_id ' +
     ' INNER JOIN Product ON Order_Product.product_id = Product.product_id ' +
-    'WHERE Orders.user_id = ?',
+    'WHERE orders.user_id = ?',
     [userId],
     (error, results) => {
       if (error) {
@@ -403,8 +403,6 @@ app.post('/updatepayment', function(req, res) {
 });
 
 
-
-
 app.post('/getProducts', function(req,res){
   const { category, features, rating, price, description, name, 
     product_id, supplier_name, supplier_address, delivery_speed } = req.body;// Extract criteria from the request body
@@ -472,6 +470,96 @@ app.post('/getProducts', function(req,res){
   });
 
 });
+
+app.post('/changesettings', function(req, res) {
+  const { userId, username, email, currentpassword, password } = req.body;
+
+  // Construct the SQL query to update User table with the given parameters
+  let query = 'UPDATE User SET ';
+
+  const queryParams = [];
+
+  if (typeof username !== 'undefined') {
+    query += ' username = ?,';
+    queryParams.push(username);
+  }
+
+  if (typeof email !== 'undefined') {
+    query += ' email = ?,';
+    queryParams.push(email);
+  }
+
+  if (typeof currentpassword !== 'undefined' && typeof password !== 'undefined') {
+    // First, fetch the hashed password from the database
+    connection.query('SELECT password FROM User WHERE user_id = ?', [userId], (err, results) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: err.message }); // Send the actual error message
+      }
+
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+
+      const storedPasswordHash = results[0].password;
+
+      // Now, compare the current password with the stored hash
+      bcrypt.compare(currentpassword, storedPasswordHash, (compareError, isPasswordMatch) => {
+        if (compareError) {
+          return res.status(500).json({ error: compareError.message }); // Send the actual error message
+        }
+
+        if (!isPasswordMatch) {
+          return res.status(401).json({ error: 'Incorrect current password' });
+        }
+
+        // If the passwords match, hash and update the new password
+        bcrypt.hash(password, 10, (hashError, hashedPassword) => {
+          if (hashError) {
+            return res.status(500).json({
+              error: hashError.message // Send the actual error message
+            });
+          }
+
+          query += ' password = ?,';
+          queryParams.push(hashedPassword);
+
+          // Remove the trailing comma and add WHERE clause to update the specific user
+          query = query.slice(0, -1); // Remove the trailing comma
+          query += ' WHERE user_id = ?';
+          queryParams.push(userId);
+
+          // Execute the query with parameters to update the user's settings
+          connection.query(query, queryParams, (updateError, result) => {
+            if (updateError) {
+              console.error('Database error:', updateError);
+              return res.status(500).json({ error: updateError.message }); // Send the actual error message
+            }
+
+            res.json({ message: 'Settings updated successfully' });
+          });
+        });
+      });
+    });
+  } else {
+
+    query = query.slice(0, -1); // Remove the trailing comma
+    query += ' WHERE user_id = ?';
+    queryParams.push(userId);
+
+    // Execute the query with parameters to update the user's settings
+    connection.query(query, queryParams, (err, result) => {
+      if (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ error: err.message }); // Send the actual error message
+      }
+
+      res.json({ message: 'Settings updated successfully' });
+    });
+  }
+});
+
+
 
 app.post('/signup', function (req, res) {
   
@@ -541,13 +629,13 @@ app.post('/signup', function (req, res) {
       return res.status(500).json({ error: 'Database error' });
     }
 
-    jwt.sign({ user: newUser }, secretKey, { expiresIn: '1h' }, (err, token) => {
+    jwt.sign({ user: results }, secretKey, { expiresIn: '1h' }, (err, token) => {
           if (err) {
             return res.status(500).json({ error: 'Error generating token' });
           }
 
           // Send the token as part of the response
-          res.json({ token, user: newUser });
+          res.json({ token, user: results });
         });
 
       })

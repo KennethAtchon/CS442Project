@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
+import { changeSettings } from '../../actions/authActions'; // Import your changeSettings action
 
-const SettingsModal = ({ show, onHide, user, updateUser }) => {
+const SettingsModal = ({ show, onHide }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const dispatch = useDispatch(); // Initialize useDispatch to dispatch actions
+  const currentUser = useSelector(state => state.auth.user); // Get 
 
   const handleSaveSettings = () => {
-    // Perform validation and update user settings
-    // Call the updateUser function to save changes
-    if (newPassword === confirmPassword) {
-      const updatedUser = {
-        ...user,
-        name,
-        email,
-        // Update other user settings here
-      };
-      updateUser(updatedUser);
-    }
+    // Create an object with the data to send to the action
+    
+    const settingsData = {
+      userId: currentUser.user_id, // Assuming userId is part of the user data
+      username: name === '' ? undefined : name,
+      email: email === '' ? undefined : email,
+      currentpassword: password === '' ? undefined : password,
+      password: newPassword === '' ? undefined : newPassword,
+    };
+    
+
+    // Dispatch the changeSettings action with the settingsData
+    dispatch(changeSettings(settingsData));
+
+    // Close the modal
+    onHide();
   };
 
   return (
@@ -69,15 +78,6 @@ const SettingsModal = ({ show, onHide, user, updateUser }) => {
             />
           </Form.Group>
 
-          <Form.Group controlId="formBasicConfirmPassword">
-            <Form.Label>Confirm New Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Confirm your new password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-          </Form.Group>
         </Form>
       </Modal.Body>
       <Modal.Footer>

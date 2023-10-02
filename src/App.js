@@ -17,6 +17,8 @@ import { API } from 'aws-amplify';
 function App() {
   const dispatch = useDispatch();
 
+  localStorage.clear()
+
   useEffect(() => {
     //fetchClient();
     if(localStorage.getItem('authToken') != null){

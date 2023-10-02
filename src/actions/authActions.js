@@ -8,9 +8,10 @@ import {
     UPDATE_CART_REQUEST,
     UPDATE_CART_SUCCESS,
     UPDATE_CART_FAILURE,
-    REMOVE_CART_ITEMS
+    REMOVE_CART_ITEMS,
 } from './actionTypes';
 import { API } from 'aws-amplify';
+
 
 // Example async action for signing up
 export const  signUp = (username, email, password) => dispatch => {
@@ -24,15 +25,16 @@ export const  signUp = (username, email, password) => dispatch => {
             },
         })
         .then((response) => {
+            console.log(response)
             const { token } = response;
 
             localStorage.setItem('authToken', token);
 
             // Dispatch a success action with the user data
-            dispatch({ type: SIGN_UP_SUCCESS, user: response.user }); // Assuming the API response contains user data
+            dispatch({ type: SIGN_UP_SUCCESS, user: response.user[0] }); // Assuming the API response contains user data
             
-            localStorage.setItem('cartItems', response.user.cart);
-            dispatch({ type: UPDATE_CART_SUCCESS, Cart: JSON.parse( response.user.cart)});
+            localStorage.setItem('cartItems', response.user[0].cart);
+            dispatch({ type: UPDATE_CART_SUCCESS, Cart: JSON.parse( response.user[0].cart)});
             // Resolve the promise to indicate success
             resolve();
         })
@@ -47,6 +49,33 @@ export const  signUp = (username, email, password) => dispatch => {
 }
 
 
+export const changeSettings = ({ userId, username, email, currentpassword, password }) => (dispatch) => {
+
+
+    // Create the request body with the relevant data from the current state or parameters
+    const requestBody = {
+        userId,
+        username,
+        email,
+        currentpassword,
+        password,
+        // Add other relevant data from the current state here if needed
+    };
+
+    // Make the API request to change user settings
+    API.post("api", "/changesettings", {
+        body: requestBody,
+    })
+    .then((response) => {
+        console.log(response)
+    })
+    .catch((error) => {
+        console.log("error big bad: " + error)
+    });
+};
+
+
+
 // Example async action for signing in
 export const signIn = (email, password) => dispatch => {
     return new Promise((resolve, reject) => {
@@ -58,6 +87,7 @@ export const signIn = (email, password) => dispatch => {
             },
         })
         .then((response) => {
+
             const { token } = response;
 
             localStorage.setItem('authToken', token);
