@@ -17,13 +17,6 @@ const initialState = {
 // Define the review reducer function
 const reviewReducer = (state = initialState, action) => {
   switch (action.type) {
-    case CREATE_REVIEW_SUCCESS:
-      return {
-        ...state,
-        reviews: [...state.reviews, action.review], // Add the new review to the state
-        error: null, // Clear any previous errors
-      };
-
     case CREATE_REVIEW_FAILURE:
       return {
         ...state,

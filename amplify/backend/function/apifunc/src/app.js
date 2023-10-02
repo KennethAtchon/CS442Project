@@ -69,6 +69,22 @@ app.get('/server/*', function(req, res) {
   res.json({success: 'get call succeed!', url: req.url});
 });
 
+app.get('/getfaq', (req, res) => {
+  // Construct the SQL query to select FAQ data
+  connection.query(
+    'SELECT * FROM FAQ',
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error'
+        });
+      }
+      res.json({ faq: results });
+    }
+  );
+});
+
+
 app.post('/getorder', function(req, res) {
   const {orderId} = req.body;
 
@@ -102,20 +118,41 @@ app.post('/', function(req, res) {
 app.post('/createreview', function (req, res) {
   const { productId, userId, reviewText, rating, date } = req.body;
 
-  // Construct the SQL query to insert a new review into the Reviews table
-  connection.query(
-    'INSERT INTO Review (product_id, user_id, comment, rating, review_datetime) VALUES (?, ?, ?, ?, ?)',
-    [productId, userId, reviewText, rating, date],
-    (error, results) => {
-      if (error) {
-        return res.status(500).json({
-          error: 'Database error'
-        });
-      }
-      res.json({ message: 'Review created successfully', reviewId: results.insertId });
+  // Construct the SQL query to insert or update a review
+  connection.query('SELECT * FROM Review WHERE product_id = ? AND user_id = ?', [productId, userId], (error, results) => {
+    if (error) {
+      return res.status(500).json({ error: 'Database error' });
     }
-  );
+    
+    if (results.length > 0) {
+      // Review already exists, perform an UPDATE
+      connection.query(
+        'UPDATE Review SET comment = ?, rating = ?, review_datetime = ? WHERE product_id = ? AND user_id = ?',
+        [reviewText, rating, date, productId, userId],
+        (error, updateResults) => {
+          if (error) {
+            return res.status(500).json({ error: 'Database error' });
+          }
+          res.json({ message: 'Review updated successfully' });
+        }
+      );
+    } else {
+      // Review does not exist, perform an INSERT
+      connection.query(
+        'INSERT INTO Review (product_id, user_id, comment, rating, review_datetime) VALUES (?, ?, ?, ?, ?)',
+        [productId, userId, reviewText, rating, date],
+        (error, insertResults) => {
+          if (error) {
+            return res.status(500).json({ error: 'Database error' });
+          }
+          res.json({ message: 'Review created successfully', reviewId: insertResults.insertId });
+        }
+      );
+    }
+  });
+  
 });
+
 
 // include review name in db
 app.post('/getreviews', function (req, res) {
@@ -125,6 +162,26 @@ app.post('/getreviews', function (req, res) {
   connection.query(
     'SELECT * FROM Review WHERE product_id = ?',
     [productId],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error'
+        });
+      }
+      res.json({ reviews: results });
+    }
+  );
+});
+
+app.post('/getuserreviews', function (req, res) {
+  const { userId } = req.body;
+
+  // Construct the SQL query to select reviews for a product
+  connection.query(
+    'SELECT Review.*, Product.product_name FROM Review ' +
+    'INNER JOIN Product ON Review.product_id = Product.product_id ' +
+    'WHERE Review.user_id = ?',
+    [userId],
     (error, results) => {
       if (error) {
         return res.status(500).json({
@@ -164,7 +221,7 @@ app.post('/checkreview', async function (req, res) {
       [userId, productId]
     );
 
-    const hasOrdered = orderResults[0].hasOrdered === 1;
+    const hasOrdered = orderResults[0].hasOrdered > 0;
     res.json({ canReview: hasOrdered });
 
   } catch (error) {
@@ -176,7 +233,28 @@ app.post('/checkreview', async function (req, res) {
 });
 
 
+app.post('/getuserorders', function(req, res) {
+  const { userId } = req.body;
 
+  // Construct the SQL query to select reviews for a product
+  connection.query(
+    'SELECT Product.* FROM Orders '+
+    ' INNER JOIN Order_Product ON Orders.order_id = Order_Product.order_id ' +
+    ' INNER JOIN Product ON Order_Product.product_id = Product.product_id ' +
+    'WHERE Orders.user_id = ?',
+    [userId],
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error'
+        });
+      }
+      res.json({ products: results });
+    }
+  );
+
+
+});
 
 
 
@@ -455,15 +533,24 @@ app.post('/signup', function (req, res) {
         }
       })
 
+    const query = 'SELECT * FROM User WHERE email = ?';
+
+    connection.query(query, [email], (err, results) => {
+    if (err) {
+      console.error('Database error:', err);
+      return res.status(500).json({ error: 'Database error' });
+    }
 
     jwt.sign({ user: newUser }, secretKey, { expiresIn: '1h' }, (err, token) => {
-      if (err) {
-        return res.status(500).json({ error: 'Error generating token' });
-      }
+          if (err) {
+            return res.status(500).json({ error: 'Error generating token' });
+          }
 
-      // Send the token as part of the response
-      res.json({ token, user: newUser });
-    });
+          // Send the token as part of the response
+          res.json({ token, user: newUser });
+        });
+
+      })
   });
 });
 

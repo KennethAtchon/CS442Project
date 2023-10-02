@@ -46,4 +46,38 @@ import {
         return Promise.reject(error);
       });
   };
-  
+
+  export const getUserProduct = ({userId}) => (dispatch) => {
+   dispatch({ type: GET_PRODUCT_REQUEST });
+ 
+   // Define your API request with the specified criteria
+   const request = {
+     userId
+   };
+
+   if (userId === null || userId === undefined) {
+    console.log("null value for userid")
+    return;
+  }
+
+ 
+   // Make an API request to fetch products using AWS Amplify
+   API.post('api', '/getuserorders', {
+     body: request,
+   })
+     .then((response) => {
+       // Dispatch a success action with the fetched products
+       dispatch({ type: GET_PRODUCT_SUCCESS, products: response.products }); // Assuming the API response contains products
+ 
+       // Resolve the promise to indicate success
+       return Promise.resolve(response.products);
+     })
+     .catch((error) => {
+       // Dispatch a failure action with the error message
+       dispatch({ type: GET_PRODUCT_FAILURE, error });
+ 
+       // Reject the promise to indicate an error
+       return Promise.reject(error);
+     });
+ };
+ 

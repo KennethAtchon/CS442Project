@@ -41,3 +41,10 @@ export const GET_REVIEWS_FAILURE = 'GET_REVIEWS_FAILURE';
 
 export const CHECK_REVIEW_SUCCESS = 'CHECK_REVIEW_SUCCESS';
 export const CHECK_REVIEW_FAILURE = 'CHECK_REVIEW_FAILURE';
+
+
+// Define action type constants for the getFAQ action
+export const GET_FAQ_SUCCESS = 'GET_FAQ_SUCCESS';
+export const GET_FAQ_FAILURE = 'GET_FAQ_FAILURE';
+
+

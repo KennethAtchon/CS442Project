@@ -14,7 +14,6 @@ import './reviewSection.css'
     for (const review of reviews) {
       const rating = parseFloat(review.rating);
       globalRating += rating;
-      console.log(rating)
   
       // Count the star ratings
       if (rating >= 1 && rating < 2) {
@@ -33,6 +32,7 @@ import './reviewSection.css'
     if (reviews.length > 0) {
       globalRating /= reviews.length;
     }
+    globalRating = globalRating.toFixed(2);
   
     return { globalRating, starRatings };
   }
@@ -42,23 +42,20 @@ function ProductReviewSection() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [validated, setValidated] = useState(false);
-  const reviews = useSelector((state) => state.reviews.reviews);
+  const reviews = useSelector((state) => state.reviews);
 
-  const totalRating = reviews.length !== 0 ? reviews.length: 0; // Total global ratings
-  const { globalRating, starRatings } = calculateRatings(reviews);
-
-  
-  const noReviews = [];
+  const totalRating = reviews.reviews.length !== 0 ? reviews.reviews.length: 0; // Total global ratings
+  const { globalRating, starRatings } = calculateRatings(reviews.reviews);
 
   useEffect(() => {
     console.log(reviews)
-    if(reviews.length === 0){
+    if(reviews.reviews.length === 0){
       dispatch( getReview({productId: id}))
-      
-      if(user){
-        dispatch(checkReview({productId: id, userId: user.user_id}))
-      }
-      
+
+    }
+
+    if(user !== null){
+      dispatch(checkReview({productId: id, userId: user.user_id}))
     }
     
   }, [dispatch, id]);
@@ -80,12 +77,20 @@ function ProductReviewSection() {
     event.preventDefault();
 
     const form = event.currentTarget;
-
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    }
+      setValidated(true);
+    }else{
 
-    setValidated(true);
+      setValidated(true);
+      const currentDate = new Date();
+      const currentDate2 = currentDate.toString()
+
+      dispatch(createReview({userId: user.user_id, productId: id, reviewText: formData.reviewText, rating: formData.reviewRating, date: currentDate2}))
+
+      dispatch( getReview({productId: id}))
+
+    }
   };
 
 
@@ -111,7 +116,7 @@ function ProductReviewSection() {
 
               <div className="star-progress-bars">
               {starRatings.slice().reverse().map((rating, index) => (
-              <div key={rating} className="star-progress-bar">
+              <div key={index} className="star-progress-bar">
                 <span>{5- index} star</span>
                 <ProgressBar now={(rating / totalRating) * 100} label={`${(rating / totalRating) * 100}%`} variant='warning' />
               </div>
@@ -121,7 +126,7 @@ function ProductReviewSection() {
             </Card.Body>
           </Card>
 
-        {user ? (
+        {user && reviews.canReview ? (
           <Card className='mt-3'>
           <Card.Body>
             <h5>Write Your Own Review</h5>
@@ -170,7 +175,7 @@ function ProductReviewSection() {
           <Card>
             <Card.Body className='reviews-size'>
               <h5>Product Reviews</h5>
-              < UsersReviews reviews={reviews} />
+              < UsersReviews reviews={reviews.reviews} />
             </Card.Body>
           </Card>
         </Col>

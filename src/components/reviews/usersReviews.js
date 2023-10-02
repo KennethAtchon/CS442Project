@@ -41,7 +41,7 @@ const Reviews = ({ reviews }) => {
           // include review.username
           userName={review.review_id}
           reviewText={review.comment}
-          starRating={review.rating}
+          starRating={parseFloat(review.rating).toFixed(2)}
           reviewDate={review.review_datetime}
         />
       ))}

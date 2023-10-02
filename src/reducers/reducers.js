@@ -10,7 +10,7 @@ import cartReducer from './cartReducer';
 const rootReducer = combineReducers({
   auth: authReducer,
   cart: cartReducer,
-  // faq: faqReducer, // Include faqReducer
+  faq: faqReducer, // Include faqReducer
   orders: orderReducer, // Include orderReducer
   products: productReducer, // Include productReducer
   reviews: reviewReducer, // Include reviewReducer

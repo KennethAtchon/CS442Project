@@ -1,24 +1,33 @@
+import React from 'react';
 import Accordion from 'react-bootstrap/Accordion';
+import Rating from 'react-rating-stars-component';
 
-function AllCollapseExample({key}) {
-
-    const data = ["Item 1", "Item 2"]
+function AllCollapseExample({ faqData, reviewData }) {
   return (
-    <Accordion >
-        {data.map((item, index) =>(
-      <Accordion.Item eventKey={`${index}`}>
-        <Accordion.Header>Accordion Item ${index+1}</Accordion.Header>
-        <Accordion.Body>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-          aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-          culpa qui officia deserunt mollit anim id est laborum.
-        </Accordion.Body>
-      </Accordion.Item>            
-        ))}
+    <Accordion>
+      {faqData && faqData.map((faqItem) => (
+        <Accordion.Item key={faqItem.faq_id} eventKey={faqItem.faq_id.toString()}>
+          <Accordion.Header>{faqItem.question}</Accordion.Header>
+          <Accordion.Body>{faqItem.answer}</Accordion.Body>
+        </Accordion.Item>
+      ))}
+      {reviewData && reviewData.map((reviewItem) => (
+        <Accordion.Item key={reviewItem.review_id} eventKey={reviewItem.review_id.toString()}>
+          <Accordion.Header>
+          Product Name
+                </Accordion.Header>
+          <Accordion.Body
+          ><Rating
+                  value={reviewItem.rating}
+                  edit={false}
+                  isHalf={true}
+                  activeColor="#FFD700"
+                /> Review Date: {reviewItem.review_datetime}
+          <br></br>
+          {reviewItem.comment}
+          </Accordion.Body>
+        </Accordion.Item>
+      ))}
 
     </Accordion>
   );

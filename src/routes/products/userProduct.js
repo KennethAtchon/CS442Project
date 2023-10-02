@@ -1,9 +1,29 @@
-import React from 'react';
-import AppNavbar from '../../components/navbar'; // Import the AppNavbar component
-import ProductCard from '../../components/productcard'
-import './userProduct.css'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
+import AppNavbar from '../../components/navbar';
+import ProductCard from '../../components/productcard';
+import { useNavigate } from 'react-router-dom';
+import { getUserProduct } from '../../actions/productActions'; 
+import './productList.css';
 
-function userProduct() {
+
+const userProduct = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch(); // Get the dispatch function
+  const products = useSelector((state) => state.products);
+  const user = useSelector((state) => state.auth.user);
+
+  
+  useEffect(() => {
+
+    if(!user){
+      navigate('/error')
+    }
+
+    dispatch(getUserProduct({userId: user ? user.user_id : undefined}));
+    
+   
+  }, [dispatch]);
 
   return (
     <div>
@@ -14,11 +34,12 @@ function userProduct() {
         <h2 style={{ textAlign: 'center' }} > My Purchased Products</h2>
         
         <div className="product-card-container">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+        {products.products && products.products.map((product) => (
+            <ProductCard product={product} />
+          ))} 
+        {
+          !products.products &&  <h1>You haven't purchased any products.</h1>
+        }
         </div>
       </section>
 
