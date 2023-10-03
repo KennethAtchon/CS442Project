@@ -16,16 +16,13 @@ import { API } from 'aws-amplify';
 
 function App() {
   const dispatch = useDispatch();
-
-  localStorage.clear()
-
   useEffect(() => {
-    //fetchClient();
+    fetchClient();
     if(localStorage.getItem('authToken') != null){
       console.log("signing with token")
       dispatch(signInWithToken());
     }
-    dispatch(updateCart({}))
+    dispatch(updateCart([]))
     
   })
 
@@ -40,7 +37,6 @@ function App() {
 }
 
   return (
-
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
@@ -59,6 +55,3 @@ function App() {
 
 export default App;
 
-
-// individual product page -> were user can write reviews under
-// reviews page
