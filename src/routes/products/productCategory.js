@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import ProductCard from '../../components/productcard';
 import './productList.css';
 import { getProduct } from '../../actions/productActions'; 
+import LoadingSpinner from '../../components/loading/loadingSpinner';
 
 function ProductCategory() {
   const { category } = useParams();
@@ -16,6 +17,7 @@ function ProductCategory() {
   // Dispatch the getProduct action when the component mounts
   useEffect(() => {
     console.log("This should not run alot")
+    console.log(products)
     
     dispatch(getProduct({category: category}));
 
@@ -26,6 +28,10 @@ function ProductCategory() {
     <div>
       <AppNavbar /> 
 
+      { products.products.length === 0 ? (
+        <LoadingSpinner />
+      ): (
+      
       <section className="featured-products">
 
       <h2 style={{ textAlign: 'center' }} > {category.charAt(0).toUpperCase() + category.slice(1)} </h2>
@@ -34,13 +40,10 @@ function ProductCategory() {
         {products.products && products.products.map((product) => (
             <ProductCard product={product} />
           ))} 
-        {
-          products.products.length === 0 &&  <h5>No Products Available for that search</h5>
-        }
         </div>
       </section>
 
-      
+      )}
     </div>
   );
 }

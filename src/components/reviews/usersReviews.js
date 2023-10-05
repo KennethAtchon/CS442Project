@@ -2,12 +2,12 @@ import React from 'react';
 import {Card} from 'react-bootstrap';
 import Rating from 'react-rating-stars-component';
 
-const Review = ({ userName, reviewText, starRating, reviewDate }) => {
+const Review = ({ name, reviewText, starRating, reviewDate }) => {
     return (
       <Card className="mb-3">
         <Card.Body>
           <div className="user-info">
-            <Card.Title>{userName}</Card.Title>
+            <Card.Title>{name}</Card.Title>
             <Card.Subtitle className="mb-2 text-muted"><Rating
                   value={starRating}
                   edit={false}
@@ -38,8 +38,7 @@ const Reviews = ({ reviews }) => {
       {reviews.map((review, index) => (
         <Review
           key={index}
-          // include review.username
-          userName={review.review_id}
+          name={review.review_id}
           reviewText={review.comment}
           starRating={parseFloat(review.rating).toFixed(2)}
           reviewDate={review.review_datetime}

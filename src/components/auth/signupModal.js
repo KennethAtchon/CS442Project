@@ -5,7 +5,7 @@ import { signUp } from '../../actions/authActions';
 
 const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedfunc }) => {
   const dispatch = useDispatch();
-  const [userName, setName] = useState('');
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
@@ -23,7 +23,7 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
 
       setValidated(true);
 
-      dispatch(signUp(userName, email, password))
+      dispatch(signUp(name, email, password))
       .then(() => {
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setName('');
@@ -53,7 +53,7 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
             <Form.Control
               type="text"
               placeholder="Enter name"
-              value={userName}
+              value={name}
               onChange={(e) => setName(e.target.value)}
             />
           </Form.Group>

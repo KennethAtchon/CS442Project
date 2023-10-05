@@ -74,23 +74,3 @@ function ProductCard({ product }) {
 }
 
 export default ProductCard;
-
-
-
-
-
-
-
-// garbage: 
-  //const globalRating = 4.0;
-  // const userState = useSelector((state) => state.auth);
-  // const [displayName, setDisplayName] = useState('Guest');
-
-  // useEffect(() => {
-  //   console.log("user is logged in")
-  //   if (userState.logged) {
-  //     setDisplayName(userState.user.username);
-  //   } else {
-  //     setDisplayName('Guest');
-  //   }
-  // },[userState]);

@@ -7,17 +7,17 @@ const secretKey = process.env.SECRET_KEY;
 
 const app = express.Router();
 
-app.post('/changesettings', function(req, res) {
-    const { userId, username, email, currentpassword, password } = req.body;
+app.post('/changeSettings', function(req, res) {
+    const { userId, name, email, currentpassword, password } = req.body;
   
     // Construct the SQL query to update User table with the given parameters
     let query = 'UPDATE User SET ';
   
     const queryParams = [];
   
-    if (typeof username !== 'undefined') {
-      query += ' username = ?,';
-      queryParams.push(username);
+    if (typeof name !== 'undefined') {
+      query += ' name = ?,';
+      queryParams.push(name);
     }
   
     if (typeof email !== 'undefined') {
@@ -96,15 +96,15 @@ app.post('/changesettings', function(req, res) {
   });
   
 
-app.post('/signup', function (req, res) {
+app.post('/signUp', function (req, res) {
   
     // Extract user registration data from the request body
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
   
     // Validate request data
-    if (!email || !password || !username) {
+    if (!email || !password || !name) {
       return res.status(400).json({
-        error: 'Email, username, and password are required'
+        error: 'Email, name, and password are required'
       });
     }
   
@@ -136,13 +136,14 @@ app.post('/signup', function (req, res) {
   
       // Create a new user
       const newUser = {
-        username,
+        name,
         email,
-        password: hashedPassword, // Store the hashed password
-        cart: JSON.stringify([]), // Initialize the cart as an empty array
-        payment_info: JSON.stringify({}), // Initialize payment_info as an empty object
-        phone_number: '', // Initialize phone_number as an empty string
-        shipping_info: JSON.stringify({}) // Initialize shipping_info as an empty object
+        password: hashedPassword, 
+        cart: JSON.stringify([]),
+        payment_info: JSON.stringify({}), 
+        phone_number: '', 
+        shipping_info: JSON.stringify({}),
+        billing_info: JSON.stringify({})
       };
   
       connection.query(
@@ -179,7 +180,7 @@ app.post('/signup', function (req, res) {
   
 
 
-app.post('/signin', function (req, res) {
+app.post('/signIn', function (req, res) {
     const { email, password } = req.body; // Extract email and password from the request body
   
     // Find the user with the matching email in the database
@@ -218,7 +219,7 @@ app.post('/signin', function (req, res) {
     });
   });
 
-app.post('/signintoken', (req, res) => {
+app.post('/signIntoken', (req, res) => {
     const { token } = req.body;
   
     if (!token) {
@@ -235,7 +236,7 @@ app.post('/signintoken', (req, res) => {
     });
   });
 
-app.post('/updatecart', function(req, res) {
+app.post('/updateCart', function(req, res) {
   const { userId, cart } = req.body; // Extract userId and cart from the request body
 
   // Construct the SQL UPDATE query

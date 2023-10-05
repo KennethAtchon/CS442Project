@@ -14,12 +14,12 @@ import { API } from 'aws-amplify';
 
 
 // Example async action for signing up
-export const  signUp = (username, email, password) => dispatch => {
+export const  signUp = (name, email, password) => dispatch => {
     return new Promise((resolve, reject) => {
         // Make an API request to sign up using AWS Amplify
-        API.post("api", "/signup", {
+        API.post("api", "/signUp", {
             body: {
-                username,
+                name,
                 email,
                 password,
             },
@@ -40,7 +40,7 @@ export const  signUp = (username, email, password) => dispatch => {
         })
         .catch((error) => {
             // Dispatch a failure action with the error message
-            dispatch({ type: SIGN_UP_FAILURE, error: error });
+            dispatch({ type: SIGN_UP_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
 
             // Reject the promise to indicate an error
             reject(error);
@@ -49,13 +49,13 @@ export const  signUp = (username, email, password) => dispatch => {
 }
 
 
-export const changeSettings = ({ userId, username, email, currentpassword, password }) => (dispatch) => {
+export const changeSettings = ({ userId, name, email, currentpassword, password }) => (dispatch) => {
 
 
     // Create the request body with the relevant data from the current state or parameters
     const requestBody = {
         userId,
-        username,
+        name,
         email,
         currentpassword,
         password,
@@ -63,7 +63,7 @@ export const changeSettings = ({ userId, username, email, currentpassword, passw
     };
 
     // Make the API request to change user settings
-    API.post("api", "/changesettings", {
+    API.post("api", "/changeSettings", {
         body: requestBody,
     })
     .then((response) => {
@@ -80,7 +80,7 @@ export const changeSettings = ({ userId, username, email, currentpassword, passw
 export const signIn = (email, password) => dispatch => {
     return new Promise((resolve, reject) => {
         // Make an API request to sign in using AWS Amplify
-        API.post("api", "/signin", {
+        API.post("api", "/signIn", {
             body: {
                 email,
                 password,
@@ -104,7 +104,7 @@ export const signIn = (email, password) => dispatch => {
         })
         .catch((error) => {
             // Dispatch a failure action with the error message
-            dispatch({ type: SIGN_IN_FAILURE, error: error });
+            dispatch({ type: SIGN_IN_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
 
             // Reject the promise to indicate an error
             reject(error);
@@ -138,7 +138,7 @@ export const signInWithToken = () => async (dispatch) => {
         
 
         // Make an API request to sign in using the stored token
-        const response = await API.post('api', '/signintoken', {
+        const response = await API.post('api', '/signIntoken', {
             body: {
                 token: authToken // Include the authToken in the request body
             },
@@ -153,7 +153,7 @@ export const signInWithToken = () => async (dispatch) => {
     } catch (error) {
         // Dispatch a failure action with the error message
         
-        dispatch({ type: SIGN_IN_FAILURE, error: error});
+        dispatch({ type: SIGN_IN_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
     }
 };
 
@@ -194,7 +194,7 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
       }
   
       // Make an API request to update the user's cart using AWS Amplify
-    API.post('api', '/updatecart', {
+    API.post('api', '/updateCart', {
         body: {
         userId,
         cart,
@@ -211,7 +211,7 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
         })
         .catch(error => {
         // Dispatch a failure action with the error message
-        dispatch({ type: UPDATE_CART_FAILURE, error });
+        dispatch({ type: UPDATE_CART_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
 
 
     });

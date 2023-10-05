@@ -7,7 +7,7 @@ import {
 
 export const getFAQ = () => (dispatch) => {
     // You may need to adjust the API endpoint and request configuration based on your backend setup.
-    API.get('api', '/getfaq')
+    API.get('api', '/getFaq')
       .then((response) => {
         // Dispatch a success action with the FAQ data
         console.log(response);
@@ -18,7 +18,7 @@ export const getFAQ = () => (dispatch) => {
       })
       .catch((error) => {
         // Dispatch a failure action with the error message
-        dispatch({ type: GET_FAQ_FAILURE, error });
+        dispatch({ type: GET_FAQ_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
   
         // Optionally, you can also dispatch other actions or perform additional error handling here.
       });

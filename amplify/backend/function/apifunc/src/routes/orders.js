@@ -4,11 +4,11 @@ const connection = require('../dbconnect');
 
 const app = express.Router();
 
-app.post('/getorder', function(req, res) {
+app.post('/getOrder', function(req, res) {
     const {orderId} = req.body;
   
     connection.query(
-      'SELECT * FROM orders WHERE order_id = ?',
+      'SELECT * FROM Orders WHERE order_id = ?',
       orderId,
       (error, results) => {
         if (error) {
@@ -22,30 +22,7 @@ app.post('/getorder', function(req, res) {
   
   });
 
-app.post('/getuserproducts', function(req, res) {
-    const { userId } = req.body;
-  
-    // Construct the SQL query to select reviews for a product
-    connection.query(
-      'SELECT Product.* FROM orders '+
-      ' INNER JOIN Order_Product ON orders.order_id = Order_Product.order_id ' +
-      ' INNER JOIN Product ON Order_Product.product_id = Product.product_id ' +
-      'WHERE orders.user_id = ?',
-      [userId],
-      (error, results) => {
-        if (error) {
-          return res.status(500).json({
-            error: 'Database error'
-          });
-        }
-        res.json({ products: results });
-      }
-    );
-  
-  
-  });
-
-app.post('/getorderproduct', function (req, res) {
+app.post('/getOrderProduct', function (req, res) {
     const { orderId } = req.body; 
   
     // Construct the SQL query to select product_id and product_name using a JOIN
@@ -67,7 +44,7 @@ app.post('/getorderproduct', function (req, res) {
   });
   
 
-app.post('/orderproduct', function (req, res) {
+app.post('/orderProduct', function (req, res) {
     const {  orderid, cartItems } = req.body; // Extract userId, date, and total from the request body
   
     // Construct the SQL INSERT query for creating an order
@@ -97,22 +74,22 @@ app.post('/orderproduct', function (req, res) {
     
   });
 
-app.post('/createorder', function (req, res) {
+app.post('/createOrder', function (req, res) {
     const {  date, userId, total } = req.body; // Extract userId, date, and total from the request body
   
     // Construct the SQL INSERT query for creating an order
-    let query = 'INSERT INTO orders SET ? ';
+    let query = 'INSERT INTO Orders SET ? ';
     var neworder;
   
     if(!userId){
       neworder = {
-      order_date: date,
+      date: date,
       total_price: total
       
     }
     }else{
       neworder = {
-        order_date: date,
+        date: date,
         user_id: userId,
         total_price: total
       }

@@ -4,10 +4,10 @@ const connection = require('../dbconnect');
 
 const app = express.Router();
 
-app.get('/getfaq', (req, res) => {
+app.get('/getFaq', (req, res) => {
     // Construct the SQL query to select FAQ data
     connection.query(
-      'SELECT * FROM FAQ',
+      'SELECT * FROM Faq',
       (error, results) => {
         if (error) {
           return res.status(500).json({
@@ -19,7 +19,7 @@ app.get('/getfaq', (req, res) => {
     );
   });
 
-app.post('/updateshipping', function(req, res) {
+app.post('/updateShipping', function(req, res) {
     const { userId, shippingInfo } = req.body; // Extract userId and shippingInfo from the request body
 
     // Construct the SQL UPDATE query for shipping info
@@ -37,7 +37,7 @@ app.post('/updateshipping', function(req, res) {
     });
 });
 
-app.post('/updatepayment', function(req, res) {
+app.post('/updatePayment', function(req, res) {
     const { userId, billingInfo, paymentInfo } = req.body; // Extract userId, billingInfo, and paymentInfo from the request body
 
     // Construct the SQL UPDATE query for payment info

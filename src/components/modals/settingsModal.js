@@ -17,7 +17,7 @@ const SettingsModal = ({ show, onHide }) => {
     
     const settingsData = {
       userId: currentUser.user_id, // Assuming userId is part of the user data
-      username: name === '' ? undefined : name,
+      name: name === '' ? undefined : name,
       email: email === '' ? undefined : email,
       currentpassword: password === '' ? undefined : password,
       password: newPassword === '' ? undefined : newPassword,

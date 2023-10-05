@@ -17,7 +17,7 @@ export const OrderProductLink = ({ orderid, cartItems }) => (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
 
   return new Promise((resolve, reject) => {
-      API.post('api', '/orderproduct', {
+      API.post('api', '/orderProduct', {
         body: {
           orderid,
           cartItems,
@@ -36,7 +36,7 @@ export const OrderProductLink = ({ orderid, cartItems }) => (dispatch) => {
   )};
 
 export const getOrderProduct = ({ orderId }) => (dispatch) =>{
-  API.post('api', '/getorderproduct',{
+  API.post('api', '/getOrderProduct',{
     body: {
       orderId
     }
@@ -48,14 +48,14 @@ export const getOrderProduct = ({ orderId }) => (dispatch) =>{
   .catch((error) => {
     // Dispatch a failure action with the error message
 
-    dispatch({ type: CREATE_ORDER_FAILURE, error });
+    dispatch({ type: CREATE_ORDER_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
 
   });
 }
 
 export const getOrder = ({ orderId}) => (dispatch) =>{
 
-  API.post('api', '/getorder',{
+  API.post('api', '/getOrder',{
     body: {
        orderId
     }
@@ -69,7 +69,7 @@ export const getOrder = ({ orderId}) => (dispatch) =>{
   .catch((error) => {
     // Dispatch a failure action with the error message
 
-    dispatch({ type: CREATE_ORDER_FAILURE, error });
+    dispatch({ type: CREATE_ORDER_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
 
   });
 }
@@ -81,7 +81,7 @@ export const createOrder = ({ date, userId, total }) => (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
 
   return new Promise((resolve, reject) => {
-    API.post('api', '/createorder', {
+    API.post('api', '/createOrder', {
       body: {
         date,
         userId,
@@ -98,7 +98,7 @@ export const createOrder = ({ date, userId, total }) => (dispatch) => {
       })
       .catch((error) => {
         // Dispatch a failure action with the error message
-        dispatch({ type: CREATE_ORDER_FAILURE, error });
+        dispatch({ type: CREATE_ORDER_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
 
         reject(error); // Reject the promise with the error
       });
@@ -117,7 +117,7 @@ export const updatePaymentInfo = ({userId, billingInfo, paymentInfo}) => dispatc
     }
 
     // Make an API request to update the user's payment information using AWS Amplify
-    API.post('api', '/updatepayment', {
+    API.post('api', '/updatePayment', {
     body: {
         userId,
         billingInfo,
@@ -133,7 +133,7 @@ export const updatePaymentInfo = ({userId, billingInfo, paymentInfo}) => dispatc
     })
     .catch(error => {
         // Dispatch a failure action with the error message
-        dispatch({ type: UPDATE_PAYMENT_INFO_FAILURE, error });
+        dispatch({ type: UPDATE_PAYMENT_INFO_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
     });
 };
 
@@ -148,7 +148,7 @@ export const updateShippingInfo = ({userId, shippingInfo}) => dispatch => {
     }
   
     // Make an API request to update the user's shipping information using AWS Amplify
-    API.post('api', '/updateshipping', {
+    API.post('api', '/updateShipping', {
       body: {
         userId,
         shippingInfo,
@@ -163,7 +163,7 @@ export const updateShippingInfo = ({userId, shippingInfo}) => dispatch => {
       })
       .catch(error => {
         // Dispatch a failure action with the error message
-        dispatch({ type: UPDATE_SHIPPING_INFO_FAILURE, error });
+        dispatch({ type: UPDATE_SHIPPING_INFO_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
       });
   };
   

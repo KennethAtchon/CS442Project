@@ -21,7 +21,7 @@ export const createReview = ({ userId, productId, reviewText, rating, date }) =>
 
   
     // Make an API request using Amplify's API.post
-    API.post('api', '/createreview', {
+    API.post('api', '/createReview', {
       body: requestBody,
     })
       .then((response) => {
@@ -33,7 +33,7 @@ export const createReview = ({ userId, productId, reviewText, rating, date }) =>
       })
       .catch((error) => {
         // Dispatch a failure action with the error message
-        dispatch({ type: CREATE_REVIEW_FAILURE, error });
+        dispatch({ type: CREATE_REVIEW_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
   
         // Optionally, you can also dispatch other actions or perform additional error handling here.
       });
@@ -45,7 +45,7 @@ export const getReview = ({ productId }) => (dispatch) => {
       productId,
     };
   
-    API.post('api', '/getreviews', {
+    API.post('api', '/getReviews', {
       body: requestBody,
     })
       .then((response) => {
@@ -56,7 +56,7 @@ export const getReview = ({ productId }) => (dispatch) => {
       })
       .catch((error) => {
 
-        dispatch({ type: GET_REVIEWS_FAILURE, error });
+        dispatch({ type: GET_REVIEWS_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
       });
   };
 
@@ -66,7 +66,7 @@ export const getReview = ({ productId }) => (dispatch) => {
       userId,
     };
   
-    API.post('api', '/getuserreviews', {
+    API.post('api', '/getUserReviews', {
       body: requestBody,
     })
       .then((response) => {
@@ -78,7 +78,7 @@ export const getReview = ({ productId }) => (dispatch) => {
       })
       .catch((error) => {
 
-        dispatch({ type: GET_REVIEWS_FAILURE, error });
+        dispatch({ type: GET_REVIEWS_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
       });
   };
 
@@ -87,7 +87,7 @@ export const checkReview = ({ productId, userId }) => (dispatch) => {
     productId = parseInt(productId)
   
     return new Promise((resolve, reject) => {
-      API.post('api', '/checkreview', {
+      API.post('api', '/checkReview', {
         body: {
           productId,
           userId,
@@ -104,7 +104,7 @@ export const checkReview = ({ productId, userId }) => (dispatch) => {
           resolve(canReview);
         })
         .catch((error) => {
-          dispatch({ type: CHECK_REVIEW_FAILURE, error });
+          dispatch({ type: CHECK_REVIEW_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
   
           // Reject the promise with the error
           reject(error);
