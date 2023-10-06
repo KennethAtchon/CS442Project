@@ -21,17 +21,21 @@ function MyReviews() {
     if(!user){
       navigate('/error')
     }
-  }, [dispatch, reviews]);
+  }, [dispatch]);
   return (
     <div>
       <AppNavbar /> {/* Include the navigation bar */}
       <h2>My Reviews</h2>
       <SearchBar text="for reviews" className="reviewsearchbar" />
-
-      {/* Section for displaying reviews */}
+      { reviews.length === 0 ? (
+        <p> You don't have any reviews or there are no reviews
+          related to your search.
+        </p>
+        ): (
       <section className="my-reviews-section">
         <Accordion faqData={null} reviewData={reviews} />
       </section>
+            )}
     </div>
   );
 }

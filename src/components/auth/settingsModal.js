@@ -2,17 +2,23 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux'; // Import useDispatch and useSelector
 import { changeSettings } from '../../actions/authActions'; // Import your changeSettings action
+import LoadingSpinner from '../loading/loadingSpinner';
 
 const SettingsModal = ({ show, onHide }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [passwordError, setPasswordError] = useState(false);
   const [newPassword, setNewPassword] = useState('');
+  const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const dispatch = useDispatch(); // Initialize useDispatch to dispatch actions
   const currentUser = useSelector(state => state.auth.user); // Get 
 
-  const handleSaveSettings = () => {
+  const handleSaveSettings = (e) => {
+    e.preventDefault();
+    setValidated(false);
     // Create an object with the data to send to the action
     
     const settingsData = {
@@ -22,23 +28,39 @@ const SettingsModal = ({ show, onHide }) => {
       currentpassword: password === '' ? undefined : password,
       password: newPassword === '' ? undefined : newPassword,
     };
-    
+
+    setIsLoading(true);
 
     // Dispatch the changeSettings action with the settingsData
-    dispatch(changeSettings(settingsData));
+    dispatch(changeSettings(settingsData)).then(() => {
+      console.log("Changed");
+      setIsLoading(false);
+      setValidated(true);
+      setPasswordError(false);
 
-    // Close the modal
-    onHide();
+    })
+    .catch(() => {
+      console.log("Error with API")
+      setIsLoading(false);
+      setValidated(true);
+      setPasswordError(true);
+    })
+
   };
+
 
   return (
     <Modal show={show} onHide={onHide}>
+          { isLoading ? (
+        <LoadingSpinner viewport={'30vh'} />
+        ): (
+        <Form noValidate validated={validated} onSubmit={handleSaveSettings}>
       <Modal.Header closeButton>
         <Modal.Title>Settings</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <Form>
-          <Form.Group controlId="formBasicName">
+          <Form.Group  
+          controlId="formBasicName">
             <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
@@ -65,7 +87,11 @@ const SettingsModal = ({ show, onHide }) => {
               placeholder="Enter your current password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              isInvalid={passwordError}
             />
+            <Form.Control.Feedback type="invalid">
+            Current password is incorrect.
+            </Form.Control.Feedback>
           </Form.Group>
 
           <Form.Group controlId="formBasicNewPassword">
@@ -78,16 +104,19 @@ const SettingsModal = ({ show, onHide }) => {
             />
           </Form.Group>
 
-        </Form>
+        
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={onHide}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSaveSettings}>
+        <Button variant="primary" type='submit'>
           Save Changes
         </Button>
+        
       </Modal.Footer>
+      </Form>
+        )}
     </Modal>
   );
 };

@@ -63,11 +63,13 @@ import {
      .then((response) => {
        // Dispatch a success action with the fetched products
        dispatch({ type: GET_PRODUCT_SUCCESS, products: response.products }); // Assuming the API response contains products
+       return Promise.resolve(); 
  
      })
      .catch((error) => {
        // Dispatch a failure action with the error message
        dispatch({ type: GET_PRODUCT_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
+       return Promise.reject(); 
        
      });
  };

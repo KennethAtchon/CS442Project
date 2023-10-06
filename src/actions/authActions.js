@@ -50,8 +50,6 @@ export const  signUp = (name, email, password) => dispatch => {
 
 
 export const changeSettings = ({ userId, name, email, currentpassword, password }) => (dispatch) => {
-
-
     // Create the request body with the relevant data from the current state or parameters
     const requestBody = {
         userId,
@@ -63,14 +61,18 @@ export const changeSettings = ({ userId, name, email, currentpassword, password 
     };
 
     // Make the API request to change user settings
-    API.post("api", "/changeSettings", {
-        body: requestBody,
-    })
-    .then((response) => {
-        console.log(response)
-    })
-    .catch((error) => {
-        console.log("error big bad: " + error)
+    return new Promise((resolve, reject) => {
+        API.post("api", "/changeSettings", {
+            body: requestBody,
+        })
+        .then((response) => {
+            console.log("Settings changed successfully:", response);
+            resolve(response); // Resolve the promise with the response data
+        })
+        .catch((error) => {
+            console.error("Error changing settings:", error);
+            reject(error); // Reject the promise with the error
+        });
     });
 };
 

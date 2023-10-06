@@ -4,7 +4,6 @@ import SearchBar from '../../components/searchbar';
 import Accordion from '../../components/accordion';
 import { useDispatch, useSelector } from 'react-redux';
 import { getFAQ } from '../../actions/faqActions';
-import LoadingSpinner from '../../components/loading/loadingSpinner';
 import './Faq.css';
 
 function Faq() {
@@ -23,7 +22,7 @@ function Faq() {
       <h2>Frequently asked questions</h2>
       <SearchBar text="for questions" className="faqsearchbar" />
       { faq.length === 0 ? (
-        <LoadingSpinner viewport={'55vh'} />
+        <p> There are no questions related to your search.</p>
         ): (
       <section>
           <Accordion faqData={faq} reviewData={null}  />
