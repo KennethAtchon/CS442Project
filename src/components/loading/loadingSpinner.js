@@ -1,9 +1,9 @@
 import React from 'react';
 import './loadingSpinner.css'
 
-const LoadingSpinner = () => {
+const LoadingSpinner = ({ viewport }) => {
   return (
-    <div className="loading-spinner">
+    <div className="loading-spinner" style={{ height: viewport }}>
       <div className="spinner"></div>
     </div>
   );

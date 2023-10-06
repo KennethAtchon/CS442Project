@@ -8,7 +8,8 @@ import {
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
   CREATE_ORDER_FAILURE,
-  GET_ORDER_PRODUCT_SUCCESS
+  GET_ORDER_PRODUCT_SUCCESS,
+  SIGN_OUT
 } from '../actions/actionTypes';
 
 const initialState = {
@@ -74,6 +75,8 @@ const orderReducer = (state = initialState, action) => {
         loading: false,
         error: action.error,
       };
+    case SIGN_OUT:
+      return initialState;
 
     default:
       return state;

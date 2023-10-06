@@ -115,9 +115,7 @@ export const signIn = (email, password) => dispatch => {
 
 export const signOut = () => (dispatch) => {
     // Clear the authentication token from localStorage
-    localStorage.removeItem('authToken');
-
-    localStorage.removeItem('cartItems');
+    localStorage.clear();
     dispatch({ type: REMOVE_CART_ITEMS });
 
     // Dispatch a sign-out action if needed (e.g., to reset the user state)

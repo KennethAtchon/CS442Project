@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../../actions/authActions';
+import LoadingSpinner from '../loading/loadingSpinner';
 
 const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedfunc }) => {
   const dispatch = useDispatch();
@@ -9,6 +10,7 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignUp = (event) => {
     event.preventDefault();
@@ -22,6 +24,7 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
     } else {
 
       setValidated(true);
+      setIsLoading(true);
 
       dispatch(signUp(name, email, password))
       .then(() => {
@@ -35,7 +38,11 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
       .catch((error) => {
         // Handle the error here (e.g., show an error message to the user)
         console.error('Sign-up failed:', error);
-      });
+      }).finally(()=> {
+        setIsLoading(false);
+      })
+
+      setValidated(false);
 
 
     }
@@ -43,6 +50,9 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
 
   return (
     <Modal show={show} onHide={onHide}>
+          { isLoading ? (
+        <LoadingSpinner viewport={'40vh'} />
+        ): (
       <Form noValidate validated={validated} onSubmit={handleSignUp}>
       <Modal.Header closeButton>
         <Modal.Title>Sign Up</Modal.Title>
@@ -97,6 +107,7 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
         </Button>
       </Modal.Footer>
       </Form>
+          )}
     </Modal>
   );
 };

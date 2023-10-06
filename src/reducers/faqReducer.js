@@ -1,4 +1,4 @@
-import { GET_FAQ_SUCCESS, GET_FAQ_FAILURE } from '../actions/actionTypes';
+import { GET_FAQ_SUCCESS, GET_FAQ_FAILURE, SIGN_OUT } from '../actions/actionTypes';
 
 // Initial state for the FAQ data
 const initialState = {
@@ -20,6 +20,8 @@ const faqReducer = (state = initialState, action) => {
         faq: [],              // Clear the FAQ data on failure
         error: action.error,  // Set the error message
       };
+    case SIGN_OUT:
+      return initialState;
     default:
       return state;
   }

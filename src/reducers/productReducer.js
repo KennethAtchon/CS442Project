@@ -3,6 +3,7 @@ import {
     GET_PRODUCT_REQUEST,
     GET_PRODUCT_SUCCESS,
     GET_PRODUCT_FAILURE,
+    SIGN_OUT
   } from '../actions/actionTypes';
   
   const initialState = {
@@ -31,6 +32,8 @@ import {
           loading: false,
           error: action.error,
         };
+      case SIGN_OUT:
+        return initialState;
       default:
         return state;
     }

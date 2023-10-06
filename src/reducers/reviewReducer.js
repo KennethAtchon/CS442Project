@@ -4,7 +4,8 @@ import {
   GET_REVIEWS_SUCCESS,
   GET_REVIEWS_FAILURE,
   CHECK_REVIEW_SUCCESS,
-  CHECK_REVIEW_FAILURE
+  CHECK_REVIEW_FAILURE,
+  SIGN_OUT
 } from '../actions/actionTypes';
 
 // Define an initial state for reviews
@@ -48,6 +49,8 @@ const reviewReducer = (state = initialState, action) => {
         ...state,
         error: action.error, // Set the error message
       };
+    case SIGN_OUT:
+      return initialState;
 
     default:
       return state;

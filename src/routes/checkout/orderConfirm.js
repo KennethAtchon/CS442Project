@@ -22,7 +22,7 @@ function OrderConfirm() {
     }
 
     if(Object.keys(shippinginfo).length === 0 && !user){
-      //navigate('/error')
+      navigate('/error')
     }
 
   })

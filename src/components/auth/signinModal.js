@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { useDispatch } from 'react-redux';
 import { signIn } from '../../actions/authActions';
+import LoadingSpinner from '../loading/loadingSpinner';
 
 
 const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
@@ -9,6 +10,7 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSignIn = (event) => {
     event.preventDefault();
@@ -20,6 +22,7 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
     }else{
 
       setValidated(true);
+      setIsLoading(true);
 
       dispatch(signIn(email, password))
       .then(() => {
@@ -32,7 +35,11 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
       .catch((error) => {
         // Handle the error here (e.g., show an error message to the user)
         console.error('Sign-in failed:', error);
-      });
+      }).finally(()=> {
+        setIsLoading(false);
+      })
+
+      setValidated(false);
 
     }
 
@@ -42,13 +49,16 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
 
 
   return (
-    <Modal show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide}>        
+    { isLoading ? (
+        <LoadingSpinner viewport={'30vh'} />
+        ): (
       <Form noValidate validated={validated} onSubmit={handleSignIn}>
       <Modal.Header closeButton>
         <Modal.Title>Sign In</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-      
+
           <Form.Group controlId="formBasicEmail">
             <Form.Label>Email address</Form.Label>
             <Form.Control
@@ -102,6 +112,7 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
         </Button>
       </Modal.Footer>
       </Form>
+              )}
     </Modal>
   );
 };

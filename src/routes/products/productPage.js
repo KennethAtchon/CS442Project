@@ -68,7 +68,7 @@ const ProductPage = () => {
     < AppNavbar />
 
     { !product ? (
-      <LoadingSpinner />
+      <LoadingSpinner viewport={'70vh'} />
     ) : (
     <Container className="mt-5">
       <Row>

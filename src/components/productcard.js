@@ -13,16 +13,7 @@ function ProductCard({ product }) {
   const user = useSelector((state) => state.auth.user);
   const quantity = 1;
 
-  
-  const [imageError, setImageError] = useState(false);
   const dispatch = useDispatch();
-
-  // Function to handle image load errors
-  const handleImageError = () => {
-    setImageError(true);
-  };
-  // Use the image_url if available; otherwise, use the default image URL
-  const imageUrl = imageError ? 'football.jpg' : image_url;
 
   const handleAddToCart = () => {
     // Prepare the product data for cart update
@@ -30,7 +21,7 @@ function ProductCard({ product }) {
       product_id,
       product_name,
       price,
-      imageUrl,
+      image_url,
       quantity
     };
 
@@ -44,9 +35,8 @@ function ProductCard({ product }) {
   return (
     <Card style={{ width: '15rem' }}>
       <Link to={`/product/${product_id}`}>
-        <Card.Img variant="top" src={`../../${imageUrl}`} 
+        <Card.Img variant="top" src={`/images/${image_url}`} 
         alt="Product" 
-        onError={handleImageError}
         style={{  height: '250px' }}
         />
       </Link>

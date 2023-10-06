@@ -29,7 +29,7 @@ function ProductCategory() {
       <AppNavbar /> 
 
       { products.products.length === 0 ? (
-        <LoadingSpinner />
+        <LoadingSpinner viewport={'70vh'} />
       ): (
       
       <section className="featured-products">
