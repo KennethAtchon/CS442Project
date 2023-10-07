@@ -217,3 +217,23 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
     });
   };
 
+  export const SendForgotPassword = ({email}) => (dispatch) => {
+  
+    const requestBody = {
+        email,
+    };
+
+    return new Promise((resolve, reject) => {
+        API.post("api", "/signPassword", {
+            body: requestBody,
+        })
+        .then((response) => {
+            console.log("Email sent successfully:", response);
+            resolve(response); 
+        })
+        .catch((error) => {
+            console.error("Error changing settings:", error);
+            reject(error); 
+        });
+    });
+};

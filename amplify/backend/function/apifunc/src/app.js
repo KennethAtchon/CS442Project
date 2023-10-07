@@ -16,6 +16,7 @@ const miscRoutes = require('./routes/misc');
 const ordersRoutes = require('./routes/orders');
 const productsRoutes = require('./routes/products');
 const reviewsRoutes = require('./routes/reviews');
+const nodemails = require('./routes/nodemail');
 
 
 
@@ -36,6 +37,7 @@ app.use('', miscRoutes);
 app.use('', ordersRoutes);
 app.use('', productsRoutes);
 app.use('', reviewsRoutes);
+app.use('', nodemails);
 
 
 

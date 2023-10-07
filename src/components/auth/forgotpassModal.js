@@ -1,11 +1,14 @@
-
-
 import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import LoadingSpinner from '../loading/loadingSpinner';
+import { useDispatch } from 'react-redux';
+import { SendForgotPassword } from '../../actions/authActions';
 
 const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleForgotPassword = (event) => {
     event.preventDefault();
@@ -16,7 +19,25 @@ const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) =
       event.stopPropagation();
       setValidated(true);
     }else{
-      onHide();
+
+      setValidated(true);
+      setIsLoading(true);
+
+      dispatch( SendForgotPassword(email) )
+      .then(() => {
+        // Sign-up was successful, perform actions like clearing input fields and hiding modals
+        setEmail('');
+        onHide();
+
+      })
+      .catch((error) => {
+        // Handle the error here (e.g., show an error message to the user)
+        console.error('Sign-in failed:', error);
+      }).finally(()=> {
+        setIsLoading(false);
+      })
+
+      setValidated(false);
     }
 
     
@@ -24,6 +45,9 @@ const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) =
 
   return (
     <Modal show={show} onHide={onHide}>
+    { isLoading ? (
+        <LoadingSpinner viewport={'30vh'} />
+        ): (
       <Form noValidate validated={validated} onSubmit={handleForgotPassword}>
       <Modal.Header closeButton>
         <Modal.Title>Forgot Password</Modal.Title>
@@ -60,6 +84,7 @@ const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) =
         </Button>
       </Modal.Footer>
       </Form>
+      )}
     </Modal>
   );
 };

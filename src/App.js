@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import Home from './routes/user/Home';
+import ForgotPass from './routes/forgotpassword/forgotpass';
 import Products from './routes/products/productList';
 import ProductsCategory from './routes/products/productCategory';
 import UserProduct from './routes/products/userProduct';
@@ -40,6 +41,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/home" element={<Home />} />
+      <Route path="//resetpassword/:email/:token" element={<ForgotPass />} />
       <Route path="/products/category/:category" element={<ProductsCategory />} />
       <Route path="/products/:search" element={<Products />} />
       <Route path="/myproducts" element={<UserProduct />} />

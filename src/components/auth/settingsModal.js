@@ -29,6 +29,11 @@ const SettingsModal = ({ show, onHide }) => {
       password: newPassword === '' ? undefined : newPassword,
     };
 
+    if (newPassword !== password) {
+      alert('Passwords do not match.');
+      return;
+    }
+
     setIsLoading(true);
 
     // Dispatch the changeSettings action with the settingsData
