@@ -24,7 +24,9 @@ app.post('/signPassword', async function(req, res) {
       }
     })
 
-    const token = jwt.sign(email, secretKey, {expiresIn: '15m'});
+    const payload = { email };
+
+    const token = jwt.sign(payload, secretKey, {expiresIn: '15m'});
     const link = `https://main.dcdome1e80r0l.amplifyapp.com/${email}/${token}`
 
     let transporter = nodemailer.createTransport({
@@ -44,7 +46,7 @@ app.post('/signPassword', async function(req, res) {
 
         let info = await transporter.sendMail({
             from: 'courtsidecart22@hotmail.com', // sender address
-            to: `${user.email}`, // list of receivers
+            to: `${email}`, // list of receivers
             subject: "Courtside Cart Reset Password", // Subject line
             text: `${link}`, // plain text body
             html: `<b>Here is the link to reset your password: ${link} 
@@ -60,71 +62,54 @@ app.post('/signPassword', async function(req, res) {
         }catch(err){
       
             console.log(err);
-            res.json({success: 'Message failed'})
+            res.json({error: err})
 
         }
   });
 
-  /*
-  app.post('/reset-password/:useremail/:token', async (req,res) => {
-    
 
-    const { useremail, token } = req.params;
-
-    const { password1 , password2} = req.body;
-
-
-    const user = await userModel.findOne({email: useremail});
-
-    if(!user)
-    {
-        
-        return res.redirect('/forgot-password');
-    }
-
-    const secret = JWT_SECRET + user.password;
-
-    try {    
-
-        const payload = jwt.verify(token, secret);
-
-        if(password1 != password2)
-        {
-            return res.redirect('/reset-password/:useremail/:token');
+ app.post('/resetPassword/:email/:token', async function(req, res) {
+    const { email, token } = req.params;
+    const { password, confirmpassword } = req.body;
+  
+    try {
+      // Verify the JWT token
+      const payload = jwt.verify(token, secretKey);
+  
+      // Check if the email exists in the database
+      const query = 'SELECT user_id FROM User WHERE email = ?';
+      connection.query(query, [payload.email], async (err, results) => {
+        if (err) {
+          console.error('Database error:', err);
+          return res.status(500).json({ error: 'Database error' });
         }
-
-        const hashedPsw = await bcrypt.hash(password1, 12);
-
-        const response = await userModel.findOneAndUpdate(
-            {
-                email: user.email,
-            },
-            {
-                $set: {
-                    password: hashedPsw
-                }
-            }
-        )
-
-        App.mistakes.loginMistake = "";
-        res.redirect('/login');
-
-    }catch(err){
-
-        console.log(err);
+  
+        if (results.length === 0) {
+          return res.status(401).json({ error: 'Email does not exist.' });
+        }
+  
+        // Hash the new password
+        const hashedPsw = await bcrypt.hash(password, 10);
+  
+        // Update the hashed password in the database
+        const updateQuery = 'UPDATE User SET password = ? WHERE email = ?';
+        connection.query(updateQuery, [hashedPsw, payload.email], (updateErr, updateResults) => {
+          if (updateErr) {
+            console.error('Database error:', updateErr);
+            return res.status(500).json({ error: 'Database error' });
+          }
+  
+          // Password updated successfully
+          res.json({ success: 'Password updated successfully' });
+        });
+      });
+    } catch (error) {
+      // Handle JWT verification errors here
+      console.error('JWT Verification Error:', error);
+      res.status(401).json({ error: 'Invalid token' });
     }
-
-})
-  */
-
-/* Behavior: given the params, and the passwords, must verify token,
- and email existance, once it does that compare passwords, then
- update password. */
-app.post('/resetPassword/:email/:token', function(req, res) {
-  // Add your code here
-  res.json({success: 'post call succeed!', url: req.url, body: req.body})
-});
-
+  });
+  
 /* relatively easy compared to reset password */
 app.post('/sendOrderEmail', function(req, res) {
     // Add your code here

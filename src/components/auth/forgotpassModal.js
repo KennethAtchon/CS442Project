@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import LoadingSpinner from '../loading/loadingSpinner';
 import { useDispatch } from 'react-redux';
-import { SendForgotPassword } from '../../actions/authActions';
+import { sendForgotPassword } from '../../actions/authActions';
 
 const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) => {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) =
       setValidated(true);
       setIsLoading(true);
 
-      dispatch( SendForgotPassword(email) )
+      dispatch( sendForgotPassword(email) )
       .then(() => {
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setEmail('');

@@ -217,7 +217,7 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
     });
   };
 
-  export const SendForgotPassword = ({email}) => (dispatch) => {
+  export const sendForgotPassword = ({email}) => (dispatch) => {
   
     const requestBody = {
         email,
@@ -237,3 +237,27 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
         });
     });
 };
+
+export const changePassword = ({ email, token, password, confirmpassword }) => (dispatch) => {
+    const requestBody = {
+      email,
+      token,
+      password,
+      confirmpassword,
+    };
+  
+    return new Promise((resolve, reject) => {
+      API.post("api", `/resetPassword/${email}/${token}`, {
+        body: requestBody,
+      })
+        .then((response) => {
+          console.log("Password changed successfully:", response);
+          resolve(response);
+        })
+        .catch((error) => {
+          console.error("Error changing password:", error);
+          reject(error);
+        });
+    });
+  };
+  

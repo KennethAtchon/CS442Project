@@ -1,28 +1,59 @@
 import React, { useState } from 'react';
 import AppNavbar from '../../components/navbar';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams, useNavigate } from 'react-router-dom';
 import { Modal, Button, Form } from 'react-bootstrap';
+import LoadingSpinner from '../../components/loading/loadingSpinner';
+import {changePassword } from '../../actions/authActions';
 
 function Forgotpass() {
   const dispatch = useDispatch();
+  const { email, token } = useParams();
   const user = useSelector((state) => state.auth.user);
 
   const [show, setShow] = useState(true);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleForgotpass = (e) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    
 
     // Add your logic here for handling password reset
     if (newPassword !== confirmPassword) {
       alert('Passwords do not match.');
       return;
     }
+    
+    
+    if (form.checkValidity() === false) {
+      
+      e.stopPropagation();
+      setValidated(true);
+    }else{
 
-    // Close the modal when done (you can remove this line if you want to keep it open)
-    setShow(false);
+      setValidated(true);
+      setIsLoading(true);
+
+      dispatch( changePassword({ email: email, token: token, password: newPassword, confirmpassword: confirmPassword}) )
+      .then(() => {
+        // Sign-up was successful, perform actions like clearing input fields and hiding modals
+        setNewPassword('');
+        setConfirmPassword('');
+
+      })
+      .catch((error) => {
+        // Handle the error here (e.g., show an error message to the user)
+        console.error('Sign-in failed:', error);
+      }).finally(()=> {
+        setIsLoading(false);
+      })
+
+      setValidated(false);
+    }
   };
 
   return (
@@ -30,6 +61,9 @@ function Forgotpass() {
       <AppNavbar />
 
       <Modal show={show} backdrop="static">
+      { isLoading ? (
+        <LoadingSpinner viewport={'30vh'} />
+        ): (
         <Form noValidate validated={validated} onSubmit={handleForgotpass}>
           <Modal.Header>
             <Modal.Title>Forgot Password</Modal.Title>
@@ -69,6 +103,7 @@ function Forgotpass() {
             </Button>
           </Modal.Footer>
         </Form>
+        )}
       </Modal>
     </div>
   );
