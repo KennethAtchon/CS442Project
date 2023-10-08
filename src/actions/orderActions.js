@@ -13,11 +13,12 @@ import {
   } from './actionTypes';
 import { API } from 'aws-amplify';
 
-export const sendOrder = ({orderId }) => (dispatch) => {
+export const sendOrder = ({orderId, shippingData }) => (dispatch) => {
   
       API.post("api", "/sendOrderEmail", {
           body: {
-            orderId
+            orderId,
+            shippingData
           }
       })
       .then((response) => {
@@ -94,7 +95,7 @@ export const getOrder = ({ orderId}) => (dispatch) =>{
 
 
 // Define the action creator for creating an order
-export const createOrder = ({ date, userId, total }) => (dispatch) => {
+export const createOrder = ({ date, userId, total}) => (dispatch) => {
   dispatch({ type: CREATE_ORDER_REQUEST });
 
   return new Promise((resolve, reject) => {
@@ -102,7 +103,7 @@ export const createOrder = ({ date, userId, total }) => (dispatch) => {
       body: {
         date,
         userId,
-        total,
+        total
       },
     })
       .then((response) => {

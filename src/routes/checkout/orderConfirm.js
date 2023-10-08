@@ -12,21 +12,21 @@ function OrderConfirm() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const orders = useSelector((state) => state.orders);
-  const shippinginfo = user ? JSON.parse(user.shipping_info) : orders.shippingInfo;
+  const shippinginfo = Object.keys(orders.shippingInfo).length === 0  ? JSON.parse(user.shipping_info) : orders.shippingInfo;
 
   useEffect(() => {
 
-    console.log(orders)
+    // console.log(orders)
     
-    if(Object.keys(orders.orderData).length === 0){
-      console.log("Being ran");
-      dispatch(getOrder({orderId: orderid}))
-      dispatch(getOrderProduct({orderId: orderid}))
-    }
+    // if(Object.keys(orders.orderData).length === 0 || Object.keys(orders.orderProduct).length === 0){
+    //   console.log("Being ran");
+    //   dispatch(getOrder({orderId: orderid}))
+    //   dispatch(getOrderProduct({orderId: orderid}))
+    // }
 
-    if(Object.keys(shippinginfo).length === 0 && !user){
-      navigate('/error')
-    }
+    // if(Object.keys(shippinginfo).length === 0 && !user){
+    //   navigate('/error')
+    // }
 
   })
 
@@ -52,7 +52,7 @@ function OrderConfirm() {
               </Card.Header>
               <Card.Body>
                 <ul>
-                {orders.orderproduct && orders.orderproduct.map((item) => (
+                {orders.orderProduct && orders.orderProduct.map((item) => (
                   <li>{item.product_name}</li>
                 ))}
                   {/* Include a list of purchased items */}

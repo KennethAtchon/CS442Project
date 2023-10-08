@@ -18,7 +18,7 @@ const initialState = {
   loading: false,
   error: null,
   orderData: {},
-  orderProduct: {}
+  orderProduct: []
 };
 
 const orderReducer = (state = initialState, action) => {

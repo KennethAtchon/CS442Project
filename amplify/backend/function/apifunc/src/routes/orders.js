@@ -29,7 +29,7 @@ app.post('/getOrderProduct', function (req, res) {
     connection.query(
       'SELECT OP.product_id, P.product_name ' +
       'FROM Order_Product AS OP ' +
-      'INNER JOIN Product AS P ON OP.product_id = P.product_id ' +
+      'INNER JOIN Products AS P ON OP.product_id = P.product_id ' +
       'WHERE OP.order_id = ?',
       orderId,
       (error, results) => {

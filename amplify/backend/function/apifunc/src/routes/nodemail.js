@@ -111,23 +111,73 @@ app.post('/signPassword', async function(req, res) {
   });
   
 /* relatively easy compared to reset password */
-app.post('/sendOrderEmail', function(req, res) {
-    // Add your code here
-    const {orderId} = req.body;
+app.post('/sendOrderEmail', async function(req, res) {
+  try {
+    const { orderId, shippingData } = req.body;
 
-    const order = connection.query('SELECT * FROM Orders WHERE order_id = ?',
-    orderId);
+    const order = await new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT * FROM Orders WHERE order_id = ?',
+        orderId,
+        (error, results) => {
+          if (error) {
+            return reject(error);
+          }
+          resolve(results);
+        }
+      );
+    });
 
-    console.log(order);
+    const orderproduct = await new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT OP.product_id, P.product_name ' +
+        'FROM Order_Product AS OP ' +
+        'INNER JOIN Products AS P ON OP.product_id = P.product_id ' +
+        'WHERE OP.order_id = ?',
+        orderId,
+        (error, results) => {
+          if (error) {
+            return reject(error);
+          }
+          resolve(results);
+        }
+      );
+    });
 
+    console.log(order)
+    console.log(orderproduct)
 
+    let transporter = nodemailer.createTransport({
+      host: "smtp-mail.outlook.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: 'courtsidecart22@hotmail.com',
+        pass: process.env.NODEMAILER_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
+      },
+    });
 
+    let info = await transporter.sendMail({
+      from: 'courtsidecart22@hotmail.com',
+      to: `${email}`,
+      subject: "Courtside Cart Order Success",
+      text: `Hello!`,
+      html: `<b> You have ordered some products: ${orderproduct}. The total is ${order}. We have sent the products to ${shippingData}  </b>`,
+    });
 
+    console.log("Message sent: %s", info.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+    res.json({ success: 'Message sent success' });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ error: err.message });
+  }
 
+});
 
-
-    res.json({success: 'post call succeed!', url: req.url, body: req.body})
-  });
 
 module.exports = app;
 

@@ -50,7 +50,7 @@ function Checkout() {
 
     // use order id to call a function create order and product link, 
     dispatch(OrderProductLink({orderid, cartItems}))
-    dispatch(sendOrder({orderId: orderid}))
+    dispatch(sendOrder({orderId: orderid, shippingData: orders.shippingInfo}))
 
     navigate(`/checkout/${orderid}`)
     
