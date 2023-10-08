@@ -23,7 +23,7 @@ const ForgotPasswordModal = ({ show, onHide, signinfunction, signupfunction }) =
       setValidated(true);
       setIsLoading(true);
 
-      dispatch( sendForgotPassword(email) )
+      dispatch( sendForgotPassword({email}) )
       .then(() => {
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setEmail('');

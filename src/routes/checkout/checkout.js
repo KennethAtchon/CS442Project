@@ -6,7 +6,7 @@ import PaymentInfo from '../../components/forms/paymentform'
 import './checkout.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { createOrder, OrderProductLink } from '../../actions/orderActions';
+import { createOrder, OrderProductLink, sendOrder } from '../../actions/orderActions';
 
 
 function Checkout() {
@@ -50,6 +50,7 @@ function Checkout() {
 
     // use order id to call a function create order and product link, 
     dispatch(OrderProductLink({orderid, cartItems}))
+    dispatch(sendOrder({orderId: orderid}))
 
     navigate(`/checkout/${orderid}`)
     

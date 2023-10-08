@@ -27,7 +27,7 @@ app.post('/signPassword', async function(req, res) {
     const payload = { email };
 
     const token = jwt.sign(payload, secretKey, {expiresIn: '15m'});
-    const link = `https://main.dcdome1e80r0l.amplifyapp.com/${email}/${token}`
+    const link = `https://main.dcdome1e80r0l.amplifyapp.com/resetpassword/${email}/${token}`
 
     let transporter = nodemailer.createTransport({
         host: "smtp-mail.outlook.com",
@@ -113,6 +113,19 @@ app.post('/signPassword', async function(req, res) {
 /* relatively easy compared to reset password */
 app.post('/sendOrderEmail', function(req, res) {
     // Add your code here
+    const {orderId} = req.body;
+
+    const order = connection.query('SELECT * FROM Orders WHERE order_id = ?',
+    orderId);
+
+    console.log(order);
+
+
+
+
+
+
+
     res.json({success: 'post call succeed!', url: req.url, body: req.body})
   });
 

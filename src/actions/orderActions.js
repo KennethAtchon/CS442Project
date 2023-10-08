@@ -13,8 +13,24 @@ import {
   } from './actionTypes';
 import { API } from 'aws-amplify';
 
+export const sendOrder = ({orderId }) => (dispatch) => {
+  
+      API.post("api", "/sendOrderEmail", {
+          body: {
+            orderId
+          }
+      })
+      .then((response) => {
+          console.log("Email sent successfully:", response);
+
+      })
+      .catch((error) => {
+          console.error("Error changing settings:", error);
+
+      });
+};
+
 export const OrderProductLink = ({ orderid, cartItems }) => (dispatch) => {
-  dispatch({ type: CREATE_ORDER_REQUEST });
 
   return new Promise((resolve, reject) => {
       API.post('api', '/orderProduct', {
@@ -41,8 +57,9 @@ export const getOrderProduct = ({ orderId }) => (dispatch) =>{
       orderId
     }
   }).then((response) => {
+    console.log(response.order)
     
-    dispatch({ type: GET_ORDER_PRODUCT_SUCCESS, orderproduct: response.order});
+    dispatch({ type: GET_ORDER_PRODUCT_SUCCESS, orderProduct: response.order});
 
   })
   .catch((error) => {
@@ -63,7 +80,7 @@ export const getOrder = ({ orderId}) => (dispatch) =>{
     const order = response.order
     const { order_date, order_id, total_price, user_id} = order[0]
 
-    dispatch({ type: CREATE_ORDER_SUCCESS, date: order_date, userId: user_id, total: total_price, orderId: order_id});
+    dispatch({ type: CREATE_ORDER_SUCCESS, date: order_date, userId: user_id, total: total_price, orderId: orderId});
 
   })
   .catch((error) => {

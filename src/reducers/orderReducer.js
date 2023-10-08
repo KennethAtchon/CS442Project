@@ -18,6 +18,7 @@ const initialState = {
   loading: false,
   error: null,
   orderData: {},
+  orderProduct: {}
 };
 
 const orderReducer = (state = initialState, action) => {
@@ -59,14 +60,12 @@ const orderReducer = (state = initialState, action) => {
         },
         loading: false,
       };
-
-      case GET_ORDER_PRODUCT_SUCCESS:
-        return {
-          ...state,
-          orderProduct: action.orderproduct,
-          loading: false,
-        };
-
+    case GET_ORDER_PRODUCT_SUCCESS:
+      return {
+        ...state,
+        orderProduct: action.orderProduct,
+        loading: false,
+      };
     case UPDATE_SHIPPING_INFO_FAILURE:
     case UPDATE_PAYMENT_INFO_FAILURE:
     case CREATE_ORDER_FAILURE:

@@ -15,8 +15,11 @@ function OrderConfirm() {
   const shippinginfo = user ? JSON.parse(user.shipping_info) : orders.shippingInfo;
 
   useEffect(() => {
+
+    console.log(orders)
     
     if(Object.keys(orders.orderData).length === 0){
+      console.log("Being ran");
       dispatch(getOrder({orderId: orderid}))
       dispatch(getOrderProduct({orderId: orderid}))
     }
@@ -49,7 +52,7 @@ function OrderConfirm() {
               </Card.Header>
               <Card.Body>
                 <ul>
-                {orders.orderProduct && orders.orderProduct.map((item) => (
+                {orders.orderproduct && orders.orderproduct.map((item) => (
                   <li>{item.product_name}</li>
                 ))}
                   {/* Include a list of purchased items */}

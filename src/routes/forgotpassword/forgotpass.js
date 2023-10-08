@@ -8,6 +8,7 @@ import {changePassword } from '../../actions/authActions';
 
 function Forgotpass() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { email, token } = useParams();
   const user = useSelector((state) => state.auth.user);
 
@@ -43,6 +44,8 @@ function Forgotpass() {
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setNewPassword('');
         setConfirmPassword('');
+        navigate('/')
+        
 
       })
       .catch((error) => {
