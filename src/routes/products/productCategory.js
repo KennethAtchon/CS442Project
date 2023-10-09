@@ -17,7 +17,7 @@ function ProductCategory() {
   // Dispatch the getProduct action when the component mounts
   useEffect(() => {
     console.log("This should not run alot")
-    console.log(products)
+    console.log(JSON.stringify(products))
     
     dispatch(getProduct({category: category}));
 

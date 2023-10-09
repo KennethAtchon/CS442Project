@@ -6,17 +6,17 @@ import './searchbar.css'; // Import your custom CSS file
 function SearchBar(props) {
   const [searchTerm, setSearchTerm] = useState('');
 
-  const handleSearch = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Implement your search logic here, e.g., sending the search term to a backend API
-    // You can also use props to pass the search results back to the parent component
-    // For now, let's just log the search term
-    console.log(`Searching for: ${searchTerm}`);
+    console.log(searchTerm)
+    if (props.onSearch) {
+      props.onSearch(searchTerm); // Call the onSearch prop with the search term
+    }
   };
 
   return (    
     <div className={`search-bar-container ${props.className || ''}`}>
-      <Form inline onSubmit={handleSearch}>
+      <Form inline onSubmit={handleSubmit}>
         <InputGroup>
         
           <FormControl

@@ -66,6 +66,92 @@ CREATE TABLE Reviews (
     FOREIGN KEY (product_id) REFERENCES Products(product_id)
 );
 
+INSERTS
+Suppliers
+INSERT INTO Suppliers (supplier_name, address, delivery_speed)
+VALUES
+    ('Amazon', '123 Main Street, Seattle, WA', '2 days'),
+    ('Alibaba', '456 Tech Road, Hangzhou, China', '3 days'),
+    ('Walmart', '789 Supermarket Ave, Bentonville, AR', '1 day');
+
+INSERT INTO Products (product_name, description, price, rating, image_url, category, features, quantity, supplier_id)
+VALUES
+('Premium Basketball', 'High-quality basketball for serious players.', 39.99, 1.0, 'premium_basketball.jpg', 'basketball', 'Composite leather, enhanced grip', 50, 1),
+('Basketball Training Set', 'Complete training set for aspiring basketball players.', 129.99, 1.5, 'training_set.jpg', 'basketball', 'Includes ball, hoop, and pump', 25, 2),
+('Basketball Gloves', 'Grip-enhancing gloves for better ball control.', 19.99, 2.0, 'gloves.jpg', 'basketball', 'Silicone grip, breathable fabric', 75, 3),
+('Basketball Scoreboard', 'Electronic scoreboard for tracking game scores.', 199.99, 2.5, 'scoreboard.jpg', 'basketball', 'LED display, wireless remote', 10, 1),
+('Basketball Coaching Book', 'Comprehensive coaching guide for basketball coaches.', 29.99, 3.0, 'coaching_book.jpg', 'basketball', 'Tactics, drills, and strategies', 30, 2);
+
+
+INSERT INTO Products (product_name, description, price, rating, image_url, category, features, quantity, supplier_id)
+VALUES
+    ('Soccer Ball', 'Official size and weight soccer ball.', 19.99, 1.0, 'soccer_ball.jpg', 'soccer', 'Durable rubber construction', 100, 1),
+    ('Soccer Goal', 'Portable soccer goal with net.', 89.99, 1.5, 'soccer_goal.jpg', 'soccer', 'Easy assembly, weather-resistant', 50, 2),
+    ('Soccer Cleats', 'High-performance soccer cleats.', 79.99, 2.0, 'soccer_cleats.jpg', 'soccer', 'Lightweight and responsive', 200, 3),
+    ('Soccer Jersey', 'Official team jersey for soccer.', 49.99, 2.5, 'soccer_jersey.jpg', 'soccer', 'Team logo, breathable fabric', 75, 1),
+    ('Soccer Training Cones', 'Set of training cones for drills.', 14.99, 3.0, 'training_cones.jpg', 'soccer', 'Bright colors, durable', 100, 2);
+
+-- Insert products for tennis, swimming, football, and fishing
+INSERT INTO Products (product_name, description, price, rating, image_url, category, features, quantity, supplier_id)
+VALUES
+    -- Tennis equipment
+    ('Tennis Racket', 'Professional-grade tennis racket.', 129.99, 1.0, 'tennis_racket.jpg', 'tennis', 'Graphite frame, lightweight', 30, 3),
+    ('Tennis Balls (Set of 3)', 'High-quality tennis balls for matches.', 12.99, 1.5, 'tennis_balls.jpg', 'tennis', 'Optimal bounce, durable felt', 100, 2),
+    ('Tennis Shoes', 'Comfortable tennis shoes for all-court play.', 89.99, 2.0, 'tennis_shoes.jpg', 'tennis', 'Cushioned sole, lateral support', 50, 1),
+    ('Tennis Bag', 'Carry bag for tennis rackets and gear.', 34.99, 2.5, 'tennis_bag.jpg', 'tennis', 'Multiple compartments, adjustable strap', 40, 3),
+    ('Tennis Net', 'Regulation-sized tennis net for practice.', 49.99, 3.0, 'tennis_net.jpg', 'tennis', 'Steel frame, quick setup', 20, 2),
+
+    -- Swimming equipment
+    ('Swimming Goggles', 'Anti-fog swimming goggles for clear vision.', 19.99, 1.0, 'swimming_goggles.jpg', 'swimming', 'UV protection, adjustable strap', 100, 1),
+    ('Swimming Cap', 'Silicone swimming cap for reduced drag.', 9.99, 1.5, 'swimming_cap.jpg', 'swimming', 'Comfortable fit, tear-resistant', 200, 2),
+    ('Swimsuit', 'Performance swimsuit for competitive swimming.', 49.99, 2.0, 'swimsuit.jpg', 'swimming', 'Chlorine-resistant, hydrodynamic design', 75, 3),
+    ('Swim Fins', 'Flexible swim fins for improved propulsion.', 29.99, 2.5, 'swim_fins.jpg', 'swimming', 'Multiple sizes available, easy on/off', 50, 1),
+    ('Swimming Kickboard', 'Buoyant kickboard for swim training.', 14.99, 3.0, 'swimming_kickboard.jpg', 'swimming', 'Textured grip, durable foam', 80, 2),
+
+    -- Football equipment
+    ('Football', 'Official size and weight football.', 24.99, 1.0, 'football.jpg', 'football', 'Durable leather construction', 100, 3),
+    ('Football Helmet', 'Protective football helmet with facemask.', 79.99, 1.5, 'football_helmet.jpg', 'football', 'Impact protection, comfortable fit', 30, 2),
+    ('Football Gloves', 'Grip-enhancing football gloves for receivers.', 19.99, 2.0, 'football_gloves.jpg', 'football', 'Silicone grip, breathable fabric', 60, 1),
+    ('Football Shoulder Pads', 'Shoulder pads for added protection.', 49.99, 2.5, 'football_shoulder_pads.jpg', 'football', 'Adjustable fit, lightweight', 40, 3),
+    ('Football Cleats', 'High-performance football cleats.', 89.99, 3.0, 'football_cleats.jpg', 'football', 'Sturdy construction, traction cleats', 50, 2),
+
+    -- Fishing equipment
+    ('Fishing Rod', 'Versatile fishing rod for freshwater and saltwater.', 79.99, 1.0, 'fishing_rod.jpg', 'fishing', 'Graphite construction, multiple lengths', 50, 1),
+    ('Fishing Reel', 'Smooth-acting fishing reel for casting and retrieval.', 49.99, 1.5, 'fishing_reel.jpg', 'fishing', 'Ball bearings, anti-reverse', 75, 2),
+    ('Fishing Tackle Box', 'Organized tackle box with compartments.', 19.99, 2.0, 'tackle_box.jpg', 'fishing', 'Durable plastic, secure latches', 100, 3),
+    ('Fishing Lures (Set of 5)', 'Assorted fishing lures for different species.', 14.99, 2.5, 'fishing_lures.jpg', 'fishing', 'Realistic designs, sharp hooks', 200, 1),
+    ('Fishing Waders', 'Waterproof fishing waders for staying dry.', 69.99, 3.0, 'fishing_waders.jpg', 'fishing', 'Neoprene material, adjustable straps', 30, 2);
+
+-- Update questions and answers for rows with faq_id values from 1 to 10
+UPDATE Faq
+SET
+  question = CASE
+    WHEN faq_id = 1 THEN 'What is the main purpose of our website?'
+    WHEN faq_id = 2 THEN 'How can I easily navigate our website?'
+    WHEN faq_id = 3 THEN 'What benefits come with registering on our website?'
+    WHEN faq_id = 4 THEN 'Do you have a return policy for products purchased on our website?'
+    WHEN faq_id = 5 THEN 'Can I customize team uniforms and jerseys on your website?'
+    WHEN faq_id = 6 THEN 'What safety measures are in place for secure transactions on our website?'
+    WHEN faq_id = 7 THEN 'Are there any promotions or discounts available on our website?'
+    WHEN faq_id = 8 THEN 'How can I contact customer support for assistance?'
+    WHEN faq_id = 9 THEN 'What payment methods are accepted on our website?'
+    WHEN faq_id = 10 THEN 'Is there a loyalty program for frequent customers?'
+  END,
+  answer = CASE
+    WHEN faq_id = 1 THEN 'Our website is dedicated to providing sports enthusiasts with a wide range of high-quality sports equipment and gear.'
+    WHEN faq_id = 2 THEN 'You can navigate our website using the intuitive menu at the top, which categorizes products by sport, or by utilizing the search bar to find specific items.'
+    WHEN faq_id = 3 THEN 'Registering on our website allows you to enjoy various benefits, including order tracking, saving favorite products, and receiving exclusive offers and updates.'
+    WHEN faq_id = 4 THEN 'Yes, we have a straightforward return and exchange policy. Please review our return policy for detailed instructions on how to initiate the process.'
+    WHEN faq_id = 5 THEN 'Certainly! We offer customization services for team uniforms and jerseys. Feel free to contact our customer support for information on personalizing your team''s gear.'
+    WHEN faq_id = 6 THEN 'We prioritize the security of your transactions. Our website employs advanced encryption and security protocols to safeguard your personal and payment information.'
+    WHEN faq_id = 7 THEN 'Yes, we frequently offer promotions and discounts on our products. Check our "Promotions" section for the latest deals and offers.'
+    WHEN faq_id = 8 THEN 'You can easily reach our customer support team through the "Contact Us" page on our website or by using the live chat feature for immediate assistance.'
+    WHEN faq_id = 9 THEN 'We accept various payment methods, including credit cards, debit cards, PayPal, and more. You can choose the payment option that suits you best during checkout.'
+    WHEN faq_id = 10 THEN 'Yes, we value our loyal customers. Our website offers a loyalty program that rewards you with exclusive perks and discounts based on your purchase history.'
+  END
+WHERE faq_id BETWEEN 1 AND 10;
+
+
 
 
   */

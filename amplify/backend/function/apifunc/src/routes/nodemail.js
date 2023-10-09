@@ -110,11 +110,13 @@ app.post('/signPassword', async function(req, res) {
     }
   });
   
-/* relatively easy compared to reset password */
+
+  
 app.post('/sendOrderEmail', async function(req, res) {
   try {
     const { orderId, shippingData } = req.body;
 
+    // Step 1: Extract user_id from the order
     const order = await new Promise((resolve, reject) => {
       connection.query(
         'SELECT * FROM Orders WHERE order_id = ?',
@@ -128,6 +130,26 @@ app.post('/sendOrderEmail', async function(req, res) {
       );
     });
 
+    if (order.length === 0) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    const user_id = order[0].user_id; // Extract user_id
+
+    // Step 2: Retrieve user's email from the User table
+    const user = await new Promise((resolve, reject) => {
+      connection.query(
+        'SELECT email FROM User WHERE user_id = ?',
+        user_id,
+        (error, results) => {
+          if (error) {
+            return reject(error);
+          }
+          resolve(results);
+        }
+      );
+    });
+    
     const orderproduct = await new Promise((resolve, reject) => {
       connection.query(
         'SELECT OP.product_id, P.product_name ' +
@@ -144,13 +166,18 @@ app.post('/sendOrderEmail', async function(req, res) {
       );
     });
 
-    console.log(order)
-    console.log(orderproduct)
+    if (user.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
 
+    const userEmail = user[0].email; // Extract user's email
+    const orderedProductsList = orderproduct.map(product => product.product_name).join(', ');
+
+    // Step 3: Compose the email content
     let transporter = nodemailer.createTransport({
       host: "smtp-mail.outlook.com",
       port: 587,
-      secure: false, // true for 465, false for other ports
+      secure: false,
       auth: {
         user: 'courtsidecart22@hotmail.com',
         pass: process.env.NODEMAILER_PASS,
@@ -162,21 +189,21 @@ app.post('/sendOrderEmail', async function(req, res) {
 
     let info = await transporter.sendMail({
       from: 'courtsidecart22@hotmail.com',
-      to: `${email}`,
+      to: userEmail, // Send email to the user's email address
       subject: "Courtside Cart Order Success",
       text: `Hello!`,
-      html: `<b> You have ordered some products: ${orderproduct}. The total is ${order}. We have sent the products to ${shippingData}  </b>`,
+      html: `<b>You have ordered some products: ${orderedProductsList}. The total is $${order[0].total_price}. We have sent the products to ${shippingData.streetAddress}, ${shippingData.city}, ${shippingData.state}, ${shippingData.zip}.</b>`,
     });
 
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    res.json({ success: 'Message sent success' });
+    res.json({ success: 'Message sent successfully' });
   } catch (err) {
     console.log(err);
     res.status(500).json({ error: err.message });
   }
-
 });
+
 
 
 module.exports = app;

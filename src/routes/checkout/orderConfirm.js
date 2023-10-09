@@ -16,17 +16,17 @@ function OrderConfirm() {
 
   useEffect(() => {
 
-    // console.log(orders)
+    console.log(orders)
     
-    // if(Object.keys(orders.orderData).length === 0 || Object.keys(orders.orderProduct).length === 0){
-    //   console.log("Being ran");
-    //   dispatch(getOrder({orderId: orderid}))
-    //   dispatch(getOrderProduct({orderId: orderid}))
-    // }
+    if(Object.keys(orders.orderData).length === 0 || Object.keys(orders.orderProduct).length === 0){
+      console.log("Being ran");
+      dispatch(getOrder({orderId: orderid}))
+      dispatch(getOrderProduct({orderId: orderid}))
+    }
 
-    // if(Object.keys(shippinginfo).length === 0 && !user){
-    //   navigate('/error')
-    // }
+    if(Object.keys(shippinginfo).length === 0 && !user){
+      navigate('/error')
+    }
 
   })
 
