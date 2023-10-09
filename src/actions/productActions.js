@@ -25,11 +25,14 @@ import {
       delivery_speed,
     };
 
+    console.log(request)
+
     // Make an API request to fetch products using AWS Amplify
     API.post('api', '/getProducts', {
       body: request,
     })
       .then((response) => {
+        console.log(response)
         // Dispatch a success action with the fetched products
         dispatch({ type: GET_PRODUCT_SUCCESS, products: response.products }); // Assuming the API response contains products
   

@@ -82,7 +82,7 @@ function AppNavbar() {
         <Link to="/home" className='linkunderline'>Courtside Carts</Link>
         </Navbar.Brand> 
         
-        <SearchBar className="navbarsearchbar" /> 
+        <SearchBar className="navbarsearchbar" productSearch={true} /> 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />  
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto" >
