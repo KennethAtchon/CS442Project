@@ -18,7 +18,7 @@ import { API } from 'aws-amplify';
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
-    fetchClient();
+    //fetchClient();
     if(localStorage.getItem('authToken') != null){
       console.log("signing with token")
       dispatch(signInWithToken());

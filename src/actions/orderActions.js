@@ -128,10 +128,13 @@ export const createOrder = ({ date, userId, total}) => (dispatch) => {
 export const updatePaymentInfo = ({userId, billingInfo, paymentInfo}) => dispatch => {
     dispatch({ type: UPDATE_PAYMENT_INFO_REQUEST });
 
+    console.log(billingInfo)
+    console.log(paymentInfo)
+    console.log(userId)
+
     if (!userId) {
     // If userId is not provided (for guest users), simply dispatch the success action with the billingInfo and paymentInfo
     dispatch({ type: UPDATE_PAYMENT_INFO_SUCCESS, billingInfo, paymentInfo });
-    return Promise.resolve(); // Resolve the promise to indicate success
     }
 
     // Make an API request to update the user's payment information using AWS Amplify
@@ -156,7 +159,7 @@ export const updatePaymentInfo = ({userId, billingInfo, paymentInfo}) => dispatc
 };
 
 
-export const updateShippingInfo = ({userId, shippingInfo}) => dispatch => {
+export const updateShippingInfo = ({userId, shippingInfo, phoneNumber}) => dispatch => {
     dispatch({ type: UPDATE_SHIPPING_INFO_REQUEST });
   
     if (!userId) {
@@ -170,6 +173,7 @@ export const updateShippingInfo = ({userId, shippingInfo}) => dispatch => {
       body: {
         userId,
         shippingInfo,
+        phoneNumber
       },
     })
       .then(response => {

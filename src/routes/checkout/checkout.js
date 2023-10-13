@@ -7,6 +7,7 @@ import './checkout.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { createOrder, OrderProductLink, sendOrder } from '../../actions/orderActions';
+import { updateCart } from '../../actions/authActions';
 
 
 function Checkout() {
@@ -37,6 +38,11 @@ function Checkout() {
     return;
   }
 
+  if( Object.keys(user.shipping_info).length === 0 || Object.keys(user.payment_info).length === 0){
+    console.log("Please fill all the forms.")
+    return;    
+  }
+
   if(cartItems.length === 0){
     console.log("Nothing in cart")
     return;
@@ -51,6 +57,9 @@ function Checkout() {
     // use order id to call a function create order and product link, 
     dispatch(OrderProductLink({orderid, cartItems}))
     dispatch(sendOrder({orderId: orderid, shippingData: orders.shippingInfo}))
+    localStorage.removeItem("cartItems")
+    dispatch( updateCart([]))
+
 
     navigate(`/checkout/${orderid}`)
     

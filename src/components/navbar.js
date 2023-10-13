@@ -17,7 +17,6 @@ function AppNavbar() {
     const userState = useSelector((state) => state.auth);
     const dispatch = useDispatch();
 
-
     const [loggedIn, setLoggedIn] = useState(userState.logged); // Assuming you have a way to track login status
 
     const [showSignInModal, setShowSignInModal] = useState(false);

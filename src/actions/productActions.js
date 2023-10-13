@@ -25,8 +25,6 @@ import {
       delivery_speed,
     };
 
-    console.log(request)
-
     // Make an API request to fetch products using AWS Amplify
     API.post('api', '/getProducts', {
       body: request,

@@ -145,10 +145,11 @@ export const signInWithToken = () => async (dispatch) => {
         });
 
         // Dispatch a success action with the user data
+        console.log(response.decoded[0])
+        dispatch({ type: SIGN_IN_SUCCESS, user: response.decoded[0] });
         
-        dispatch({ type: SIGN_IN_SUCCESS, user: response.decoded.user });
-        localStorage.setItem('cartItems', response.decoded.user.cart);
-        dispatch({ type: UPDATE_CART_SUCCESS, Cart:  JSON.parse(response.decoded.user.cart)});
+        localStorage.setItem('cartItems', response.decoded[0].cart);
+        dispatch({ type: UPDATE_CART_SUCCESS, Cart:  JSON.parse(response.decoded[0].cart)});
 
     } catch (error) {
         // Dispatch a failure action with the error message
@@ -185,12 +186,11 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
         
     }
 
-
     if (!userId) {
         // If userId is not provided, simply dispatch the success action with the cart data
         dispatch({ type: UPDATE_CART_SUCCESS, Cart: cart });
         localStorage.setItem('cartItems', JSON.stringify(cart));
-        return Promise.resolve(); // Resolve the promise to indicate success
+        return; // Resolve the promise to indicate success
       }
   
       // Make an API request to update the user's cart using AWS Amplify

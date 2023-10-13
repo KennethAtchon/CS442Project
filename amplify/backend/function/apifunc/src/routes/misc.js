@@ -20,13 +20,13 @@ app.get('/getFaq', (req, res) => {
   });
 
 app.post('/updateShipping', function(req, res) {
-    const { userId, shippingInfo } = req.body; // Extract userId and shippingInfo from the request body
+    const { userId, shippingInfo, phoneNumber } = req.body; // Extract userId and shippingInfo from the request body
 
     // Construct the SQL UPDATE query for shipping info
-    let query = 'UPDATE User SET shipping_info = ? WHERE user_id = ?';
+    let query = 'UPDATE User SET shipping_info = ?, phone_number = ? WHERE user_id = ?';
 
     // Execute the query with shippingInfo and userId as parameters
-    connection.query(query, [JSON.stringify(shippingInfo), userId], (err, results) => {
+    connection.query(query, [JSON.stringify(shippingInfo),phoneNumber, userId], (err, results) => {
         if (err) {
         console.error('Database error:', err);
         return res.status(500).json({ error: err});
@@ -41,7 +41,7 @@ app.post('/updatePayment', function(req, res) {
     const { userId, billingInfo, paymentInfo } = req.body; // Extract userId, billingInfo, and paymentInfo from the request body
 
     // Construct the SQL UPDATE query for payment info
-    let query = 'UPDATE User SET billing_info = ? AND payment_info = ? WHERE user_id = ?';
+    let query = 'UPDATE User SET billing_info = ?, payment_info = ? WHERE user_id = ?';
 
     // Execute the query with billingInfo, paymentInfo, and userId as parameters
     connection.query(query, [JSON.stringify(billingInfo), JSON.stringify(paymentInfo), userId], (err, results) => {

@@ -230,10 +230,21 @@ app.post('/signIntoken', (req, res) => {
       if (err) {
         return res.status(403).json({ message: 'Invalid token' });
       }
-  
+    
+
+      const query = 'SELECT * FROM User WHERE email = ?';
+      connection.query(query, [decoded.user.email], (err, results) => {
+        if (err) {
+          console.error('Database error:', err);
+          return res.status(500).json({ error: 'Database error' });
+        }
+
       // Send a response indicating successful sign-in
-      res.json({ message: 'Sign-in with token successful', decoded });
+      res.json({ message: 'Sign-in with token successful', decoded: results });  
+
+      })
     });
+    
   });
 
 app.post('/updateCart', function(req, res) {

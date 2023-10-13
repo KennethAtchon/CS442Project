@@ -44,13 +44,18 @@ function ShippingInformationForm() {
   
         const shippingInfo = {
           countryRegion,firstName,lastName,
-          streetAddress,city,state,zip,email,phoneNumber,
+          streetAddress,city,state,zip,email
         };
+
+        localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo))
+
+
   
         dispatch(
           updateShippingInfo({
             userId: user ? user.user_id : undefined,
             shippingInfo,
+            phoneNumber
           })
         )
       }

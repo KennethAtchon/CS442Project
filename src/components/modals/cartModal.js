@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const ShoppingCartModal = ({ show, onHide}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const user = useSelector((state) => state.auth.user);
   const cartItems = useSelector((state) => state.cart.cart);
 
   const calculateTotal = () => {
@@ -28,7 +29,7 @@ const ShoppingCartModal = ({ show, onHide}) => {
 
   const handleRemoveItem = (index) => {
     // Dispatch the removeFromCart action with the index of the item to be removed
-    dispatch(updateCart({removeIndex: index}));
+    dispatch(updateCart({userId: user ? user.user_id : undefined, removeIndex: index}));
 
   };
 

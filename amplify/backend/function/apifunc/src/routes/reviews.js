@@ -51,7 +51,7 @@ app.post('/getReviews', function (req, res) {
       (error, results) => {
         if (error) {
           return res.status(500).json({
-            error: 'Database error'
+            error: 'Database error', 
           });
         }
         res.json({ reviews: results });

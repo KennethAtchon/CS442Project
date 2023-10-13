@@ -17,18 +17,20 @@ const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
   const user = useSelector((state) => state.auth.user);
   const products = useSelector((state) => state.products.products);
-  const product = products.find((product) => product.product_id === parseInt(id));
+  var product = products.find((product) => product.product_id === parseInt(id));
+  const cartItems = useSelector((state) => state.cart.cart);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     // Dispatch the getProduct action with the product_id from the URL parameter
-    console.log(products)
+    console.log(product)
 
     if(!product){
       dispatch(getProduct({ product_id: id }))
     }
     
-  }, [dispatch, product]);
+  }, [dispatch]);
 
   const handleQuantityChange = (e) => {
     // Update the quantity when the user changes it
@@ -56,7 +58,11 @@ const ProductPage = () => {
 
   const handleCheckout = () => {
     // First, add the product to the cart
-    handleAddToCart();
+    var cart = cartItems.find((cartItems) => parseInt(cartItems.product_id)  === parseInt(product.product_id));
+    if(!cart){
+      handleAddToCart();
+    }
+    
 
     // Then, navigate to /checkout
     navigate('/checkout');

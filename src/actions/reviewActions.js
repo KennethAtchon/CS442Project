@@ -34,8 +34,7 @@ export const createReview = ({ userId, productId, reviewText, rating, date }) =>
       .catch((error) => {
         // Dispatch a failure action with the error message
         dispatch({ type: CREATE_REVIEW_FAILURE, error: "An Error occured with the API, check AWS to resolve."  });
-  
-        // Optionally, you can also dispatch other actions or perform additional error handling here.
+
       });
   };
 
@@ -44,6 +43,8 @@ export const getReview = ({ productId }) => (dispatch) => {
     const requestBody = {
       productId,
     };
+
+    console.log(requestBody)
   
     API.post('api', '/getReviews', {
       body: requestBody,

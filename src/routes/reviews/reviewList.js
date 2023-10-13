@@ -16,6 +16,7 @@ function MyReviews() {
   const [filteredReviews, setFilteredReviews] = useState([]);
 
   useEffect(() => {
+    
     if (reviews.length === 0) {
       dispatch(getUserReview({ userId: user.user_id }));
     }

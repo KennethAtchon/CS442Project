@@ -12,7 +12,7 @@ function OrderConfirm() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const orders = useSelector((state) => state.orders);
-  const shippinginfo = Object.keys(orders.shippingInfo).length === 0  ? JSON.parse(user.shipping_info) : orders.shippingInfo;
+  const shippinginfo = JSON.parse(localStorage.getItem("shippingInfo"));
 
   useEffect(() => {
 
@@ -24,11 +24,11 @@ function OrderConfirm() {
       dispatch(getOrderProduct({orderId: orderid}))
     }
 
-    if(Object.keys(shippinginfo).length === 0 && !user){
+    if(!shippinginfo && !user){
       navigate('/error')
     }
 
-  })
+  }, [dispatch])
 
   const handleContinue = () => {
     navigate('/')
