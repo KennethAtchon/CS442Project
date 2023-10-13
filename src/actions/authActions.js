@@ -188,6 +188,7 @@ export const updateCart = ({userId, cartData, removeIndex}) => dispatch => {
 
     if (!userId) {
         // If userId is not provided, simply dispatch the success action with the cart data
+        console.log("run me")
         dispatch({ type: UPDATE_CART_SUCCESS, Cart: cart });
         localStorage.setItem('cartItems', JSON.stringify(cart));
         return; // Resolve the promise to indicate success

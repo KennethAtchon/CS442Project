@@ -43,6 +43,9 @@ function Checkout() {
     return;    
   }
 
+  localStorage.setItem("shippingInfo", user.shipping_info)        
+  
+
   if(cartItems.length === 0){
     console.log("Nothing in cart")
     return;
@@ -58,7 +61,7 @@ function Checkout() {
     dispatch(OrderProductLink({orderid, cartItems}))
     dispatch(sendOrder({orderId: orderid, shippingData: orders.shippingInfo}))
     localStorage.removeItem("cartItems")
-    dispatch( updateCart([]))
+    dispatch(updateCart({userId: user ? user.user_id : undefined}))
 
 
     navigate(`/checkout/${orderid}`)

@@ -23,7 +23,7 @@ function App() {
       console.log("signing with token")
       dispatch(signInWithToken());
     }
-    dispatch(updateCart([]))
+    dispatch(updateCart({userId: undefined}))
     
   })
 

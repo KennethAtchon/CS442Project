@@ -16,13 +16,8 @@ function OrderConfirm() {
 
   useEffect(() => {
 
-    console.log(orders)
-    
-    if(Object.keys(orders.orderData).length === 0 || Object.keys(orders.orderProduct).length === 0){
-      console.log("Being ran");
-      dispatch(getOrder({orderId: orderid}))
-      dispatch(getOrderProduct({orderId: orderid}))
-    }
+    dispatch(getOrder({orderId: orderid}))
+    dispatch(getOrderProduct({orderId: orderid}))
 
     if(!shippinginfo && !user){
       navigate('/error')

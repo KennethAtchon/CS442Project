@@ -40,16 +40,14 @@ function ShippingInformationForm() {
       } else {
         setValidated(true);
         const { countryRegion,firstName,lastName,streetAddress,
-          city,state,zip,email,phoneNumber,} = formData;
+          city,state,zip,email,phoneNumber} = formData;
   
         const shippingInfo = {
           countryRegion,firstName,lastName,
           streetAddress,city,state,zip,email
         };
 
-        localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo))
-
-
+        localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo))        
   
         dispatch(
           updateShippingInfo({
