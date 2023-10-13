@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import AppNavbar from '../../components/navbar'; // Import the AppNavbar component
+import AppNavbar from '../../components/navbar';
 import SearchBar from '../../components/searchbar';
 import Accordion from '../../components/accordion';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { getUserReview } from '../../actions/reviewActions';
-import './reviewList.css'; // You can create a CSS file for styling
+import './reviewList.css';
 
 function MyReviews() {
   const dispatch = useDispatch();
@@ -14,27 +14,31 @@ function MyReviews() {
   const user = useSelector((state) => state.auth.user);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredReviews, setFilteredReviews] = useState([]);
+  const [dispatched, setDispatched] = useState(false);
 
   useEffect(() => {
-    
-    if (reviews.length === 0) {
-      dispatch(getUserReview({ userId: user.user_id }));
+    if (!dispatched) {
+      const timeout = setTimeout(() => {
+        dispatch(getUserReview({ userId: user.user_id }));
+        setDispatched(true);
+      }, 1000); // Delay dispatch for 1 second
+
+      return () => clearTimeout(timeout);
     }
 
     if (!user) {
       navigate('/error');
     }
-  }, [dispatch]);
-
+  }, [dispatch, dispatched, user, navigate]);
 
   useEffect(() => {
     if (searchTerm === '') {
-      // If the search term is empty, show all reviews
       setFilteredReviews(reviews);
     } else {
       const filteredReviewItems = reviews.filter((reviewItem) =>
         reviewItem.comment.toLowerCase().includes(searchTerm.toLowerCase())
       );
+      console.log(filteredReviewItems)
       setFilteredReviews(filteredReviewItems);
     }
   }, [reviews, searchTerm]);
@@ -46,7 +50,7 @@ function MyReviews() {
 
   return (
     <div>
-      <AppNavbar /> {/* Include the navigation bar */}
+      <AppNavbar />
       <h2>My Reviews</h2>
       <SearchBar text="for reviews" className="reviewsearchbar" onSearch={handleSearch} />
       {filteredReviews.length === 0 ? (

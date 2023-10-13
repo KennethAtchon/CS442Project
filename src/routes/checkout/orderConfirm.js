@@ -15,6 +15,7 @@ function OrderConfirm() {
   const shippinginfo = JSON.parse(localStorage.getItem("shippingInfo"));
 
   useEffect(() => {
+    console.log(orders)
 
     dispatch(getOrder({orderId: orderid}))
     dispatch(getOrderProduct({orderId: orderid}))

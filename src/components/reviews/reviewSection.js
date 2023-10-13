@@ -42,23 +42,41 @@ function ProductReviewSection() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [validated, setValidated] = useState(false);
-  const reviews = useSelector((state) => state.reviews);
+  const [reviews, setReviews] = useState([]); // Use useState for reviews
+  const [totalRating, setTotalRating] = useState(0); // Use useState for totalRating
+  const [globalRating, setGlobalRating] = useState(0); // Use useState for globalRating
+  const [starRatings, setStarRatings] = useState([0, 0, 0, 0, 0]); // Use useState for starRatings
+  const [canReview, setCanReview] = useState(false);
 
-  const totalRating = reviews.reviews.length !== 0 ? reviews.reviews.length: 0; // Total global ratings
-  const { globalRating, starRatings } = calculateRatings(reviews.reviews);
 
   useEffect(() => {
     console.log(reviews)
-    if(reviews.reviews.length === 0){
+    if(reviews.length === 0){
       dispatch( getReview({productId: id}))
+      .then((responseReviews) => {
+        // Set reviews state with responseReviews
+        setReviews(responseReviews);
+
+        // Calculate and set totalRating, globalRating, and starRatings
+        const { globalRating, starRatings } = calculateRatings(responseReviews);
+        setTotalRating(responseReviews.length);
+        setGlobalRating(globalRating);
+        setStarRatings(starRatings);
+      }).catch(()=>{
+        console.log("Somthing happened.")
+      })
 
     }
 
     if(user !== null){
-      dispatch(checkReview({productId: id, userId: user.user_id}))
+      dispatch(checkReview({ productId: id, userId: user.user_id }))
+      .then((canReviewValue) => {
+        setCanReview(canReviewValue);
+      })
+      .catch(() => {});
     }
     
-  }, [dispatch, id]);
+  }, [dispatch, id, user]);
 
   const [formData, setFormData] = useState({
     reviewRating: 0, // Initialize with an empty string
@@ -86,9 +104,24 @@ function ProductReviewSection() {
       const currentDate = new Date();
       const currentDate2 = currentDate.toString()
 
-      dispatch(createReview({userId: user.user_id, productId: id, reviewText: formData.reviewText, rating: formData.reviewRating, date: currentDate2}))
+      dispatch(createReview({ userId: user.user_id, productId: id, reviewText: formData.reviewText, rating: formData.reviewRating, date: currentDate2 }))
+      .then(() => {
+        // After the review is created, fetch the reviews again and update the state.
+        return dispatch(getReview({ productId: id }));
+      })
+      .then((responseReviews) => {
+        // Set reviews state with responseReviews
+        setReviews(responseReviews);
 
-      dispatch( getReview({productId: id}))
+        // Calculate and set totalRating, globalRating, and starRatings
+        const { globalRating, starRatings } = calculateRatings(responseReviews);
+        setTotalRating(responseReviews.length);
+        setGlobalRating(globalRating);
+        setStarRatings(starRatings);
+      })
+      .catch(() => {
+        console.log("Something happened.");
+      });
 
     }
   };
@@ -126,7 +159,7 @@ function ProductReviewSection() {
             </Card.Body>
           </Card>
 
-        {user && reviews.canReview ? (
+        {user && canReview ? (
           <Card className='mt-3'>
           <Card.Body>
             <h5>Write Your Own Review</h5>
@@ -175,7 +208,7 @@ function ProductReviewSection() {
           <Card>
             <Card.Body className='reviews-size'>
               <h5>Product Reviews</h5>
-              < UsersReviews reviews={reviews.reviews} />
+              < UsersReviews reviews={reviews} />
             </Card.Body>
           </Card>
         </Col>

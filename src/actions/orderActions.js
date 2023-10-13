@@ -33,7 +33,7 @@ export const sendOrder = ({orderId, shippingData }) => (dispatch) => {
 
 export const OrderProductLink = ({ orderid, cartItems }) => (dispatch) => {
 
-  return new Promise((resolve, reject) => {
+
       API.post('api', '/orderProduct', {
         body: {
           orderid,
@@ -41,16 +41,12 @@ export const OrderProductLink = ({ orderid, cartItems }) => (dispatch) => {
         },
       })
         .then((response) => {
-
-          resolve(response);
+          console.log("Order Product Link successful")
         })
         .catch((error) => {
-
-
-          reject(error); // Reject the promise with the error
+          console.log("Order product link not successful.")
         });
-    }
-  )};
+    };
 
 export const getOrderProduct = ({ orderId }) => (dispatch) =>{
   API.post('api', '/getOrderProduct',{

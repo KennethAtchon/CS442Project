@@ -38,7 +38,7 @@ const Reviews = ({ reviews }) => {
       {reviews.map((review, index) => (
         <Review
           key={index}
-          name={review.review_id}
+          name={review.user_name}
           reviewText={review.comment}
           starRating={parseFloat(review.rating).toFixed(2)}
           reviewDate={review.review_datetime}

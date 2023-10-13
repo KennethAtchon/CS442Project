@@ -14,7 +14,7 @@ function AllCollapseExample({ faqData, reviewData }) {
       {reviewData && reviewData.map((reviewItem) => (
         <Accordion.Item key={reviewItem.review_id} eventKey={reviewItem.review_id.toString()}>
           <Accordion.Header>
-          Product Name
+          {reviewItem.product_name}
                 </Accordion.Header>
           <Accordion.Body
           ><Rating
@@ -22,7 +22,7 @@ function AllCollapseExample({ faqData, reviewData }) {
                   edit={false}
                   isHalf={true}
                   activeColor="#FFD700"
-                /> Review Date: {reviewItem.review_datetime}
+                /> Review Date: {reviewItem.review_date}
           <br></br>
           {reviewItem.comment}
           </Accordion.Body>

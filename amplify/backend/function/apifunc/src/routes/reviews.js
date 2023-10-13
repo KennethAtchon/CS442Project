@@ -46,7 +46,10 @@ app.post('/getReviews', function (req, res) {
   
     // Construct the SQL query to select reviews for a product
     connection.query(
-      'SELECT * FROM Reviews WHERE product_id = ?',
+      'SELECT Reviews.*, User.name AS user_name ' +
+      'FROM Reviews ' + 
+      ' INNER JOIN User ON Reviews.user_id = User.user_id ' +
+      'WHERE Reviews.product_id = ?; ',
       [productId],
       (error, results) => {
         if (error) {

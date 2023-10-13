@@ -92,7 +92,7 @@ app.post('/getUserProducts', function(req, res) {
 
   // Construct the SQL query to select reviews for a product
   connection.query(
-    'SELECT Products.* FROM Orders '+
+    'SELECT DISTINCT Products.* FROM Orders '+
     ' INNER JOIN Order_Product ON Orders.order_id = Order_Product.order_id ' +
     ' INNER JOIN Products ON Order_Product.product_id = Products.product_id ' +
     'WHERE Orders.user_id = ?',

@@ -23,14 +23,24 @@ const ProductPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Dispatch the getProduct action with the product_id from the URL parameter
-    console.log(product)
-
-    if(!product){
-      dispatch(getProduct({ product_id: id }))
-    }
+    let timer;
     
-  }, [dispatch]);
+    if (!product || product.product_id !== parseInt(id)) {
+      // Dispatch the getProduct action with the new product_id from the URL parameter
+      dispatch(getProduct({ product_id: id }));
+  
+      // Set a timer to prevent rapid dispatch
+      timer = setTimeout(() => {
+        console.log('Timer expired after 5 seconds');
+      }, 10000); // 10,000 milliseconds = 5 seconds
+    }
+  
+    return () => {
+      // Clear the timer when the component unmounts or when the effect re-runs
+      clearTimeout(timer);
+    };
+  }, [dispatch, id, product]);
+  
 
   const handleQuantityChange = (e) => {
     // Update the quantity when the user changes it

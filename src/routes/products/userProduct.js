@@ -17,23 +17,32 @@ const UserProduct = () => {
 
   
   useEffect(() => {
+    // Define a function to fetch user products and handle navigation
+    const fetchDataAndNavigate = () => {
+      if (isLoading) {
+        dispatch(getUserProduct({ userId: user ? user.user_id : undefined }))
+          .then(() => {
+            setIsLoading(false);
+          })
+          .catch(() => {
+            console.log("Error with the API.");
+          });
+      }
 
-    if(!user){
-      navigate('/error')
-    }
+      if (!user) {
+        navigate('/error');
+      }
+    };
 
-    if(isLoading){
-      dispatch(getUserProduct({userId: user ? user.user_id : undefined}))
-      .then(() =>{
-        setIsLoading(false);
-      }).catch(()=>{
-        console.log("Error with the API.")
-      })
-    }
-    
-    
-   
-  }, [dispatch]);
+    // Delay the execution by 5 seconds
+    const delay = 1000; // 5 seconds
+    const timer = setTimeout(() => {
+      fetchDataAndNavigate();
+    }, delay);
+
+    // Clear the timer when the component unmounts
+    return () => clearTimeout(timer);
+  }, [dispatch, user, isLoading, navigate]);
 
   return (
     <div>
