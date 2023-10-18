@@ -16,6 +16,7 @@ function OrderConfirm() {
 
   useEffect(() => {
     console.log(orders)
+    console.log(shippinginfo)
 
     dispatch(getOrder({orderId: orderid}))
     dispatch(getOrderProduct({orderId: orderid}))
