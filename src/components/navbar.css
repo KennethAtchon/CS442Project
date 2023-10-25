@@ -12,28 +12,16 @@
   
 /* Style for nav-link */
 .navlink {
-    color: transparent; /* Text color */
-    line-height: 1em;
+    color: #a71b1b; /* Text color */
     font-weight: bold; /* Font weight (adjust as needed) */
     padding: 10px 15px; /* Padding around the link */
+    transition: color 0.3s ease-in-out; /* Transition for color change */
     text-decoration: none;
-    -webkit-text-stroke: 1px rgba(255, 255, 255,0.5);
   }
-
-  .navlink::before {
-    position: absolute;
-    color: red;
-    width: 0;
-    overflow: hidden;
-    transition: 1s;
-    border-right: 8px: solid red;
-    -webkit-text-stroke: 1px red;
-  }
-      
+  
   /* Style for nav-link on hover */
-.navlink:hover::before {
-  width: 100%;
-  filter: drop-shadow(0 0 25px red);
+.navlink:hover {
+  color: #007bff; /* Change text color on hover (adjust as needed) */
 }
 
 /* Limit the width of the dropdown container */
