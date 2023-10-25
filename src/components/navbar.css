@@ -11,7 +11,7 @@
   }
   
 /* Style for nav-link */
-.navlink a{
+.navlink {
     color: transparent; /* Text color */
     line-height: 1em;
     font-weight: bold; /* Font weight (adjust as needed) */
@@ -20,7 +20,7 @@
     -webkit-text-stroke: 1px rgba(255, 255, 255,0.5);
   }
 
-  .navlink a::before {
+  .navlink::before {
     position: absolute;
     color: red;
     width: 0;
@@ -31,7 +31,7 @@
   }
       
   /* Style for nav-link on hover */
-.navlink a:hover::before {
+.navlink:hover::before {
   width: 100%;
   filter: drop-shadow(0 0 25px red);
 }
