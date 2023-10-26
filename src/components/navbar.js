@@ -78,7 +78,7 @@ function AppNavbar() {
       <div>
       <Navbar bg='light' expand="lg">
         <Navbar.Brand>
-        <Link to="/home" className='linkunderline'>Courtside Carts</Link>
+        <Link to="/home" className='linkunderline'>Courtside Cart</Link>
         </Navbar.Brand> 
         
         <SearchBar className="navbarsearchbar" productSearch={true} /> 
