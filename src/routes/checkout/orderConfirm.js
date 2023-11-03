@@ -6,6 +6,22 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrder, getOrderProduct } from '../../actions/orderActions';
 
+function generateRandomDate() {
+  const currentDate = new Date();
+  const minDays = 5;
+  const maxDays = 14;
+  const randomDays = Math.floor(Math.random() * (maxDays - minDays + 1)) + minDays;
+  currentDate.setDate(currentDate.getDate() + randomDays);
+
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
+  const day = currentDate.getDate().toString().padStart(2, '0');
+  const year = currentDate.getFullYear();
+
+  return `${month}/${day}/${year}`;
+}
+
+
+
 function OrderConfirm() {
   const { orderid } = useParams();
   const navigate = useNavigate();
@@ -66,7 +82,7 @@ function OrderConfirm() {
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <h4>Expected Delivery Date</h4>
-                    <p>DD/MM/YYYY</p>
+                    <p>{generateRandomDate()}</p>
                   </ListGroup.Item>
                 </ListGroup>
               

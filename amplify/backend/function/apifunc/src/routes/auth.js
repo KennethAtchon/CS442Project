@@ -164,14 +164,18 @@ app.post('/signUp', function (req, res) {
         console.error('Database error:', err);
         return res.status(500).json({ error: 'Database error' });
       }
+
+      // Omit the "password" field from the user object in the results
+      const userWithoutPassword = { ...results[0] };
+      delete userWithoutPassword.password;
   
-      jwt.sign({ user: results }, secretKey, { expiresIn: '1h' }, (err, token) => {
+      jwt.sign({ user: userWithoutPassword }, secretKey, { expiresIn: '1h' }, (err, token) => {
             if (err) {
               return res.status(500).json({ error: 'Error generating token' });
             }
   
             // Send the token as part of the response
-            res.json({ token, user: results });
+            res.json({ token, user: userWithoutPassword });
           });
   
         })
@@ -204,16 +208,20 @@ app.post('/signIn', function (req, res) {
           // Password doesn't match or error occurred
           return res.status(401).json({ error: 'Authentication failed' });
         }
-  
+
+        // Omit the "password" field from the user object
+        const userWithoutPassword = { ...user };
+        delete userWithoutPassword.password;
+    
   
         // Generate a JWT (JSON Web Token) for the user
-        jwt.sign({ user: user }, secretKey, { expiresIn: '1h' }, (jwtErr, token) => {
+        jwt.sign({ user: userWithoutPassword }, secretKey, { expiresIn: '1h' }, (jwtErr, token) => {
           if (jwtErr) {
             return res.status(500).json({ error: 'Error generating token' });
           }
   
           // Send the token as part of the response
-          res.json({ token, user: user });
+          res.json({ token, user: userWithoutPassword });
         });
       });
     });
@@ -239,8 +247,12 @@ app.post('/signIntoken', (req, res) => {
           return res.status(500).json({ error: 'Database error' });
         }
 
+      // Omit the "password" field from the user object in the results
+      const userWithoutPassword = { ...results[0] };
+      delete userWithoutPassword.password;
+
       // Send a response indicating successful sign-in
-      res.json({ message: 'Sign-in with token successful', decoded: results });  
+      res.json({ message: 'Sign-in with token successful', decoded: userWithoutPassword });  
 
       })
     });
