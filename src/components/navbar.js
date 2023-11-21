@@ -145,9 +145,9 @@ function AppNavbar() {
 
       <div className="navbar-separator-bar"></div>
 
-      <Navbar bg="light"  className="mini-navbar">
+      <Navbar bg='light'  className="mini-navbar">
         <Nav className="mx-auto">
-          <Link to="/products/category/basketball" className="nav-category">
+          <Link to="/products/category/basketball" className="nav-category ">
             Basketball
           </Link>
           <Link to="/products/category/soccer" className="nav-category">

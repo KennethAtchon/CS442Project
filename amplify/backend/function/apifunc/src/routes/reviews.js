@@ -35,7 +35,7 @@ app.post('/createReview', function (req, res) {
             }
             res.json({ message: 'Review created successfully', reviewId: insertResults.insertId });
           }
-        );
+        );       
       }
     });
     
