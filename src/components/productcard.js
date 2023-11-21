@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
@@ -15,12 +15,26 @@ function ProductCard({ product }) {
 
   const dispatch = useDispatch();
 
+  const [newPrice, setNewPrice] = useState('');
+  const [isNewPrice, setIsNewPrice] = useState(false);
+
+  useEffect(() => {
+    if (product.customData) {
+      const customData = JSON.parse(product.customData);
+
+      if (customData.newPrice) {
+        setNewPrice(customData.newPrice);
+        setIsNewPrice(true);
+      }
+    }
+  }, []);
+
   const handleAddToCart = () => {
     // Prepare the product data for cart update
     const cartItem = {
       product_id,
       product_name,
-      price,
+      price: isNewPrice ? newPrice : price,
       image_url,
       quantity
     };
@@ -29,6 +43,8 @@ function ProductCard({ product }) {
     dispatch(updateCart({ userId: user ? user.user_id : undefined, cartData: cartItem }));
 
   };
+
+
 
 
 
@@ -51,7 +67,9 @@ function ProductCard({ product }) {
       </Card.Body>
       <ListGroup className="list-group-flush" style={{ fontSize: '13px' }}>
         
-        <ListGroup.Item>Price: ${price}</ListGroup.Item>
+        <ListGroup.Item>Price:  {isNewPrice ? <del>${price}</del> : `$${price}`}{' '}
+        {isNewPrice && <span style={{ color: 'red' }}>${newPrice}</span>}
+        </ListGroup.Item>
         <ListGroup.Item>Tags: {features}</ListGroup.Item>
       </ListGroup>
       <Card.Body>

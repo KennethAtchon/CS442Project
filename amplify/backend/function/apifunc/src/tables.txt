@@ -45,7 +45,8 @@ CREATE TABLE Products (
     features TEXT,
     quantity INT NOT NULL,
     supplier_id INT,
-    FOREIGN KEY (supplier_id) REFERENCES Suppliers(supplier_id)
+    FOREIGN KEY (supplier_id) REFERENCES Suppliers(supplier_id),
+    customData TEXT
 );
 
 CREATE TABLE Suppliers (

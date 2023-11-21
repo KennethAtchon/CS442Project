@@ -20,7 +20,8 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     //fetchClient();
-    if(localStorage.getItem('authToken') != null){
+    //localStorage.clear()
+    if(localStorage.getItem('authToken') != null || localStorage.getItem('authToken') != undefined){
       console.log("signing with token")
       dispatch(signInWithToken());
     }

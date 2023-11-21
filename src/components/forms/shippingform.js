@@ -47,7 +47,8 @@ function ShippingInformationForm() {
           streetAddress,city,state,zip,email
         };
 
-        localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo))        
+        localStorage.setItem("shippingInfo", JSON.stringify(shippingInfo)) 
+        
   
         dispatch(
           updateShippingInfo({

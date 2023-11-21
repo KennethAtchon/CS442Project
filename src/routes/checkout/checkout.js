@@ -38,12 +38,16 @@ function Checkout() {
     return;
   }
 
-  if( Object.keys(user.shipping_info).length === 0 || Object.keys(user.payment_info).length === 0){
+
+  if( user && (Object.keys(user.shipping_info).length === 0 || Object.keys(user.payment_info).length === 0)){
     console.log("Please fill all the forms.")
     return;    
   }
 
-  localStorage.setItem("shippingInfo", user.shipping_info)        
+  if(user && (Object.keys(orders.paymentInfo).length === 0 || Object.keys(orders.shippingInfo).length === 0)){
+    localStorage.setItem("shippingInfo", user.shipping_info)
+  }
+          
   
 
   if(cartItems.length === 0){

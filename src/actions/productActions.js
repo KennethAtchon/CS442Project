@@ -42,6 +42,27 @@ import {
       });
   };
 
+  export const getHomeProduct = () => (dispatch) => {
+    dispatch({ type: GET_PRODUCT_REQUEST });
+  
+  
+    // Return a Promise that wraps the API request
+    return new Promise((resolve, reject) => {
+      API.post('api', '/getHomeProducts')
+        .then((response) => {
+          // Dispatch a success action with the fetched products
+          dispatch({ type: GET_PRODUCT_SUCCESS, products: response.products }); // Assuming the API response contains products
+          resolve(response.products);
+        })
+        .catch((error) => {
+          // Dispatch a failure action with the error message
+          dispatch({ type: GET_PRODUCT_FAILURE, error: "An Error occurred with the API, check AWS to resolve." });
+          reject(error);
+        });
+    });
+  };
+  
+
   export const getUserProduct = ({ userId }) => (dispatch) => {
     dispatch({ type: GET_PRODUCT_REQUEST });
   

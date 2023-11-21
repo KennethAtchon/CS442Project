@@ -108,5 +108,22 @@ app.post('/getUserProducts', function(req, res) {
   );
 });
 
+app.post('/getHomeProducts', function(req, res) {
+
+  // Construct the SQL query to select products where customData is not null
+  const sqlQuery = 'SELECT * FROM Products WHERE customData IS NOT NULL';
+
+  connection.query(
+    sqlQuery,
+    (error, results) => {
+      if (error) {
+        return res.status(500).json({
+          error: 'Database error'
+        });
+      }
+      res.json({ products: results });
+    }
+  );
+});
 
 module.exports = app;
