@@ -21,7 +21,7 @@ pool.on('error', (err) => {
     }
 });
 
-module.exports = pool.promise();
+module.exports = pool;
 
 // const mysql = require('mysql2');
 
