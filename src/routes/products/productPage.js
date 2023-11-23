@@ -70,12 +70,16 @@ const ProductPage = () => {
     // First, add the product to the cart
     var cart = cartItems.find((cartItems) => parseInt(cartItems.product_id)  === parseInt(product.product_id));
     if(!cart){
-      handleAddToCart();
+      handleAddToCart().then( () => {
+        navigate('/checkout')
+    })
+    }else{
+    // Then, navigate to /checkout
+    navigate('/checkout');      
     }
     
 
-    // Then, navigate to /checkout
-    navigate('/checkout');
+
   };
   
 

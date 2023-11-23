@@ -28,6 +28,8 @@ const SignUpModal = ({ show, onHide, signinfunction, forgotpassfunction, loggedf
 
       dispatch(signUp(name, email, password))
       .then(() => {
+        
+      localStorage.removeItem("shippingInfo")
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
         setName('');
         setEmail('');

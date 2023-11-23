@@ -1,111 +1,93 @@
 const express = require('express');
-
-const connection = require('../dbconnect');
-
+const db = require('../dbconnect').promise();
 const app = express.Router();
 
-app.post('/getOrder', function(req, res) {
-    const {orderId} = req.body;
-  
-    connection.query(
-      'SELECT * FROM Orders WHERE order_id = ?',
-      orderId,
-      (error, results) => {
-        if (error) {
-          return res.status(500).json({
-            error: 'Database error '
-          });
-        }
-        res.json({ order: results})
-      })
-    
-  
-  });
+// Get Order Route
+app.post('/getOrder', async (req, res) => {
+    try {
+        const { orderId } = req.body;
 
-app.post('/getOrderProduct', function (req, res) {
-    const { orderId } = req.body; 
-  
-    // Construct the SQL query to select product_id and product_name using a JOIN
-    connection.query(
-      'SELECT OP.product_id, P.product_name ' +
-      'FROM Order_Product AS OP ' +
-      'INNER JOIN Products AS P ON OP.product_id = P.product_id ' +
-      'WHERE OP.order_id = ?',
-      orderId,
-      (error, results) => {
-        if (error) {
-          return res.status(500).json({
-            error: 'Database error'
-          });
-        }
+        const [results] = await db.execute('SELECT * FROM Orders WHERE order_id = ?', [orderId]);
+
+        res.json({ order: results });
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
+
+// Get Order Product Route
+app.post('/getOrderProduct', async (req, res) => {
+    try {
+        const { orderId } = req.body;
+
+        const [results] = await db.execute(
+            'SELECT OP.product_id, P.product_name ' +
+            'FROM Order_Product AS OP ' +
+            'INNER JOIN Products AS P ON OP.product_id = P.product_id ' +
+            'WHERE OP.order_id = ?',
+            [orderId]
+        );
+
         res.json({ message: 'Order Product link sent', order: results });
-      }
-    );
-  });
-  
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
 
-app.post('/orderProduct', function (req, res) {
-    const {  orderid, cartItems } = req.body; // Extract userId, date, and total from the request body
-  
-    // Construct the SQL INSERT query for creating an order
-    
-  
-    for (const item of cartItems) {
-      let query = 'INSERT INTO Order_Product SET ? ';
-  
-      const neworder = {
-      order_id: orderid,
-      product_id: item.product_id,
-      quantity: item.quantity
-      }
-  
-      connection.query(query, neworder, (err, results) => {
-        if (err) {
-          console.error('Database error:', err);
-          res.status(500).json({ error: err });
-          } 
-        })
-  
-    }
-  
-    res.json({ message: 'Order Product link created successfully' });
-    
-  
-    
-  });
+// Order Product Route
+app.post('/orderProduct', async (req, res) => {
+    try {
+        const { orderid, cartItems } = req.body;
 
-app.post('/createOrder', function (req, res) {
-    const {  date, userId, total } = req.body; // Extract userId, date, and total from the request body
-  
-    // Construct the SQL INSERT query for creating an order
-    let query = 'INSERT INTO Orders SET ? ';
-    var neworder;
-  
-    if(!userId){
-      neworder = {
-      date: date,
-      total_price: total
-      
+        for (const item of cartItems) {
+            const query = 'INSERT INTO Order_Product SET ? ';
+
+            const newOrder = {
+                order_id: orderid,
+                product_id: item.product_id,
+                quantity: item.quantity,
+            };
+
+            await db.execute(query, newOrder);
+        }
+
+        res.json({ message: 'Order Product link created successfully' });
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Database error' });
     }
-    }else{
-      neworder = {
-        date: date,
-        user_id: userId,
-        total_price: total
-      }
-  
-    }
-    
-    // Execute the query with userId, date, and total as parameters
-    connection.query(query, neworder, (err, results) => {
-      if (err) {
-        console.error('Database error:', err);
-        res.status(500).json({ error: err });
-      } else {
-        // Send a success response if the order creation is successful
+});
+
+// Create Order Route
+app.post('/createOrder', async (req, res) => {
+    try {
+        const { date, userId, total } = req.body;
+
+        let query = 'INSERT INTO Orders SET ? ';
+        let newOrder;
+
+        if (!userId) {
+            newOrder = {
+                date: date,
+                total_price: total,
+            };
+        } else {
+            newOrder = {
+                date: date,
+                user_id: userId,
+                total_price: total,
+            };
+        }
+
+        const [results] = await db.execute(query, newOrder);
+
         res.json({ message: 'Order created successfully', results });
-      }
-    });
-  });
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Database error' });
+    }
+});
 
 module.exports = app;

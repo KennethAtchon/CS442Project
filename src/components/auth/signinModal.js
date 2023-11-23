@@ -27,6 +27,8 @@ const SignInModal = ({ show , onHide, signupfunction, forgotpassfunction}) => {
       dispatch(signIn(email, password))
       .then(() => {
         // Sign-up was successful, perform actions like clearing input fields and hiding modals
+        
+        localStorage.removeItem("shippingInfo")
         setEmail('');
         setPassword('');
         onHide();
