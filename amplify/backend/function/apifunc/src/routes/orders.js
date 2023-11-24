@@ -72,6 +72,7 @@ app.post('/createOrder', async (req, res) => {
             newOrder = {
                 date: date,
                 total_price: total,
+                user_id: null, 
             };
         } else {
             newOrder = {
