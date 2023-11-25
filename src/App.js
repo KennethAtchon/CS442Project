@@ -14,7 +14,6 @@ import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux'; // You may need to install react-redux
 import { signInWithToken, updateCart} from './actions/authActions';
 import { API } from 'aws-amplify';
-import './App.css';
 
 function App() {
   const dispatch = useDispatch();
