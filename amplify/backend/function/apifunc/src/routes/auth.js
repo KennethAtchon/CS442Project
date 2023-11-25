@@ -105,8 +105,14 @@ app.post('/signUp', async function (req, res) {
       billing_info: JSON.stringify({})
     };
 
+    // Convert the newUser object into an array of values
+    const newUserValues = Object.values(newUser);
+
     // Insert the new user using promisePool
-    await promisePool.execute('INSERT INTO User SET ?', newUser);
+    await promisePool.execute('INSERT INTO User (name, email, password, cart, payment_info, billing_info, phone_number, shipping_info ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+      newUserValues
+    );
+
 
     // Fetch the newly created user from the database using promisePool
     const [createdUser] = await promisePool.execute('SELECT * FROM User WHERE email = ?', [email]);
