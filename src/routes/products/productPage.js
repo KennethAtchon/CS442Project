@@ -48,22 +48,27 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = () => {
-    // Unpack product properties
-    const { product_id, product_name, price, image_url } = product;
+    return new Promise((resolve, reject) => {
+      // Unpack product properties
+      const { product_id, product_name, price, image_url } = product;
   
-    // Prepare the product data for cart update
-    const cartItem = {
-      product_id,
-      product_name,
-      price,
-      image_url,
-      quantity,
-    };
-
-    console.log(cartItem)
+      // Prepare the product data for cart update
+      const cartItem = {
+        product_id,
+        product_name,
+        price,
+        image_url,
+        quantity,
+      };
   
-    // Dispatch the updateCart action with the product data
-    dispatch(updateCart({ userId: user ? user.user_id : undefined, cartData: cartItem }));
+      console.log(cartItem);
+  
+      // Dispatch the updateCart action with the product data
+      dispatch(updateCart({ userId: user ? user.user_id : undefined, cartData: cartItem }));
+  
+      // Resolve the promise when the cart update is complete
+      resolve();
+    });
   };
 
   const handleCheckout = () => {
