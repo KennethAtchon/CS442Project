@@ -100,7 +100,8 @@ const ProductPage = () => {
         {/* Left Column: Large Product Image */}
         <Col>
           <Image
-            src={`../../${product && (product.image_url)}`}
+            src={`/images/${product.image_url}`}
+             
             alt="Product"
             className="img-fluid"
           />
