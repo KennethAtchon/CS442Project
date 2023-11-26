@@ -149,7 +149,7 @@ function AppNavbar() {
         <Nav className="mx-auto">
           <Link to="/products/category/basketball" className="nav-category">
             Basketball
-          </Link
+          </Link>
           <Link to="/products/category/soccer" className="nav-category">
             Soccer
           </Link>
