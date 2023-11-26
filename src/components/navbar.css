@@ -43,7 +43,7 @@
 
 /* Style for nav-category links */
 /* Default styles for nav-category links */
-.mini-navbar { 
+.ul li a { 
   padding-left: 30px;
   padding-right: 30px;
   text-transform: uppercase;
@@ -53,7 +53,7 @@
   -webkit-text-stroke: 1px rgba(255,255,255,0.5);
 }
 
-.mini-navbar::before {
+.ul li a::before {
   position: absolute;
   content: attr(data-text);
   color: var(--clr);
@@ -64,7 +64,7 @@
   -webkit-text-stroke: 1px var(--clr);
 }
 
-.mini-navbar:hover::before {
+.ul li a:hover::before {
   width: 100%;
   filter: drop-shadow(0 0 25px var(--clr));
 }
