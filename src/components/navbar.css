@@ -43,7 +43,7 @@
 
 /* Style for nav-category links */
 /* Default styles for nav-category links */
-.nav-category a { 
+.nav-category { 
   padding-left: 30px;
   padding-right: 30px;
   text-transform: uppercase;
@@ -53,7 +53,7 @@
   -webkit-text-stroke: 1px rgba(255,255,255,0.5);
 }
 
-.nav-category a::before {
+.nav-category::before {
   position: absolute;
   content: attr(data-text);
   color: var(--clr);
@@ -64,7 +64,7 @@
   -webkit-text-stroke: 1px var(--clr);
 }
 
-.nav-category a:hover:before {
+.nav-category:hover::before {
   width: 100%;
   filter: drop-shadow(0 0 25px var(--clr));
 }
