@@ -43,30 +43,12 @@
 
 /* Style for nav-category links */
 /* Default styles for nav-category links */
-.ul li a { 
+.nav-category { 
   padding-left: 30px;
   padding-right: 30px;
-  text-transform: uppercase;
-  color: transparent;/* Text color for links (adjust as needed) */
-  line-height: 1em;
+  color: #333; /* Text color for links (adjust as needed) */
   text-decoration: none; /* Remove underline */
-  -webkit-text-stroke: 1px rgba(255,255,255,0.5);
-}
-
-.ul li a::before {
-  position: absolute;
-  content: attr(data-text);
-  color: var(--clr);
-  width: 0;
-  overflow: hidden;
-  transition: 1s;
-  border-right: 8px solid var(--clr);
-  -webkit-text-stroke: 1px var(--clr);
-}
-
-.ul li a:hover::before {
-  width: 100%;
-  filter: drop-shadow(0 0 25px var(--clr));
+  font-weight: bold; /* Font weight (adjust as needed) */
 }
 
 /* Media query for smaller screens */
