@@ -147,7 +147,7 @@ function AppNavbar() {
 
       <Navbar bg='light'  className="mini-navbar">
         <Nav className="mx-auto">
-          <Link  style={{"--clr:#f36407"}} data-text="\u0070 Basketball" to="/products/category/basketball" className="nav-category ">
+          <Link style={{"--clr:#f36407"}} data-text="\u00A0 Basketball" to="/products/category/basketball" className="nav-category">
             Basketball
           </Link>
           <Link to="/products/category/soccer" className="nav-category">
