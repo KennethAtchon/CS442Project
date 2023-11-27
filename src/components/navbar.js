@@ -147,24 +147,32 @@ function AppNavbar() {
 
       <Navbar bg='light'  className="mini-navbar">
         <Nav className="mx-auto">
+            <ul>
+          <li style="--clr:#f36407" data-text="\u00a0 Basketball">  
           <Link to="/products/category/basketball" className="nav-category">
             Basketball
-          </Link>
+          </Link> </li>
+          <li style="#f23208" data-text="\u00a0 Soccer">
           <Link to="/products/category/soccer" className="nav-category">
             Soccer
-          </Link>
+          </Link></li>
+          <li style="--clr:#00dc82" data-text="\u00a0 Tennis">
           <Link to="/products/category/tennis" className="nav-category">
             Tennis
-          </Link>
+          </Link></li>
+          <li style="--clr:#00ade1" data-text="\u00a0 Swimming">  
           <Link to="/products/category/swimming" className="nav-category">
             Swimming
-          </Link>
+          </Link></li>
+          <li style="--clr:#dc00d4" data-text="\u00a0 Football">  
           <Link to="/products/category/football" className="nav-category">
             Football
-          </Link>
+          </Link></li>
+          <li style="--clr:#ffd700" data-text="\u00a0 Fishing">  
           <Link to="/products/category/fishing" className="nav-category">
             Fishing
-          </Link>   
+          </Link></li>
+            </ul>
         </Nav>
       </Navbar>
 
