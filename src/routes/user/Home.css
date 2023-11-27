@@ -3,6 +3,10 @@ section {
     padding-left: 45px; /* Adjust the value as needed */
   }
 
+a {
+    background-image: url(images/background.jpg);
+    background: no-repeat center bottom scroll;
+    background-size: cover;
 h2 {
   padding-top: 15px;
   padding-bottom: 15px;
