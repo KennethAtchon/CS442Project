@@ -16,7 +16,9 @@ h2 {
   padding-bottom: 15px;
   background: -webkit-linear-gradient(rgb(188, 12, 241), rgb(249, 249, 44));
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;  
+  -webkit-text-fill-color: transparent; 
+  -webkit-text-stroke: 3px black;
+  font-weight: bold;
 }
   
 
