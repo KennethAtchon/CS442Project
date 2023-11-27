@@ -55,7 +55,7 @@
 }
 
 .nav-category:after {
-  content:'';
+  content: "";
   width: 0;
   height: 5px;
   left: 0;
@@ -68,7 +68,7 @@
 }
 
 .nav-category:hover:after {
-  widht: 100%;
+  width: 100%;
 }
 
 /* Media query for smaller screens */
