@@ -43,15 +43,23 @@
 
 /* Style for nav-category links */
 /* Default styles for nav-category links */
-.nav-category a{ 
+ul{
   position: relative;
+  list-style: none;
   display: flex;
   width: 60%;
   justify-content: space-evenly;
-  padding-left: 30px;
-  padding-right: 30px;
+  gap: 30px;
+}
+
+ul li{ 
+  position: relative;
+  list-style: none;
+}
+
+ul li a{
+  font-size: 25px;
   letter-spacing: 2px;
-  --clr: #f36407;
   text-transform: uppercase;
   color: transparent;
   line-height: 1em;
@@ -59,20 +67,20 @@
   -webkit-text-stroke: 1px rgba(255,255,255,0.5);
 }
 
-.nav-category a::before {
-    position: absolute;
-    content: "\00A0" "Basketball";
-    color: var(--clr);
-    width: 0;
-    overflow: hidden;
-    transition: 1s;
-    border-right: 8px solid var(--clr);
-    -webkit-text-stroke: 1px var(--clr);
+ul li a::before {
+  position: absolute;
+  content: attr(data-text);
+  color: var(--clr);
+  width: 0;
+  overflow: hidden;
+  transition: 1s;
+  border-right: 8px solid var(--clr);
+  -webkit-text-stroke: 1px var(--clr);
 }
 
-.nav-category a:hover::before {
-    width: 100%;
-    filter: drop-shadow(0 0 25px var(--clr));
+ul li a:hover::before {
+  width: 100%;
+  filter: drop-shadow(0 0 25px var(--clr));
 }
 
 
