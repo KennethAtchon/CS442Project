@@ -28,7 +28,6 @@ h2 {
   flex-wrap: wrap;
   gap: 20px; /* Adjust the gap between cards as needed */
   padding-right: 20px; /* Add space on the right side */
-  border: 4mm ridge rgba(31, 81, 255, .6);
 }
 
 
