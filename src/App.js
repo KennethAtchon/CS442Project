@@ -39,7 +39,7 @@ function App() {
 }
 
   return (
-<div style={{ backgroundImage: "url(images/background.jpg)",
+<div style={{ backgroundImage: 'url("https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg")',
             backgroundRepeat: "no-repeat",
             backgroundSize: "cover }}>
 </div>
