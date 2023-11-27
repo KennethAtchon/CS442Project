@@ -4,7 +4,7 @@ section {
   }
 
 a {
-    background-image: url(https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg);
+    background: url('https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg');
     background: no-repeat center bottom scroll;
     background-size: cover;
 h2 {
