@@ -18,6 +18,7 @@ h2 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; 
   -webkit-text-stroke: 1px black;
+  font-size: 7vh;
   font-weight: bold;
 }
   
