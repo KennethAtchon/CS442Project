@@ -39,7 +39,10 @@ function App() {
 }
 
   return (
-
+<div style={{ backgroundImage: "url(images/background.jpg)",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover }}>
+</div>
     <Routes>
 
       <Route path="/" element={<Home />} />
