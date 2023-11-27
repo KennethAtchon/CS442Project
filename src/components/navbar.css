@@ -44,8 +44,13 @@
 /* Style for nav-category links */
 /* Default styles for nav-category links */
 .nav-category a{ 
+  position: relative;
+  display: flex;
+  width: 60%;
+  justify-content: space-evenly;
   padding-left: 30px;
   padding-right: 30px;
+  letter-spacing: 2px;
   --clr: #f36407;
   text-transform: uppercase;
   color: transparent;
@@ -56,7 +61,7 @@
 
 .nav-category a::before {
     position: absolute;
-    content: attr(data-text);
+    content: "\00A0" "Basketball";
     color: var(--clr);
     width: 0;
     overflow: hidden;
