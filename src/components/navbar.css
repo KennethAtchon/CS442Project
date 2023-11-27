@@ -54,7 +54,7 @@
   font-weight: bold; /* Font weight (adjust as needed) */
 }
 
-.nav-category:after {
+.nav-category::after {
   content: "";
   width: 0;
   height: 5px;
@@ -67,7 +67,7 @@
   box-shadow: 0px 0px 8px 0017ff; 
 }
 
-.nav-category:hover:after {
+.nav-category:hover::after {
   width: 100%;
 }
 
