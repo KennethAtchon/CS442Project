@@ -3,10 +3,13 @@ section {
     padding-left: 45px; /* Adjust the value as needed */
   }
 
-a {
+body {
     background: url('https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg');
-    background: no-repeat center bottom scroll;
+    background-repeat: no-repeat;
     background-size: cover;
+    height: 100vh;
+}
+
 h2 {
   padding-top: 15px;
   padding-bottom: 15px;
