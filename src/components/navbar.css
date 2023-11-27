@@ -43,7 +43,7 @@
 
 /* Style for nav-category links */
 /* Default styles for nav-category links */
-.nav-category { 
+.nav-category a{ 
   padding-left: 30px;
   padding-right: 30px;
   --clr: #f36407;
