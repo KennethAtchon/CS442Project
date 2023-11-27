@@ -46,7 +46,7 @@
 .nav-category { 
   padding-left: 30px;
   padding-right: 30px;
-  background: -webkit-linear-gradient(rgb(188, 12, 241), rgb(249, 249, 44));
+  background: -webkit-linear-gradient(rgb(31, 81, 255), rgb(255, 255, 255));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; 
   -webkit-text-stroke: 1px black;
@@ -54,22 +54,6 @@
   font-weight: bold; /* Font weight (adjust as needed) */
 }
 
-link::after {
-  content: "";
-  width: 0;
-  height: 5px;
-  left: 0;
-  top: 100%;
-  border-radius: 2px;
-  position: absolute;
-  background: 0017ff;
-  transition: 0.5s;
-  box-shadow: 0px 0px 8px 0017ff; 
-}
-
-link:hover::after {
-  width: 100%;
-}
 
 /* Media query for smaller screens */
 @media screen and (max-width: 768px) {
