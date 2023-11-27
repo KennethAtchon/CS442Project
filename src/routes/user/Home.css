@@ -7,7 +7,6 @@ body {
     background: url("https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-attachment: fixed;
     height: 100vh;
 }
 
@@ -18,7 +17,7 @@ h2 {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent; 
   -webkit-text-stroke: 1px black;
-  font-size: 7vh;
+  font-size: 60px;
   font-weight: bold;
 }
   
