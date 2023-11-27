@@ -31,8 +31,8 @@
 
 /* Style for the black bar */
 .navbar-separator-bar {
-  background-color: #000; /* Black background color */
-  height: 1px; /* Height of the bar (adjust as needed) */
+  background-color: rgb(31, 81, 255); /* Blue background color */
+  height: 3px; /* Height of the bar (adjust as needed) */
   margin: 10px 0; /* Margin spacing above and below the bar (adjust as needed) */
 }
 
