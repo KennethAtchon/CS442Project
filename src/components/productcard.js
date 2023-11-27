@@ -56,7 +56,9 @@ function ProductCard({ product }) {
 
 
   return (
-    <Card style={{ width: '15rem', border: 2mm ridge rgba(31, 81, 255, 1) }}>
+    <div style={{border: 4mm ridge rgba(31, 81, 255, 1);}}>
+    <Card style={{ width: '15rem'}}>
+  </div>
       <Link to={`/product/${product_id}`}>
         <Card.Img variant="top" src={`/images/${image_url}`} 
         alt="Product" 
