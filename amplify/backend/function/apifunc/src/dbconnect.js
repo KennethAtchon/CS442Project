@@ -9,6 +9,7 @@ const pool = mysql.createPool({
     connectionLimit: 20, // Adjust this value based on your needs
     waitForConnections: true,
     queueLimit: 0,
+    namedPlaceholders: true,
 });
 
 // Handle connection errors

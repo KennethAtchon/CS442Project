@@ -35,13 +35,15 @@ app.post('/getReviews', async (req, res) => {
     try {
         const { productId } = req.body;
 
+        const productIdToUse = productId || null;
         const [results] = await db.execute(
             'SELECT Reviews.*, User.name AS user_name ' +
-            'FROM Reviews ' +
+            'FROM Reviews ' + 
             ' INNER JOIN User ON Reviews.user_id = User.user_id ' +
             'WHERE Reviews.product_id = ?; ',
-            [productId]
+            [productIdToUse]
         );
+        
 
         res.json({ reviews: results });
     } catch (error) {
