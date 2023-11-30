@@ -76,14 +76,15 @@ function AppNavbar() {
   
     return (
       <div>
-      <Navbar bg='light' expand="lg">
+      <Navbar bg="transparent" expand="lg">
         <Navbar.Brand>
         <Link to="/home" className='linkunderline'>Courtside Cart</Link>
         </Navbar.Brand> 
         
         <SearchBar className="navbarsearchbar" productSearch={true} /> 
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />  
-        <Navbar.Collapse id="basic-navbar-nav">
+
+        <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ background: 'rgba(255, 255, 255, 0.9)' }} />  
+        <Navbar.Collapse id="basic-navbar-nav" >
           <Nav className="mr-auto" >
             <Link to="/" className="navlink">
               Home
@@ -94,7 +95,7 @@ function AppNavbar() {
           </Nav>
           {loggedIn ? (
             <Nav>
-              <NavDropdown title={<BsFillPersonFill style={{ marginLeft: '10px', fontSize: '20px'}} />} id="basic-nav-dropdown">
+              <NavDropdown title={<BsFillPersonFill color='white' style={{ marginLeft: '10px', fontSize: '20px'}} />} id="basic-nav-dropdown">
 
               <NavDropdown.Item> 
               <Link to="/myproducts" className='linkunderline'>
@@ -115,11 +116,11 @@ function AppNavbar() {
             </Nav>
           ) : (
             <Nav>
-              <BsFillPersonFill color='black' style={{ marginLeft: '10px', fontSize: '20px', marginRight:'20px'}} onClick={handleSignIn} />
+              <BsFillPersonFill color='white' style={{ marginLeft: '10px', fontSize: '20px', marginRight:'20px'}} onClick={handleSignIn} />
             </Nav>
 
           )}
-          <BsCart2 style={{ marginLeft: '10px' , fontSize: '20px' }} onClick={handleShoppingCart} />
+          <BsCart2 color="white" style={{ marginLeft: '10px' , fontSize: '20px' }} onClick={handleShoppingCart} />
 
         </Navbar.Collapse>
       </Navbar>
@@ -145,9 +146,9 @@ function AppNavbar() {
 
       <div className="navbar-separator-bar"></div>
 
-      <Navbar bg='light'  className="mini-navbar">
+      <Navbar bg="transparent"  className="mini-navbar">
         <Nav className="mx-auto">
-          <Link to="/products/category/basketball" className="nav-category ">
+          <Link to="/products/category/basketball" className="nav-category">
             Basketball
           </Link>
           <Link to="/products/category/soccer" className="nav-category">
@@ -165,7 +166,6 @@ function AppNavbar() {
           <Link to="/products/category/fishing" className="nav-category">
             Fishing
           </Link>
-          
         </Nav>
       </Navbar>
 

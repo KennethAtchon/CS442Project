@@ -31,10 +31,9 @@ export const  signUp = (name, email, password) => dispatch => {
             localStorage.setItem('authToken', token);
 
             // Dispatch a success action with the user data
-            dispatch({ type: SIGN_UP_SUCCESS, user: response.user[0] }); // Assuming the API response contains user data
-            
-            localStorage.setItem('cartItems', response.user[0].cart);
-            dispatch({ type: UPDATE_CART_SUCCESS, Cart: JSON.parse( response.user[0].cart)});
+            dispatch({ type: SIGN_UP_SUCCESS, user: response.user }); // Assuming the API response contains user data
+            localStorage.setItem('cartItems', response.user.cart);
+            dispatch({ type: UPDATE_CART_SUCCESS, Cart: JSON.parse( response.user.cart)});
             // Resolve the promise to indicate success
             resolve();
         })

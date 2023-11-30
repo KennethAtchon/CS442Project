@@ -206,13 +206,17 @@ function PaymentInformationForm() {
 
               {/* Accepted Payment Cards */}
               <Row className="mb-3">
-                <Col>
-                  <p>Accepted Payment Cards:</p>
-                  {/* Display icons or logos of accepted payment card brands */}
-                  {/* You can insert image or icon components here */}
-                </Col>
-              </Row>
+              <Col>
+                <p>Accepted Payment Cards:</p>
+                <div style={{ display: 'flex', justifyContent: 'space-around' }}>
+                <img src="/images/visa.png" alt="Visa" style={{ height: '30px' }} />              
+                <img src="/images/mastercard.png" alt="Master Card" style={{ height: '40px' }} />
+              <img src="/images/amex.png" alt="American Express" style={{ height: '40px' }} />
 
+            </div>
+
+              </Col>
+            </Row>
               {/* Submit Button */}
               <Row>
                 <Col className="d-flex justify-content-center py-3">

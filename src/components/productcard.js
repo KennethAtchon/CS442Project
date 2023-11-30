@@ -19,16 +19,23 @@ function ProductCard({ product }) {
   const [isNewPrice, setIsNewPrice] = useState(false);
 
   useEffect(() => {
-    if (product.customData) {
+    if (product.customData ) {
       const customData = JSON.parse(product.customData);
 
-      if (customData.newPrice) {
+       if(customData.newPrice){
         setNewPrice(customData.newPrice);
-        setIsNewPrice(true);
-      }
+       setIsNewPrice(true);
+       }else{
+        setNewPrice('');
+        setIsNewPrice(false);
+       }
+       
+    } else {
+      setNewPrice('');
+      setIsNewPrice(false);
     }
-  }, []);
-
+  }, [product]);
+  
   const handleAddToCart = () => {
     // Prepare the product data for cart update
     const cartItem = {
@@ -61,6 +68,7 @@ function ProductCard({ product }) {
       }}
     />
   </Link>
+
 
       <Card.Body style={{ fontSize: '13px' }}>
         <Card.Title style={{ fontSize: '16px' }}>{product_name}</Card.Title>

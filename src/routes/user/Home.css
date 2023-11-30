@@ -3,9 +3,22 @@ section {
     padding-left: 45px; /* Adjust the value as needed */
   }
 
+body {
+    background: url("https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
 h2 {
   padding-top: 15px;
   padding-bottom: 15px;
+  background: -webkit-linear-gradient(rgb(31, 81, 255), rgb(255, 255, 255));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; 
+  -webkit-text-stroke: 1px black;
+  font-size: 3em;
+  font-weight: bold;
 }
   
 

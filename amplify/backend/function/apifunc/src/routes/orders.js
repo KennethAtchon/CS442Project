@@ -42,15 +42,16 @@ app.post('/orderProduct', async (req, res) => {
         const { orderid, cartItems } = req.body;
 
         for (const item of cartItems) {
-            const query = 'INSERT INTO Order_Product SET ? ';
+            const query = 'INSERT INTO Order_Product (order_id, product_id, quantity) VALUES (?,?,?)';
 
             const newOrder = {
                 order_id: orderid,
                 product_id: item.product_id,
                 quantity: item.quantity,
             };
+            const newOrderValues = Object.values(newOrder);
 
-            await db.execute(query, newOrder);
+            await db.execute(query, newOrderValues);
         }
 
         res.json({ message: 'Order Product link created successfully' });
@@ -65,13 +66,15 @@ app.post('/createOrder', async (req, res) => {
     try {
         const { date, userId, total } = req.body;
 
-        let query = 'INSERT INTO Orders SET ? ';
+        let query = 'INSERT INTO Orders (date, user_id, total_price) VALUES (?,?,?) ';
         let newOrder;
 
         if (!userId) {
             newOrder = {
                 date: date,
+                user_id: null, 
                 total_price: total,
+                
             };
         } else {
             newOrder = {
@@ -80,8 +83,9 @@ app.post('/createOrder', async (req, res) => {
                 total_price: total,
             };
         }
+        const newOrderValues = Object.values(newOrder);
 
-        const [results] = await db.execute(query, newOrder);
+        const [results] = await db.execute(query, newOrderValues);
 
         res.json({ message: 'Order created successfully', results });
     } catch (error) {
