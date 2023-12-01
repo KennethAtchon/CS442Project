@@ -28,7 +28,7 @@ app.post('/signPassword', async (req, res) => {
           port: 587,
           secure: false,
           auth: {
-              user: 'courtsidecart22@hotmail.com',
+              user: process.env.EMAIL_NAME,
               pass: process.env.NODEMAILER_PASS,
           },
           tls: {
@@ -37,7 +37,7 @@ app.post('/signPassword', async (req, res) => {
       });
 
       const info = await transporter.sendMail({
-          from: 'courtsidecart22@hotmail.com',
+          from: process.env.EMAIL_NAME,
           to: email,
           subject: 'Courtside Cart Reset Password',
           text: link,
@@ -124,7 +124,7 @@ app.post('/sendOrderEmail', async (req, res) => {
           port: 587,
           secure: false,
           auth: {
-              user: 'courtsidecart22@hotmail.com',
+              user: process.env.EMAIL_NAME,
               pass: process.env.NODEMAILER_PASS,
           },
           tls: {
@@ -133,7 +133,7 @@ app.post('/sendOrderEmail', async (req, res) => {
       });
 
       const info = await transporter.sendMail({
-          from: 'courtsidecart22@hotmail.com',
+          from: process.env.EMAIL_NAME,
           to: userEmail,
           subject: 'Courtside Cart Order Success',
           text: 'Hello!',

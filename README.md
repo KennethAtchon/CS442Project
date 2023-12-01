@@ -9,7 +9,8 @@
 3. [Technologies](#technologies)
 4. [Schema Diagram](#schema-diagram)
 5. [Getting Started](#getting-started)
-6. [License](#license)
+6. [Disclaimer](#disclaimer)
+7. [License](#license)
 
 ## Overview <a name="overview"></a>
 
@@ -22,6 +23,7 @@ CourtSide Cart is an e-commerce store designed to provide a seamless shopping ex
 - **Responsive Checkout**: Responsive and fast user checkout experience.
 - **User Accounts**: Allows users to create accounts for personalized shopping.
 - **Search Functionality**: Find products quickly with our efficient search feature.
+- **Product Reviews**: Share and read reviews on products to make informed purchasing decisions.
 
 ## Technologies <a name="technologies"></a>
 
@@ -48,15 +50,68 @@ CourtSide Cart is built using a variety of technologies, including:
 To get started with CourtSide Cart, follow these steps:
 
 1. Clone the repository.
-2. Install the necessary dependencies.
-3. Run the application.
+
+2. Install the Amplify CLI
+
+for NodeJS:
+```bash
+npm install -g @aws-amplify/cli
+```
+
+for Mac/Linux:
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install | bash && $SHELL
+```
+
+for Windows:
+```bash
+curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd && install.cmd
+```
+
+3. Connect to Your Own Amplify Environment:
+
+ ```bash
+ amplify init
+ amplify env checkout <environment-name>
+ amplify push
+   
+```
+Remember to replace `<environment-name>` with the actual name of your existing Amplify environment.
+4. Configure Environment Variables:
+
+Before deploying your backend, configure the following environment variables in AWS Lambda:
+
+Quick guide: [![Configuring Environment Variables](https://img.youtube.com/vi/znafbn7Wh-o/0.jpg)](https://youtu.be/znafbn7Wh-o?si=mXcK9OJGS0sLMNGX)
+
+process.env.SQLHOST: Set the SQL server host.
+process.env.SQLPASS: Set the SQL server password.
+DATABASE_NAME: Set the name of the database (hardcoded but should be an environment variable).
+process.env.SECRET_KEY: Set the secret key.
+process.env.NODEMAILER_PASS: Set the password for NodeMailer.
+process.env.EMAIL_NAME: Set the email name of your nodemailer account.
+
+5. Host the MySQL Database
+
+Don't forget to host the MySQL Database, here is a quick guide on how to do so with AWS: 
+[![Hosting MySQL Database](https://img.youtube.com/vi/by0EJ4qL8ek/0.jpg)](https://youtu.be/by0EJ4qL8ek?si=s2RPVavnzXMEcvwi)
+
+Note: 
+
+6. Install the necessary dependencies.
+7. Run the application.
 
 ```bash
 git clone https://github.com/KennethAtchon/Ecommerce-Website-CS442.git
 cd Ecommerce-Website-CS442
-npm install   # or yarn install
-npm start     # or yarn start
+npm install   
+npm start     
 ```
+## Disclaimer <a name="disclaimer"></a>
+
+This project includes links to external resources, such as YouTube videos, for educational purposes. The creators of this project do not claim ownership of the content provided in these external links. Users are advised to review the terms of service, licensing information, and copyright policies of the linked platforms. The inclusion of these links does not imply an endorsement or affiliation with the linked content.
+
+Users should exercise caution and adhere to the policies of external platforms when accessing linked content. The project creators disclaim any responsibility for the content of external resources.
+
 
 ## License <a name="license"></a>
 
