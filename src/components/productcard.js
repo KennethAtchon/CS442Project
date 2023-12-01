@@ -56,13 +56,19 @@ function ProductCard({ product }) {
 
 
   return (
-    <Card style={{ width: '15rem'}}>
-      <Link to={`/product/${product_id}`}>
-        <Card.Img variant="top" src={`/images/${image_url}`} 
-        alt="Product" 
-        style={{  height: '200px', objectFit: 'contain' }}
-        />
-      </Link>
+<Card style={{ width: '15rem' }}>
+  <Link to={`/product/${product_id}`}>
+    <Card.Img
+      variant="top"
+      src={`/images/${image_url}`}
+      alt="Product"
+      style={{ height: '250px' }}
+      onError={(e) => {
+        e.target.src = `${image_url.slice(0, -4)}.jpeg`; // Set a default image path
+      }}
+    />
+  </Link>
+
 
       <Card.Body style={{ fontSize: '13px' }}>
         <Card.Title style={{ fontSize: '16px' }}>{product_name}</Card.Title>
