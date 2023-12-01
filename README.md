@@ -1,6 +1,6 @@
 # CourtSide Cart
 
-![CourtSide Cart](resources/courtside.png)
+![CourtSide Cart](resources/courtsidecart.png)
 
 ## Table of Contents
 
@@ -19,7 +19,7 @@ CourtSide Cart is an e-commerce store designed to provide a seamless shopping ex
 
 - **User-friendly Interface**: Intuitive design for a smooth navigation experience.
 - **Product Categories**: Organized categories for easy browsing.
-- **Secure Checkout**: Ensures the safety of user transactions.
+- **Responsive Checkout**: Responsive and fast user checkout experience.
 - **User Accounts**: Allows users to create accounts for personalized shopping.
 - **Search Functionality**: Find products quickly with our efficient search feature.
 
@@ -27,18 +27,21 @@ CourtSide Cart is an e-commerce store designed to provide a seamless shopping ex
 
 CourtSide Cart is built using a variety of technologies, including:
 
-- React JS
-- Python
-- Tkinter
-- CustomTkinter
-- Java
-- C++
-- SQL Server
+- React.js
+- Redux
+- Node.js
+- Express.js
+- AWS Amplify
+- AWS RDS
 - MySQL
+- React Bootstrap
+- JWT Authentication
+- Nodemailer
+- Brycpt
 
 ## Schema Diagram <a name="schema-diagram"></a>
 
-[Insert schema diagram here]
+![Relational Schema](resources/schema.png)
 
 ## Getting Started <a name="getting-started"></a>
 
@@ -49,7 +52,12 @@ To get started with CourtSide Cart, follow these steps:
 3. Run the application.
 
 ```bash
-git clone https://github.com/your-username/CourtSide-Cart.git
-cd CourtSide-Cart
+git clone https://github.com/KennethAtchon/Ecommerce-Website-CS442.git
+cd Ecommerce-Website-CS442
 npm install   # or yarn install
 npm start     # or yarn start
+```
+
+## License <a name="license"></a>
+
+This project is licensed under the [MIT License](LICENSE).
