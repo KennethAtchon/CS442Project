@@ -87,9 +87,9 @@ Quick guide:
 - process.env.SQLHOST: Set the SQL server host.
 - process.env.SQLPASS: Set the SQL server password.
 - DATABASE_NAME: Set the name of the database (hardcoded but should be an environment variable).
-- process.env.SECRET_KEY: Set the secret key.
+- process.env.SECRET_KEY: Set the secret key for JWT.
 - process.env.NODEMAILER_PASS: Set the password for NodeMailer.
-- process.env.EMAIL_NAME: Set the email name of your nodemailer account.
+- process.env.EMAIL_NAME: Set the email name of your NodeMailer account.
 
 5. Host the MySQL Database
 
