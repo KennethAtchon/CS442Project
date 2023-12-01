@@ -82,6 +82,8 @@ Remember to replace `<environment-name>` with the actual name of your existing A
 Before deploying your backend, configure the following environment variables in AWS Lambda:
 
 Quick guide: 
+
+
 [![Configuring Environment Variables](https://img.youtube.com/vi/znafbn7Wh-o/0.jpg)](https://youtu.be/znafbn7Wh-o?si=mXcK9OJGS0sLMNGX)
 
 - process.env.SQLHOST: Set the SQL server host.
@@ -94,6 +96,8 @@ Quick guide:
 5. Host the MySQL Database
 
 Don't forget to host the MySQL Database, here is a quick guide on how to do so with AWS: 
+
+
 [![Hosting MySQL Database](https://img.youtube.com/vi/by0EJ4qL8ek/0.jpg)](https://youtu.be/by0EJ4qL8ek?si=s2RPVavnzXMEcvwi)
 
 
