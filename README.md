@@ -73,8 +73,7 @@ curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd &&
  ```bash
  amplify init
  amplify env checkout <environment-name>
- amplify push
-   
+ amplify push  
 ```
 Remember to replace `<environment-name>` with the actual name of your existing Amplify environment.
 
@@ -86,15 +85,10 @@ Quick guide:
 [![Configuring Environment Variables](https://img.youtube.com/vi/znafbn7Wh-o/0.jpg)](https://youtu.be/znafbn7Wh-o?si=mXcK9OJGS0sLMNGX)
 
 - process.env.SQLHOST: Set the SQL server host.
-
 - process.env.SQLPASS: Set the SQL server password.
-
 - DATABASE_NAME: Set the name of the database (hardcoded but should be an environment variable).
-
 - process.env.SECRET_KEY: Set the secret key.
-
 - process.env.NODEMAILER_PASS: Set the password for NodeMailer.
-
 - process.env.EMAIL_NAME: Set the email name of your nodemailer account.
 
 5. Host the MySQL Database
@@ -102,7 +96,6 @@ Quick guide:
 Don't forget to host the MySQL Database, here is a quick guide on how to do so with AWS: 
 [![Hosting MySQL Database](https://img.youtube.com/vi/by0EJ4qL8ek/0.jpg)](https://youtu.be/by0EJ4qL8ek?si=s2RPVavnzXMEcvwi)
 
-Note: 
 
 6. Install the necessary dependencies.
 7. Run the application.
