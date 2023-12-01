@@ -77,18 +77,25 @@ curl -sL https://aws-amplify.github.io/amplify-cli/install-win -o install.cmd &&
    
 ```
 Remember to replace `<environment-name>` with the actual name of your existing Amplify environment.
+
 4. Configure Environment Variables:
 
 Before deploying your backend, configure the following environment variables in AWS Lambda:
 
-Quick guide: [![Configuring Environment Variables](https://img.youtube.com/vi/znafbn7Wh-o/0.jpg)](https://youtu.be/znafbn7Wh-o?si=mXcK9OJGS0sLMNGX)
+Quick guide: 
+[![Configuring Environment Variables](https://img.youtube.com/vi/znafbn7Wh-o/0.jpg)](https://youtu.be/znafbn7Wh-o?si=mXcK9OJGS0sLMNGX)
 
-process.env.SQLHOST: Set the SQL server host.
-process.env.SQLPASS: Set the SQL server password.
-DATABASE_NAME: Set the name of the database (hardcoded but should be an environment variable).
-process.env.SECRET_KEY: Set the secret key.
-process.env.NODEMAILER_PASS: Set the password for NodeMailer.
-process.env.EMAIL_NAME: Set the email name of your nodemailer account.
+- process.env.SQLHOST: Set the SQL server host.
+
+- process.env.SQLPASS: Set the SQL server password.
+
+- DATABASE_NAME: Set the name of the database (hardcoded but should be an environment variable).
+
+- process.env.SECRET_KEY: Set the secret key.
+
+- process.env.NODEMAILER_PASS: Set the password for NodeMailer.
+
+- process.env.EMAIL_NAME: Set the email name of your nodemailer account.
 
 5. Host the MySQL Database
 
